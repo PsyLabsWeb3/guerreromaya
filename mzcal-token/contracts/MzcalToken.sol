@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract MzcalToken is ERC1155, Ownable {
     // Constants simbolizing token IDs
     uint256 public constant MZCAL = 1;
-    uint256 public constant PRESALE_TOKEN = 1;
+    uint256 public constant PRESALE_TOKEN = 2;
     
     // Initial supply of tokens to mint to the owner
     uint256 public constant INITIAL_SUPPLY = 1000;

@@ -171,6 +171,25 @@
 					{
 						"indexed": true,
 						"internalType": "address",
+						"name": "buyer",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "MZCALConvert",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
 						"name": "previousOwner",
 						"type": "address"
 					},
@@ -329,6 +348,19 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "PRESALE_TOKEN",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -392,6 +424,32 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address[]",
+						"name": "accounts",
+						"type": "address[]"
+					}
+				],
+				"name": "bulkAddToPresaleWhitelist",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address[]",
+						"name": "accounts",
+						"type": "address[]"
+					}
+				],
+				"name": "bulkRemoveFromPresaleWhitelist",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "from",
 						"type": "address"
@@ -408,6 +466,13 @@
 					}
 				],
 				"name": "burn",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "claimMZCALTokens",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -440,6 +505,32 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "isWhitelisted",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "launchMZCALToken",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "to",
 						"type": "address"
 					},
@@ -462,6 +553,19 @@
 				"name": "mint",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "mzcalTokenLaunched",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -506,6 +610,19 @@
 			{
 				"inputs": [],
 				"name": "presaleEndTime",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "presaleTokenPrice",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -976,11 +1093,11 @@
 			]
 		},
 		"contracts/MzcalToken.sol": {
-			"keccak256": "0x74c95efb7907a30ccb8fa9d4263d923b6f7669e57e62a337e01f80cc30fd19f3",
+			"keccak256": "0x2d83ab1e94d8c91c0b5ef3d6b3db79803e762d12f292f7eee48c4bb214dacfd4",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e1e3a41110d4ee441656667b09619294d4b22b546f282634424a568ede81e865",
-				"dweb:/ipfs/QmZ5mqnLDsqYiJiXw3aTAdv6RD1i9oE5Lv2ntcMNrTEEyG"
+				"bzz-raw://dd166dc44ad1f1d91eb451c3949079273bf6ef4d11758aff5591a481d360df4f",
+				"dweb:/ipfs/QmZByeC4nUCRgszvBbVmVGwn9VCuxTia4sZNzRPJS2AtUD"
 			]
 		}
 	},
