@@ -11,8 +11,8 @@ describe("MzcalToken", function () {
         await token.waitForDeployment();
     });
 
-    it("Should deploy and mint initial supply to the owner", async function () {
-        const balance = await token.balanceOf(owner.address, 1);
+    it("Should deploy and mint initial supply to the contract", async function () {
+        const balance = await token.balanceOf(token.target, 1);
         expect(balance).to.equal(1000);
     });
 
@@ -63,8 +63,13 @@ describe("MzcalToken", function () {
 
     it("Should allow whitelisted users to buy PRESALE_TOKEN", async function () {
         await token.addToPresaleWhitelist(addr1.address);
+
         const amountToBuy = BigInt(1);
         const price = await token.presaleTokenPrice();
+
+        const initialPresaleBalance = await token.balanceOf(token.target, 2);
+        expect(initialPresaleBalance).to.equal(1000);
+
         await token.connect(addr1).buyPresale(amountToBuy, { value: price * amountToBuy });
         expect(await token.balanceOf(addr1.address, 2)).to.equal(amountToBuy);
     });

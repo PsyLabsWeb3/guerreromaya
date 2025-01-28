@@ -471,6 +471,32 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "buyMZCAL",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "buyPresale",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "claimMZCALTokens",
 				"outputs": [],
@@ -592,19 +618,6 @@
 					}
 				],
 				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
-					}
-				],
-				"name": "presaleBuy",
-				"outputs": [],
-				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
@@ -759,6 +772,50 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint256",
+						"name": "newPriceInWei",
+						"type": "uint256"
+					}
+				],
+				"name": "setMzcalTokenPrice",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "newPriceInWei",
+						"type": "uint256"
+					}
+				],
+				"name": "setPresaleTokenPrice",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "spendMZCAL",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "bytes4",
 						"name": "interfaceId",
 						"type": "bytes4"
@@ -806,6 +863,17 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "withdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
 			}
 		],
 		"devdoc": {
@@ -1093,11 +1161,11 @@
 			]
 		},
 		"contracts/MzcalToken.sol": {
-			"keccak256": "0x2d83ab1e94d8c91c0b5ef3d6b3db79803e762d12f292f7eee48c4bb214dacfd4",
+			"keccak256": "0xc1a0bf2517ba7c8f983586d71f239930b96e7237bbe8a5d60f44d402bd8a1020",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://dd166dc44ad1f1d91eb451c3949079273bf6ef4d11758aff5591a481d360df4f",
-				"dweb:/ipfs/QmZByeC4nUCRgszvBbVmVGwn9VCuxTia4sZNzRPJS2AtUD"
+				"bzz-raw://445f7fbd98233bf6cf4f000146a11edc0f0f6e76abc912a48dd731f84b132856",
+				"dweb:/ipfs/QmTKPAwJnZozhD5Y6x9Dfi5z1hd7cBLZNxxPpV5KVWvMn8"
 			]
 		}
 	},

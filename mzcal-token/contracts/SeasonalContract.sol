@@ -11,7 +11,18 @@ contract SeasonalContract is ERC1155, Ownable {
     mapping(uint256 => uint256) public tokenPrices; // Prices for each asset
     mapping(uint256 => bool) public validTokenIds; // Track existing assets
 
-    constructor(string memory uri, address payable _mzcalToken) ERC1155(uri) Ownable(msg.sender) {
+    // Events
+    event AssetPurchase(
+        address indexed buyer,
+        uint256 tokenId,
+        uint256 amount,
+        uint256 cost
+    );
+
+    constructor(
+        string memory uri,
+        address payable _mzcalToken
+    ) ERC1155(uri) Ownable(msg.sender) {
         mzcalToken = MzcalToken(_mzcalToken);
     }
 
@@ -30,8 +41,10 @@ contract SeasonalContract is ERC1155, Ownable {
         // Deduct MZCAL from the player's account (token contract)
         mzcalToken.spendMZCAL(msg.sender, totalPrice);
 
-        // Mint the asset to the player
-        _mint(msg.sender, id, amount, "");
+        // Transfer the asset to the player
+        _safeTransferFrom(address(this), msg.sender, id, amount, "");
+
+        emit AssetPurchase(msg.sender, id, amount, totalPrice);
     }
 
     // Set the price of a specific asset
@@ -41,7 +54,10 @@ contract SeasonalContract is ERC1155, Ownable {
     }
 
     // Set the validity of a specific asset
-    function setTokenValidity(uint256 tokenId, bool isValid) external onlyOwner {
+    function setTokenValidity(
+        uint256 tokenId,
+        bool isValid
+    ) external onlyOwner {
         validTokenIds[tokenId] = isValid;
     }
 
@@ -51,6 +67,26 @@ contract SeasonalContract is ERC1155, Ownable {
         require(balance > 0, "No funds to withdraw");
 
         payable(owner()).transfer(balance);
+    }
+
+    function onERC1155Received(
+        address /* operator */,
+        address /* from */,
+        uint256 /* id */,
+        uint256 /* value */,
+        bytes calldata /* data */
+    ) external pure returns (bytes4) {
+        return this.onERC1155Received.selector;
+    }
+
+    function onERC1155BatchReceived(
+        address /* operator */,
+        address /* from */,
+        uint256[] calldata /* ids */,
+        uint256[] calldata /* values */,
+        bytes calldata /* data */
+    ) external pure returns (bytes4) {
+        return this.onERC1155BatchReceived.selector;
     }
 
     // Handle ETH Donations
