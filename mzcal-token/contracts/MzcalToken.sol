@@ -9,13 +9,14 @@ contract MzcalToken is ERC1155, Ownable {
     uint256 public constant MZCAL = 1;
     uint256 public constant PRESALE_TOKEN = 2;
     
-    // Initial supply of tokens to mint to the owner
-    uint256 public constant INITIAL_SUPPLY = 1000;
+    // Initial supply of tokens to mint to the contract
+    uint256 public constant MZCAL_INITIAL_SUPPLY = 1000;
+    uint256 public constant PRESALE_INITIAL_SUPPLY = 1000;
 
     // Sales configuration
-    uint256 public presaleEndTime = 1738387200; // February 1st, 2025
-    uint256 public mzcalTokenPrice = 0.01 ether;
-    uint256 public presaleTokenPrice = 0.01 ether;
+    // uint256 public presaleEndTime = 1738387200; // February 1st, 2025
+    uint256 public mzcalTokenPrice = 0.001 ether;
+    uint256 public presaleTokenPrice = 0.001 ether;
     bool public mzcalTokenLaunched = false;
 
     // Whitelist of wallets allowed to access presale
@@ -24,9 +25,11 @@ contract MzcalToken is ERC1155, Ownable {
     // Events
     event PresalePurchase(address indexed buyer, uint256 amount, uint256 cost);
     event MZCALConvert(address indexed buyer, uint256 amount);
+    event MZCALPurchase(address indexed buyer, uint256 amount, uint256 cost);
 
     constructor(string memory uri) ERC1155(uri) Ownable(msg.sender) {
-        _mint(msg.sender, MZCAL, INITIAL_SUPPLY, "");
+        _mint(address(this), MZCAL, MZCAL_INITIAL_SUPPLY, "");
+        _mint(address(this), PRESALE_TOKEN, PRESALE_INITIAL_SUPPLY, "");
     }
 
     function mint(address to, uint256 id, uint256 amount, bytes memory data) public onlyOwner {
@@ -45,6 +48,16 @@ contract MzcalToken is ERC1155, Ownable {
     // Launch the MZCAL token
     function launchMZCALToken() external onlyOwner {
         mzcalTokenLaunched = true;
+    }
+
+    // Set the MZCAL token price (in wei)
+    function setMzcalTokenPrice(uint256 newPriceInWei) external onlyOwner {
+        mzcalTokenPrice = newPriceInWei;
+    }
+
+    // Set the Presale token price (in wei)
+    function setPresaleTokenPrice(uint256 newPriceInWei) external onlyOwner {
+        presaleTokenPrice = newPriceInWei;
     }
 
     // Add a wallet to the presale whitelist
@@ -77,14 +90,17 @@ contract MzcalToken is ERC1155, Ownable {
     }
 
     // Buy presale tokens during the MZCAL presale
-    function presaleBuy(uint256 amount) external payable {
-        require(presaleWhitelist[msg.sender], "You are not whitelisted");
-        require(block.timestamp < presaleEndTime, "Presale has ended");
+    function buyPresale(uint256 amount) external payable {
+        require(presaleWhitelist[msg.sender], "Address is not whitelisted");
+        //require(block.timestamp < presaleEndTime, "Presale has ended");
 
         uint256 cost = amount * presaleTokenPrice;
         require(msg.value == cost, "Incorrect ETH sent");
 
-        _mint(msg.sender, PRESALE_TOKEN, amount, "");
+        uint256 contractBalance = balanceOf(address(this), PRESALE_TOKEN);
+        require(contractBalance >= amount, "Not enough PRESALE_TOKEN available");
+
+        _safeTransferFrom(address(this), msg.sender, PRESALE_TOKEN, amount, "");
 
         emit PresalePurchase(msg.sender, amount, cost);
     }
@@ -102,4 +118,45 @@ contract MzcalToken is ERC1155, Ownable {
 
         emit MZCALConvert(msg.sender, presaleBalance);
     }
+
+    // Buy MZCAL tokens after launch
+    function buyMZCAL(uint256 amount) external payable {
+        require(mzcalTokenLaunched, "MZCAL token not launched yet");
+
+        uint256 cost = mzcalTokenPrice * amount;
+        require(msg.value >= cost, "Insufficient ETH sent");
+
+        uint256 contractBalance = balanceOf(address(this), MZCAL);
+        require(contractBalance >= amount, "Not enough MZCAL available");
+
+        _safeTransferFrom(address(this), msg.sender, MZCAL, amount, "");
+
+        // Refund any excess ETH
+        if (msg.value > cost) {
+            payable(msg.sender).transfer(msg.value - cost);
+        }
+
+        emit MZCALPurchase(msg.sender, amount, cost);
+    }
+
+    // Spend MZCAL to buy assets from seasonal contracts
+    function spendMZCAL(address from, uint256 amount) external {
+        require(balanceOf(from, MZCAL) >= amount, "Insufficient MZCAL balance");
+        safeTransferFrom(from, address(this), MZCAL, amount, "");
+    }
+
+    // Withdraw ETH balance to the owner's address
+    function withdraw(address payable address70, address payable address30) external onlyOwner {
+        uint256 balance = address(this).balance;
+        require(balance > 0, "No funds to withdraw");
+
+        uint256 share70 = (balance * 70) / 100;
+        uint256 share30 = balance - share70; // Remaining balance to avoid rounding errors
+
+        address70.transfer(share70);
+        address30.transfer(share30);
+    }
+
+    // Handle ETH Donations
+    receive() external payable {}
 }
