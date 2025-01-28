@@ -38,6 +38,10 @@ contract SeasonalContract is ERC1155, Ownable {
         uint256 totalPrice = tokenPrices[id] * amount;
         require(totalPrice > 0, "Token price not set");
 
+        // Check contract has enough tokens of the asset
+        uint256 contractBalance = balanceOf(address(this), id);
+        require(contractBalance >= amount, "Not enough assets available");
+
         // Deduct MZCAL from the player's account (token contract)
         mzcalToken.spendMZCAL(msg.sender, totalPrice);
 
