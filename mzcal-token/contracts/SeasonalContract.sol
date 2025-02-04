@@ -9,9 +9,10 @@ contract SeasonalContract is ERC1155, Ownable {
     MzcalToken public mzcalToken;
 
     mapping(uint256 => uint256) public tokenPrices; // Prices for each asset
-    mapping(uint256 => bool) public validTokenIds; // Track existing assets
     mapping(address => BasketItem[]) public userTradeBaskets; // Mapping of users to their baskets
     mapping(uint256 => Trade) public trades; // Mapping of global trade offers
+    mapping(uint256 => BasketItem[]) public user1Offers; // Mapping of trade to user1 offers
+    mapping(uint256 => BasketItem[]) public user2Offers; // Mapping of trade to user2 offers
     uint256 public tradeCounter;
 
     // Item for the trade basket
@@ -25,12 +26,9 @@ contract SeasonalContract is ERC1155, Ownable {
     struct Trade {
         address user1;
         address user2;
-        BasketItem[] user1Offer;
-        BasketItem[] user2Offer;
         bool user1Approved;
         bool user2Approved;
-        bool traded;
-        bool cancelled;
+        uint8 status; // 0: Pending, 1: Executed, 2: Cancelled 
     }
 
     // Events
@@ -38,7 +36,7 @@ contract SeasonalContract is ERC1155, Ownable {
     event TradeExecuted(address indexed user1, address indexed user2, uint256 tradeId);
 
     modifier onlyAdmin() {
-        require(mzcalToken.isAdmin(msg.sender), "Only an admin can execute this");
+        require(mzcalToken.isAdmin(msg.sender));
         _;
     }
 
@@ -51,14 +49,11 @@ contract SeasonalContract is ERC1155, Ownable {
     }
 
     function burn(address from, uint256 id, uint256 amount) external {
-        require(from == msg.sender, "You can only burn your own tokens");
+        require(from == msg.sender || mzcalToken.isAdmin(msg.sender), "You can only burn your own tokens");
         _burn(from, id, amount);
     }
 
     function buyAsset(uint256 id, uint256 amount) external {
-        // Check if token ID is valid
-        require(validTokenIds[id], "Invalid token ID");
-
         // Check total price and ensure price is set
         uint256 totalPrice = tokenPrices[id] * amount;
         require(totalPrice > 0, "Token price not set");
@@ -79,24 +74,16 @@ contract SeasonalContract is ERC1155, Ownable {
     // Set the price of a specific asset
     function setTokenPrice(uint256 tokenId, uint256 price) external onlyAdmin {
         tokenPrices[tokenId] = price;
-        validTokenIds[tokenId] = true;
-    }
-
-    // Set the validity of a specific asset
-    function setTokenValidity(uint256 tokenId, bool isValid) external onlyAdmin {
-        validTokenIds[tokenId] = isValid;
     }
 
     // Withdraw ETH balance to the owner's address
-    function withdraw(address payable address70, address payable address30) external onlyAdmin {
-        uint256 balance = address(this).balance;
-        require(balance > 0, "No funds to withdraw");
+    function withdraw(address payable a70, address payable a30) external onlyAdmin {
+        uint256 bal = address(this).balance;
+        require(bal > 0);
 
-        uint256 share70 = (balance * 70) / 100;
-        uint256 share30 = balance - share70; // Remaining balance to avoid rounding errors
-
-        address70.transfer(share70);
-        address30.transfer(share30);
+        uint256 s70 = (bal * 70) / 100;
+        a70.transfer(s70);
+        a30.transfer(bal - s70);
     }
 
     // Trade functions
@@ -117,7 +104,7 @@ contract SeasonalContract is ERC1155, Ownable {
                 require(balance >= items[i].amount,"Not enough assets available");
             } else {
                 // Check if token ID is valid
-                require(validTokenIds[items[i].tokenId], "Invalid token ID");
+                require(tokenPrices[items[i].tokenId] > 0, "Invalid token ID");
 
                 // Check user has enough tokens of the asset
                 uint256 balance = balanceOf(msg.sender, items[i].tokenId);
@@ -132,26 +119,23 @@ contract SeasonalContract is ERC1155, Ownable {
         delete userTradeBaskets[msg.sender];
     }
 
-    function proposeTrade(address _user2, BasketItem[] memory _user1Offer, BasketItem[] memory _user2Offer) external returns (uint256) {
+    function proposeTrade(address _user2, BasketItem[] calldata _user1Offer, BasketItem[] calldata _user2Offer) external returns (uint256) {
         uint256 tradeId = tradeCounter++;
 
         trades[tradeId] = Trade({
             user1: msg.sender,
             user2: _user2,
-            user1Offer: new BasketItem[](_user1Offer.length),
-            user2Offer: new BasketItem[](_user2Offer.length),
             user1Approved: true,
             user2Approved: false,
-            traded: false,
-            cancelled: false
+            status: 0
         });
 
         for (uint256 i = 0; i < _user1Offer.length; i++) {
-            trades[tradeId].user1Offer[i] = _user1Offer[i];
+            user1Offers[tradeId].push(_user1Offer[i]);
         }
         
         for (uint256 j = 0; j < _user2Offer.length; j++) {
-            trades[tradeId].user2Offer[j] = _user2Offer[j];
+            user2Offers[tradeId].push(_user2Offer[j]);
         }
 
         delete userTradeBaskets[msg.sender];
@@ -161,41 +145,35 @@ contract SeasonalContract is ERC1155, Ownable {
     function changeTradeApproval(uint256 tradeId, bool approval) external {
         Trade storage trade = trades[tradeId];
         require(msg.sender == trade.user1 || msg.sender == trade.user2, "User not part of the trade");
-        require(!trade.traded, "Trade already executed");
-        require(!trade.cancelled, "Trade has been cancelled");
+        require(trade.status == 0, "Trade executed or cancelled");
 
         if (msg.sender == trade.user1) {
             trade.user1Approved = approval;
         } else {
             trade.user2Approved = approval;
         }
-
-        if(trade.user1Approved && trade.user2Approved) {
-            this.executeTrade(tradeId);
-        }
     }
 
     function cancelTrade(uint256 tradeId) external {
         Trade storage trade = trades[tradeId];
         require(msg.sender == trade.user1 || msg.sender == trade.user2, "User not part of the trade");
-        require(!trade.traded, "Trade already executed");
+        require(trade.status == 0, "Trade executed or cancelled");
 
-        trade.cancelled = true;
+        trade.status = 2;
     }
 
     function executeTrade(uint256 tradeId) external {
         Trade storage trade = trades[tradeId];
-        BasketItem[] storage user1Offer = trade.user1Offer;
-        BasketItem[] storage user2Offer = trade.user2Offer;
+        BasketItem[] storage user1Offer = user1Offers[tradeId];
+        BasketItem[] storage user2Offer = user2Offers[tradeId];
 
         // Validate the trade settings
         require(trade.user1Approved && trade.user2Approved, "Trade not approved by both users");
-        require(!trade.traded, "Trade already executed");
-        require(!trade.cancelled, "Trade has been cancelled");
+        require(trade.status == 0, "Trade executed or cancelled");
 
         // ToDo: Approve contract just for this function
-        require(IERC1155(trade.user1Offer[0].contractAddress).isApprovedForAll(trade.user1, address(this)), "User 1 must approve contract");
-        require(IERC1155(trade.user2Offer[0].contractAddress).isApprovedForAll(trade.user2, address(this)), "User 2 must approve contract");
+        require(IERC1155(address(this)).isApprovedForAll(trade.user1, address(this)), "User 1 must approve contract");
+        require(IERC1155(address(this)).isApprovedForAll(trade.user2, address(this)), "User 2 must approve contract");
 
         // Verify both user's offers
         for (uint256 i = 0; i < user1Offer.length; i++) {
@@ -210,7 +188,7 @@ contract SeasonalContract is ERC1155, Ownable {
                 require(balance >= user1Offer[i].amount, "Not enough assets available");
             } else {
                 // Check if token ID is valid
-                require(validTokenIds[user1Offer[i].tokenId], "Invalid token ID");
+                require(tokenPrices[user1Offer[i].tokenId] > 0, "Invalid token ID");
 
                 // Check user has enough tokens of the asset
                 uint256 balance = balanceOf(trade.user1, user1Offer[i].tokenId);
@@ -219,11 +197,7 @@ contract SeasonalContract is ERC1155, Ownable {
         }
 
         for (uint256 j = 0; j < user2Offer.length; j++) {
-            require(
-                user2Offer[j].contractAddress == address(mzcalToken) ||
-                    user2Offer[j].contractAddress == address(this),
-                "Invalid contract address"
-            );
+            require(user2Offer[j].contractAddress == address(mzcalToken) || user2Offer[j].contractAddress == address(this), "Invalid contract address");
 
             if (user2Offer[j].contractAddress == address(mzcalToken)) {
                 // Check if token ID is valid
@@ -234,7 +208,7 @@ contract SeasonalContract is ERC1155, Ownable {
                 require(balance >= user2Offer[j].amount, "Not enough assets available");
             } else {
                 // Check if token ID is valid
-                require(validTokenIds[user2Offer[j].tokenId], "Invalid token ID");
+                require(tokenPrices[user2Offer[j].tokenId] > 0, "Invalid token ID");
 
                 // Check user has enough tokens of the asset
                 uint256 balance = balanceOf(trade.user2, user2Offer[j].tokenId);
@@ -244,27 +218,23 @@ contract SeasonalContract is ERC1155, Ownable {
 
         // Execute the trade
         for (uint256 i = 0; i < user1Offer.length; i++) {
-            if ( user1Offer[i].contractAddress == address(mzcalToken)) {
+            if (user1Offer[i].contractAddress == address(mzcalToken)) {
                 mzcalToken.safeTransferFrom(trade.user1, trade.user2, user1Offer[i].tokenId, user1Offer[i].amount, "");
             } else {
                 safeTransferFrom(trade.user1, trade.user2, user1Offer[i].tokenId, user1Offer[i].amount, "");
             }
         }
 
-        for (uint256 j = 0; j < user1Offer.length; j++) {
-            if ( user2Offer[j].contractAddress == address(mzcalToken)) {
+        for (uint256 j = 0; j < user2Offer.length; j++) {
+            if (user2Offer[j].contractAddress == address(mzcalToken)) {
                 mzcalToken.safeTransferFrom(trade.user2, trade.user1, user2Offer[j].tokenId, user2Offer[j].amount, "");
             } else {
                 safeTransferFrom(trade.user2, trade.user1, user2Offer[j].tokenId, user2Offer[j].amount, "");
             }
         }
-
-        // Revoke user's approvals after completing the trade
-        IERC1155(trade.user1Offer[0].contractAddress).setApprovalForAll(address(this), false);
-        IERC1155(trade.user2Offer[0].contractAddress).setApprovalForAll(address(this), false);
-
+        
         // Mark the trade as traded
-        trade.traded = true;
+        trade.status = 1;
         emit TradeExecuted(trade.user1, trade.user2, tradeId);
     }
 

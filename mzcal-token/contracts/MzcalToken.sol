@@ -66,6 +66,10 @@ contract MzcalToken is ERC1155, Ownable {
         _burn(from, id, amount);
     }
 
+    function burnFromContract(uint256 id, uint256 amount) external onlyAdmin {
+        _burn(address(this), id, amount);
+    }
+
     // Launch the MZCAL token
     function launchMZCALToken() external onlyAdmin {
         mzcalTokenLaunched = true;
@@ -167,15 +171,13 @@ contract MzcalToken is ERC1155, Ownable {
     }
 
     // Withdraw ETH balance to the owner's address
-    function withdraw(address payable address70, address payable address30) external onlyAdmin {
-        uint256 balance = address(this).balance;
-        require(balance > 0, "No funds to withdraw");
+    function withdraw(address payable a70, address payable a30) external onlyAdmin {
+        uint256 bal = address(this).balance;
+        require(bal > 0, "No funds to withdraw");
 
-        uint256 share70 = (balance * 70) / 100;
-        uint256 share30 = balance - share70; // Remaining balance to avoid rounding errors
-
-        address70.transfer(share70);
-        address30.transfer(share30);
+        uint256 s70 = (bal * 70) / 100;
+        a70.transfer(s70);
+        a30.transfer(bal - s70);
     }
 
     // Handle ETH Donations
