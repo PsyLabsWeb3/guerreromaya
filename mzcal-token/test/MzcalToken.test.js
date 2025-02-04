@@ -13,23 +13,23 @@ describe("MzcalToken", function () {
 
     it("Should deploy and mint initial supply to the contract", async function () {
         const balance = await token.balanceOf(token.target, 1);
-        expect(balance).to.equal(1000);
+        expect(balance).to.equal(100000);
     });
 
-    it("Should allow the owner to mint new tokens", async function () {
-        await token.mint(addr1.address, 1, 500, "0x");
+    it("Should allow the admins to mint new tokens", async function () {
+        await token.mint(addr1.address, 1, 500);
         const balance = await token.balanceOf(addr1.address, 1);
         expect(balance).to.equal(500);
     });
 
-    it("Should not allow non-owner to mint tokens", async function () {
+    it("Should not allow non-admin to mint tokens", async function () {
         await expect(
-            token.connect(addr1).mint(addr2.address, 1, 500, "0x")
-        ).to.be.revertedWithCustomError(token, "OwnableUnauthorizedAccount");
+            token.connect(addr1).mint(addr2.address, 1, 500)
+        ).to.be.revertedWith("Only an admin can execute this");
     });
 
     it("Should allow users to burn their own tokens", async function () {
-        await token.mint(addr1.address, 1, 300, "0x");
+        await token.mint(addr1.address, 1, 300);
         await token.connect(addr1).burn(addr1.address, 1, 100);
         const balance = await token.balanceOf(addr1.address, 1);
         expect(balance).to.equal(200);
@@ -68,7 +68,7 @@ describe("MzcalToken", function () {
         const price = await token.presaleTokenPrice();
 
         const initialPresaleBalance = await token.balanceOf(token.target, 2);
-        expect(initialPresaleBalance).to.equal(1000);
+        expect(initialPresaleBalance).to.equal(250000);
 
         await token.connect(addr1).buyPresale(amountToBuy, { value: price * amountToBuy });
         expect(await token.balanceOf(addr1.address, 2)).to.equal(amountToBuy);
@@ -76,20 +76,22 @@ describe("MzcalToken", function () {
 
     it("Should not allow non-whitelisted users to buy PRESALE_TOKEN", async function () {
         const amountToBuy = BigInt(10);
-        const price = await token.presaleTokenPrice();
         await expect(
             token.connect(addr2).buyPresale(amountToBuy)
         ).to.be.revertedWith("Address is not whitelisted");
     });
 
-    it("Should allow the owner to set the MZCAL token price", async function () {
+    it("Should allow the admins to set the MZCAL token price", async function () {
         const newPrice = 10;
-        await token.setMzcalTokenPrice(newPrice);
+        await token.addAdmin(addr1);
+        await token.connect(addr1).setMzcalTokenPrice(newPrice);
         expect(await token.mzcalTokenPrice()).to.equal(newPrice);
     });
 
-    it("Should not allow non-owner to set the MZCAL token price", async function () {
+    it("Should not allow non-admin to set the MZCAL token price", async function () {
         const newPrice = 10;
-        await expect(token.connect(addr1).setMzcalTokenPrice(newPrice)).to.be.reverted;
+        await expect(
+            token.connect(addr2).setMzcalTokenPrice(newPrice)
+        ).to.be.revertedWith("Only an admin can execute this");
     });
 });

@@ -30,7 +30,7 @@ describe("SeasonalContract", function () {
         const assetToBuy = 1;
         const amountToBuy = 5;
         
-        await token.mint(addr1.address, 1, 500, "0x");
+        await token.mint(addr1.address, 1, 500);
         await expect(
             contract.connect(addr1).buyAsset(assetToBuy, amountToBuy)
         ).to.be.reverted;
