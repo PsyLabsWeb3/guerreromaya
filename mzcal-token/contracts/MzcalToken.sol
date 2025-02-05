@@ -10,8 +10,8 @@ contract MzcalToken is ERC1155, Ownable {
     uint256 public constant PRESALE_TOKEN = 2;
     
     // Initial supply of tokens to mint to the contract
-    uint256 public constant MZCAL_INITIAL_SUPPLY = 1000;
-    uint256 public constant PRESALE_INITIAL_SUPPLY = 1000;
+    uint256 public constant MZCAL_INITIAL_SUPPLY = 100000;
+    uint256 public constant PRESALE_INITIAL_SUPPLY = 250000;
 
     // Sales configuration
     // uint256 public presaleEndTime = 1738387200; // February 1st, 2025
@@ -20,65 +20,90 @@ contract MzcalToken is ERC1155, Ownable {
     bool public mzcalTokenLaunched = false;
 
     // Whitelist of wallets allowed to access presale
+    mapping(address => bool) public admins;
     mapping(address => bool) public presaleWhitelist;
 
     // Events
+    event AdminAdded(address indexed admin);
+    event AdminRemoved(address indexed admin);
     event PresalePurchase(address indexed buyer, uint256 amount, uint256 cost);
     event MZCALConvert(address indexed buyer, uint256 amount);
     event MZCALPurchase(address indexed buyer, uint256 amount, uint256 cost);
 
+    modifier onlyAdmin() {
+        require(admins[msg.sender], "Only an admin can execute this");
+        _;
+    }
+
     constructor(string memory uri) ERC1155(uri) Ownable(msg.sender) {
+        admins[msg.sender] = true;
         _mint(address(this), MZCAL, MZCAL_INITIAL_SUPPLY, "");
         _mint(address(this), PRESALE_TOKEN, PRESALE_INITIAL_SUPPLY, "");
     }
 
-    function mint(address to, uint256 id, uint256 amount, bytes memory data) public onlyOwner {
-        if(data.length == 0) {
-            _mint(to, id, amount, "");
-        } else {
-            _mint(to, id, amount, data);
-        }
+    function addAdmin(address _admin) external onlyAdmin {
+        require(!admins[_admin], "Address is already an admin");
+        admins[_admin] = true;
+        emit AdminAdded(_admin);
     }
 
-    function burn(address from, uint256 id, uint256 amount) public {
+    function removeAdmin(address _admin) external onlyAdmin {
+        require(admins[_admin], "Address is not an admin");
+        admins[_admin] = false;
+        emit AdminRemoved(_admin);
+    }
+
+    function isAdmin(address _account) external view returns (bool) {
+        return admins[_account];
+    }
+
+    function mint(address to, uint256 id, uint256 amount) external onlyAdmin {
+        _mint(to, id, amount, "");
+    }
+
+    function burn(address from, uint256 id, uint256 amount) external {
         require(from == msg.sender, "You can only burn your own tokens");
         _burn(from, id, amount);
     }
 
+    function burnFromContract(uint256 id, uint256 amount) external onlyAdmin {
+        _burn(address(this), id, amount);
+    }
+
     // Launch the MZCAL token
-    function launchMZCALToken() external onlyOwner {
+    function launchMZCALToken() external onlyAdmin {
         mzcalTokenLaunched = true;
     }
 
     // Set the MZCAL token price (in wei)
-    function setMzcalTokenPrice(uint256 newPriceInWei) external onlyOwner {
+    function setMzcalTokenPrice(uint256 newPriceInWei) external onlyAdmin {
         mzcalTokenPrice = newPriceInWei;
     }
 
     // Set the Presale token price (in wei)
-    function setPresaleTokenPrice(uint256 newPriceInWei) external onlyOwner {
+    function setPresaleTokenPrice(uint256 newPriceInWei) external onlyAdmin {
         presaleTokenPrice = newPriceInWei;
     }
 
     // Add a wallet to the presale whitelist
-    function addToPresaleWhitelist(address account) external onlyOwner {
+    function addToPresaleWhitelist(address account) external onlyAdmin {
         presaleWhitelist[account] = true;
     }
 
     // Add multiple wallets to the presale whitelist
-    function bulkAddToPresaleWhitelist(address[] calldata accounts) external onlyOwner {
+    function bulkAddToPresaleWhitelist(address[] calldata accounts) external onlyAdmin {
         for (uint256 i = 0; i < accounts.length; i++) {
             presaleWhitelist[accounts[i]] = true;
         }
     }
 
     // Remove a wallet from the presale whitelist
-    function removeFromPresaleWhitelist(address account) external onlyOwner {
+    function removeFromPresaleWhitelist(address account) external onlyAdmin {
         presaleWhitelist[account] = false;
     }
 
     // Remove multiple wallets from the presale whitelist
-    function bulkRemoveFromPresaleWhitelist(address[] calldata accounts) external onlyOwner {
+    function bulkRemoveFromPresaleWhitelist(address[] calldata accounts) external onlyAdmin {
         for (uint256 i = 0; i < accounts.length; i++) {
             presaleWhitelist[accounts[i]] = false;
         }
@@ -146,15 +171,13 @@ contract MzcalToken is ERC1155, Ownable {
     }
 
     // Withdraw ETH balance to the owner's address
-    function withdraw(address payable address70, address payable address30) external onlyOwner {
-        uint256 balance = address(this).balance;
-        require(balance > 0, "No funds to withdraw");
+    function withdraw(address payable a70, address payable a30) external onlyAdmin {
+        uint256 bal = address(this).balance;
+        require(bal > 0, "No funds to withdraw");
 
-        uint256 share70 = (balance * 70) / 100;
-        uint256 share30 = balance - share70; // Remaining balance to avoid rounding errors
-
-        address70.transfer(share70);
-        address30.transfer(share30);
+        uint256 s70 = (bal * 70) / 100;
+        a70.transfer(s70);
+        a30.transfer(bal - s70);
     }
 
     // Handle ETH Donations

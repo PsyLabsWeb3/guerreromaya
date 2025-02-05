@@ -146,6 +146,32 @@
 					{
 						"indexed": true,
 						"internalType": "address",
+						"name": "admin",
+						"type": "address"
+					}
+				],
+				"name": "AdminAdded",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "admin",
+						"type": "address"
+					}
+				],
+				"name": "AdminRemoved",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
 						"name": "account",
 						"type": "address"
 					},
@@ -182,6 +208,31 @@
 					}
 				],
 				"name": "MZCALConvert",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "buyer",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "cost",
+						"type": "uint256"
+					}
+				],
+				"name": "MZCALPurchase",
 				"type": "event"
 			},
 			{
@@ -323,7 +374,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "INITIAL_SUPPLY",
+				"name": "MZCAL",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -336,7 +387,20 @@
 			},
 			{
 				"inputs": [],
-				"name": "MZCAL",
+				"name": "MZCAL_INITIAL_SUPPLY",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "PRESALE_INITIAL_SUPPLY",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -364,6 +428,19 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "_admin",
+						"type": "address"
+					}
+				],
+				"name": "addAdmin",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "account",
 						"type": "address"
 					}
@@ -371,6 +448,25 @@
 				"name": "addToPresaleWhitelist",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "admins",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -474,6 +570,24 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "burnFromContract",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
 						"name": "amount",
 						"type": "uint256"
 					}
@@ -501,6 +615,25 @@
 				"name": "claimMZCALTokens",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_account",
+						"type": "address"
+					}
+				],
+				"name": "isAdmin",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -569,11 +702,6 @@
 						"internalType": "uint256",
 						"name": "amount",
 						"type": "uint256"
-					},
-					{
-						"internalType": "bytes",
-						"name": "data",
-						"type": "bytes"
 					}
 				],
 				"name": "mint",
@@ -622,19 +750,6 @@
 			},
 			{
 				"inputs": [],
-				"name": "presaleEndTime",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
 				"name": "presaleTokenPrice",
 				"outputs": [
 					{
@@ -663,6 +778,19 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_admin",
+						"type": "address"
+					}
+				],
+				"name": "removeAdmin",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -865,7 +993,18 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "address payable",
+						"name": "a70",
+						"type": "address"
+					},
+					{
+						"internalType": "address payable",
+						"name": "a30",
+						"type": "address"
+					}
+				],
 				"name": "withdraw",
 				"outputs": [],
 				"stateMutability": "nonpayable",
@@ -1161,11 +1300,11 @@
 			]
 		},
 		"contracts/MzcalToken.sol": {
-			"keccak256": "0xc1a0bf2517ba7c8f983586d71f239930b96e7237bbe8a5d60f44d402bd8a1020",
+			"keccak256": "0xb0beed5d309808844007f905b1c05b7e6c044695652334daa9d91ae5eac1ced6",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://445f7fbd98233bf6cf4f000146a11edc0f0f6e76abc912a48dd731f84b132856",
-				"dweb:/ipfs/QmTKPAwJnZozhD5Y6x9Dfi5z1hd7cBLZNxxPpV5KVWvMn8"
+				"bzz-raw://7c4386be4945d235ee1e00cab68c2b9f2b0a1d1a0f9ba5003aba2c1bd29f0621",
+				"dweb:/ipfs/QmeUSCnChNqYWswXHS29TSYckpj8AT2bkNCBfbX4AjrJoF"
 			]
 		}
 	},
