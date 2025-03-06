@@ -3,25 +3,58 @@ import Spline from "@splinetool/react-spline";
 
 function App() {
   return (
-    <>
-      <div></div>
-      <h1
+    <div style={{ position: "relative", width: "100%", height: "100vh" }}>
+      <nav
         style={{
-          color: "yellow",
-          fontSize: "50px",
-          textAlign: "center",
-          marginTop: "100px",
+          position: "absolute",
+          top: 0,
+          width: "100%",
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          color: "#fff",
+          padding: "10px",
+          zIndex: 1,
         }}
       >
-        COMING SOON
-      </h1>
-      <h1>Guerrero Maya</h1>
-      <h2>A unique RWA Mayan Metaverse leveraged with A.I.</h2>
-      <div style={{ width: "100%", height: "100vh" }}>
-        <Spline scene="https://prod.spline.design/B5p070Rp8cPtBN2x/scene.splinecode" />
-      </div>
-      {/* <Spline scene="https://prod.spline.design/B5p070Rp8cPtBN2x/scene.splinecode" /> */}
-    </>
+        <ul
+          style={{
+            listStyleType: "none",
+            margin: 0,
+            padding: 0,
+            display: "flex",
+            justifyContent: "space-around",
+          }}
+        >
+          <li>
+            <a href="#home" style={{ color: "#fff", textDecoration: "none" }}>
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="#about" style={{ color: "#fff", textDecoration: "none" }}>
+              About
+            </a>
+          </li>
+          <li>
+            <a
+              href="#contact"
+              style={{ color: "#fff", textDecoration: "none" }}
+            >
+              Contact
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <Spline
+        scene="https://prod.spline.design/B5p070Rp8cPtBN2x/scene.splinecode"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+        }}
+      />
+    </div>
   );
 }
 
