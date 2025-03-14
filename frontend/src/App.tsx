@@ -1,17 +1,12 @@
 import "./App.css";
-import Spline from "@splinetool/react-spline";
+
 // import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+
+import Home3d from "./components/pages/Home/home-3d";
 import MiniGames from "./components/pages/mini-games";
 
 function App() {
-  // const [isLoading, setIsLoading] = useState(true);
-  // const handleSplineLoad = () => {
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 3000);
-  // };
-
   return (
     <Router>
       <div style={{ position: "relative", width: "100%", height: "100vh" }}>
@@ -66,40 +61,9 @@ function App() {
             </li>
           </ul>
         </nav>
-        {/* <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            display: `${isLoading ? "flex" : "none"}`,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(0, 0, 0, 0.8)",
-            color: "#fff",
-            zIndex: 2,
-          }}
-        >
-          <h1>Loading...</h1>
-        </div> */}
+
         <Routes>
-          <Route
-            path="/"
-            element={
-              <Spline
-                scene="https://prod.spline.design/B5p070Rp8cPtBN2x/scene.splinecode"
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                }}
-                // onLoad={handleSplineLoad}
-              />
-            }
-          />
+          <Route path="/" element={<Home3d />} />
           <Route path="/mini-games" element={<MiniGames />} />
           {/* Add other routes here */}
         </Routes>
