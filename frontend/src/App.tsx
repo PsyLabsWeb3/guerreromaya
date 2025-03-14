@@ -1,27 +1,134 @@
 import "./App.css";
-import Spline from "@splinetool/react-spline";
+
+// import { useState } from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+
+import Home3d from "./components/pages/Home/home-3d";
+import MiniGames from "./components/pages/mini-games";
+import Barrels from "./components/pages/barrels";
+import iconSmall from "./assets/icons/iconGMsmall.png";
 
 function App() {
   return (
-    <>
-      <div></div>
-      <h1
-        style={{
-          color: "yellow",
-          fontSize: "50px",
-          textAlign: "center",
-          marginTop: "100px",
-        }}
-      >
-        COMING SOON
-      </h1>
-      <h1>Guerrero Maya</h1>
-      <h2>A unique RWA Mayan Metaverse leveraged with A.I.</h2>
-      <div style={{ width: "100%", height: "100vh" }}>
-        <Spline scene="https://prod.spline.design/B5p070Rp8cPtBN2x/scene.splinecode" />
+    <Router>
+      <div style={{ position: "relative", width: "100%", height: "100vh" }}>
+        <nav
+          style={{
+            position: "absolute",
+            top: 0,
+            width: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            color: "#fff",
+            paddingTop: ".5rem",
+            zIndex: 1,
+            borderBottom: "0.2px solid rgba(255, 255, 255, 0.4)", // Added
+          }}
+        >
+          <ul
+            style={{
+              listStyleType: "none",
+              margin: 0,
+              padding: 0,
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <li>
+              <Link
+                to="/"
+                style={{
+                  marginRight: "4rem",
+                  marginLeft: "1rem",
+                  color: "#fff",
+                  textDecoration: "none",
+                }}
+              >
+                <img
+                  src={iconSmall}
+                  alt="Logo"
+                  style={{ width: "30px", height: "30px" }}
+                />
+              </Link>
+            </li>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <li>
+                <Link
+                  to="/about"
+                  style={{
+                    color: "#fff",
+                    textDecoration: "none",
+                    marginRight: "1rem",
+                    fontFamily: "inter",
+                  }}
+                >
+                  Ecosystem
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/mini-games"
+                  style={{
+                    color: "#f9b064",
+                    textDecoration: "none",
+                    marginRight: "1rem",
+                    fontFamily: "inter",
+                  }}
+                >
+                  $MZCAL
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact"
+                  style={{
+                    color: "#fff",
+                    textDecoration: "none",
+                    marginRight: "1rem",
+                    fontFamily: "inter",
+                  }}
+                >
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/docs"
+                  style={{
+                    color: "#fff",
+                    textDecoration: "none",
+                    marginRight: "1rem",
+                    fontFamily: "inter",
+                  }}
+                >
+                  Docs
+                </Link>
+              </li>
+            </div>
+
+            <li>
+              <Link
+                to="/barrels"
+                style={{
+                  color: "#f9b064",
+                  fontFamily: "Cincezel Decorative",
+                  textDecoration: "none",
+                  marginRight: "5rem",
+                }}
+              >
+                Presale
+              </Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Routes>
+          <Route path="/" element={<Home3d />} />
+          <Route path="/mini-games" element={<MiniGames />} />
+          <Route path="/barrels" element={<Barrels />} />
+          {/* Add other routes here */}
+        </Routes>
       </div>
-      {/* <Spline scene="https://prod.spline.design/B5p070Rp8cPtBN2x/scene.splinecode" /> */}
-    </>
+    </Router>
   );
 }
 
