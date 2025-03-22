@@ -47,6 +47,12 @@
 .segment:nth-child(6) {
   animation-delay: 0.5s;
 }
+.segment:nth-child(7) {
+  animation-delay: 0.6s;
+}
+.segment:nth-child(8) {
+  animation-delay: 0.7s;
+}
 
 @keyframes slither {
   0%,

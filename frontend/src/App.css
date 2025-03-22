@@ -41,3 +41,80 @@
 .read-the-docs {
   color: #888;
 }
+
+.styled-button {
+  background-color: #1a1a1a; /* Slightly lighter black */
+  color: white;
+  font-size: 2rem;
+  font-weight: 600;
+  border-radius: 30px;
+  border: double 1rem transparent;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  background-image: linear-gradient(#1a1a1a, #1a1a1a),
+    linear-gradient(to right, #c08b53, rgba(192, 139, 83, 0));
+  /* border-image: linear-gradient(25deg, #c08b53, rgba(192, 139, 83, 0)) 1;  */
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  width: 300px;
+  height: 4rem;
+}
+
+.styled-button:hover {
+  background-color: #1a1a1a; /* Slightly lighter black */
+}
+
+.styled-button:active {
+  transform: scale(0.95);
+}
+
+.grounded-radiants {
+  position: relative;
+  border: 4px solid transparent;
+  border-radius: 16px;
+  background: linear-gradient(orange, violet);
+  background-clip: padding-box;
+  padding: 10px;
+  /* just to show box-shadow still works fine */
+  box-shadow: 0 3px 9px black, inset 0 0 9px white;
+}
+
+.grounded-radiants::after {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  left: -4px;
+  right: -4px;
+  background: linear-gradient(red, blue);
+  content: "";
+  z-index: -1;
+  border-radius: 16px;
+}
+
+.box {
+  position: relative;
+  padding: 20px 30px;
+  margin: 5px;
+  display: inline-block;
+  font-size: 30px;
+}
+
+.box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50px;
+  padding: 5px; /* control the border thickness */
+  background: linear-gradient(45deg, #c08b53, #c08b5339);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.box:hover {
+  background: linear-gradient(45deg, #c08b53, #c08b5339);
+  border-radius: 50px;
+}

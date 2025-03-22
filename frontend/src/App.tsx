@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Home3d from "./components/pages/Home/home-3d";
 import MiniGames from "./components/pages/mini-games";
 import Barrels from "./components/pages/barrels";
+import Kukulcan from "./components/pages/kukulcan";
 import iconSmall from "./assets/icons/iconGMsmall.png";
 
 function App() {
@@ -19,9 +20,11 @@ function App() {
             width: "100%",
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             color: "#fff",
-            paddingTop: ".5rem",
+            // paddingTop: ".5rem",
             zIndex: 1,
             borderBottom: "0.2px solid rgba(255, 255, 255, 0.4)", // Added
+            height: "4rem", // Added
+            alignContent: "center", // Added
           }}
         >
           <ul
@@ -79,7 +82,7 @@ function App() {
               </li>
               <li>
                 <Link
-                  to="/contact"
+                  to="/kukulcan"
                   style={{
                     color: "#fff",
                     textDecoration: "none",
@@ -87,7 +90,7 @@ function App() {
                     fontFamily: "inter",
                   }}
                 >
-                  Contact
+                  Kukulcan-AI
                 </Link>
               </li>
               <li>
@@ -110,9 +113,10 @@ function App() {
                 to="/barrels"
                 style={{
                   color: "#f9b064",
-                  fontFamily: "Cincezel Decorative",
+                  fontFamily: "inter",
                   textDecoration: "none",
                   marginRight: "5rem",
+                  fontSize: "1.5rem",
                 }}
               >
                 Presale
@@ -125,6 +129,7 @@ function App() {
           <Route path="/" element={<Home3d />} />
           <Route path="/mini-games" element={<MiniGames />} />
           <Route path="/barrels" element={<Barrels />} />
+          <Route path="/kukulcan" element={<Kukulcan />} />
           {/* Add other routes here */}
         </Routes>
       </div>
