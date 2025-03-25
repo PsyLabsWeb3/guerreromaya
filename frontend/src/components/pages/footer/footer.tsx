@@ -1,5 +1,5 @@
 import React from "react";
-import "./Footer.css";
+import "./footer.css";
 import GuerreroMayaLetters from "../../../assets/img/GUERREOMAYALETTERS.png";
 import Monogram from "../../../assets/img/monogramaNobg.png";
 
