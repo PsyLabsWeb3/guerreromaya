@@ -4,7 +4,7 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 import Home3d from "./components/pages/Home/home-3d";
-import MiniGames from "./components/pages/mini-games";
+import MiniGames from "./components/pages/MiniGames/mini-games";
 import Barrels from "./components/pages/barrels";
 import Kukulcan from "./components/pages/kukulcan";
 import iconSmall from "./assets/icons/iconGMsmall.png";
@@ -56,7 +56,7 @@ function App() {
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <li>
                 <Link
-                  to="/about"
+                  to="/mini-games"
                   style={{
                     color: "#fff",
                     textDecoration: "none",
@@ -64,12 +64,12 @@ function App() {
                     fontFamily: "inter",
                   }}
                 >
-                  Ecosystem
+                  Mini Games
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/mini-games"
+                  to="/mzcal"
                   style={{
                     color: "#f9b064",
                     textDecoration: "none",
@@ -93,6 +93,7 @@ function App() {
                   Kukulcan-AI
                 </Link>
               </li>
+
               <li>
                 <Link
                   to="/docs"
