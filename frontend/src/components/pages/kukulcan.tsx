@@ -1,16 +1,17 @@
 import Spline from "@splinetool/react-spline";
 
+import Footer from "./footer/footer";
+
 function Kukulcan() {
   return (
     <div
       style={{
-        padding: "20px",
         background:
           "url('/templecavebg.png'), linear-gradient(-45deg,rgba(0, 13, 26, 0.82),rgb(11, 11, 11))",
 
         backgroundSize: "cover, cover",
         backgroundBlendMode: "overlay",
-        height: "100vh",
+        height: "auto",
       }}
     >
       <p
@@ -18,9 +19,10 @@ function Kukulcan() {
           fontSize: "4rem",
           fontFamily: "Cinzel Decorative, serif",
           color: "#f9b064",
-          margin: "1rem",
-          marginTop: "5rem",
-          paddingTop: "3rem",
+          marginTop: "0rem",
+          // margin: "1rem",
+          // marginTop: "5rem",
+          paddingTop: "6rem",
           paddingLeft: "12rem",
           paddingRight: "12rem",
         }}
@@ -84,11 +86,12 @@ function Kukulcan() {
         <div
           style={{ width: "50%", display: "flex", justifyContent: "center" }}
         >
-          <div style={{}}>
+          <div style={{ marginBottom: "2rem" }}>
             <Spline scene="https://prod.spline.design/yHxGE0XGUXpo3eBF/scene.splinecode" />
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
