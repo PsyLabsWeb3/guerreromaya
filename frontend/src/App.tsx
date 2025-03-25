@@ -1,12 +1,8 @@
 import "./App.css";
 
-// import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-
-import Home3d from "./components/pages/Home/home-3d";
-import MiniGames from "./components/pages/mini-games";
-import Barrels from "./components/pages/barrels";
-import Kukulcan from "./components/pages/kukulcan";
+import MiniGames from "./pages/mini-games";
+import Spline from "@splinetool/react-spline";
 import iconSmall from "./assets/icons/iconGMsmall.png";
 
 function App() {
@@ -25,6 +21,7 @@ function App() {
             borderBottom: "0.2px solid rgba(255, 255, 255, 0.4)", // Added
             height: "4rem", // Added
             alignContent: "center", // Added
+            display: window.location.pathname === "/mini-games" ? "none" : "block",
           }}
         >
           <ul
@@ -53,83 +50,67 @@ function App() {
                 />
               </Link>
             </li>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <li>
-                <Link
-                  to="/about"
-                  style={{
-                    color: "#fff",
-                    textDecoration: "none",
-                    marginRight: "1rem",
-                    fontFamily: "inter",
-                  }}
-                >
-                  Ecosystem
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/mini-games"
-                  style={{
-                    color: "#f9b064",
-                    textDecoration: "none",
-                    marginRight: "1rem",
-                    fontFamily: "inter",
-                  }}
-                >
-                  $MZCAL
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/kukulcan"
-                  style={{
-                    color: "#fff",
-                    textDecoration: "none",
-                    marginRight: "1rem",
-                    fontFamily: "inter",
-                  }}
-                >
-                  Kukulcan-AI
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/docs"
-                  style={{
-                    color: "#fff",
-                    textDecoration: "none",
-                    marginRight: "1rem",
-                    fontFamily: "inter",
-                  }}
-                >
-                  Docs
-                </Link>
-              </li>
-            </div>
-
             <li>
               <Link
-                to="/barrels"
-                style={{
-                  color: "#f9b064",
-                  fontFamily: "inter",
-                  textDecoration: "none",
-                  marginRight: "5rem",
-                  fontSize: "1.5rem",
-                }}
+                to="/about"
+                style={{ color: "#fff", textDecoration: "none" }}
               >
-                Presale
+                About
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/contact"
+                style={{ color: "#fff", textDecoration: "none" }}
+              >
+                Contact
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/mini-games"
+                style={{ color: "#fff", textDecoration: "none" }}
+              >
+                Mini Games
               </Link>
             </li>
           </ul>
         </nav>
-
+        {/* <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            display: `${isLoading ? "flex" : "none"}`,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            color: "#fff",
+            zIndex: 2,
+          }}
+        >
+          <h1>Loading...</h1>
+        </div> */}
         <Routes>
-          <Route path="/" element={<Home3d />} />
+          <Route
+            path="/"
+            element={
+              <Spline
+                scene="https://prod.spline.design/B5p070Rp8cPtBN2x/scene.splinecode"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                }}
+                // onLoad={handleSplineLoad}
+              />
+            }
+          />
           <Route path="/mini-games" element={<MiniGames />} />
-          <Route path="/barrels" element={<Barrels />} />
-          <Route path="/kukulcan" element={<Kukulcan />} />
           {/* Add other routes here */}
         </Routes>
       </div>
