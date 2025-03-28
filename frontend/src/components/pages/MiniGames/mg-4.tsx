@@ -110,7 +110,12 @@ const MG4: React.FC = () => (
       </div>
 
       {/* Call to action button */}
-      <motion.button className="mg-button" disabled {...variants.button}>
+      <motion.button
+        style={{ marginBottom: "10rem" }}
+        className="mg-button"
+        disabled
+        {...variants.button}
+      >
         Coming Soon
       </motion.button>
     </div>

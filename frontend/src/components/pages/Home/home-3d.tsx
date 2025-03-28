@@ -1,6 +1,7 @@
 import Spline from "@splinetool/react-spline";
 import { useState } from "react";
 import "./home-3d.css"; // Import the CSS file
+import useSmoothScroll from "../../utils/useSmoothScroll";
 
 function Home3D() {
   const [isLoading, setIsLoading] = useState(true);
@@ -9,6 +10,8 @@ function Home3D() {
       setIsLoading(false);
     }, 3000);
   };
+  useSmoothScroll(); // Custom hook to enable smooth scrolling
+
   return (
     <div>
       <div className={`loading-screen ${isLoading ? "visible" : "hidden"}`}>

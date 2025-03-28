@@ -1,0 +1,172 @@
+/* Import required fonts */
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:wght@300;400;600&display=swap");
+
+/* Base container styles */
+.barrels-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: transparent;
+  padding: 2rem;
+}
+
+/* Title styles */
+.barrels-title {
+  color: #f9b064;
+  font-family: "Cinzel Decorative", serif;
+  text-shadow: 0 0 7px rgba(249, 176, 100, 0.3);
+  text-align: center;
+  font-size: 3.5rem;
+  margin-bottom: 2rem;
+  animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+  from {
+    text-shadow: 0 0 7px rgba(249, 176, 100, 0.3);
+  }
+  to {
+    text-shadow: 0 0 10px rgba(249, 176, 100, 0.5);
+  }
+}
+
+/* Barrels grid */
+.barrels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Barrel card */
+.barrel-card {
+  background: linear-gradient(
+    to bottom,
+    rgba(12, 12, 12, 0.8),
+    rgba(24, 24, 24, 0.8)
+  );
+  border: 1px solid rgba(249, 176, 100, 0.2);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.barrel-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(249, 176, 100, 0.2);
+}
+
+.barrel-id {
+  color: #f9b064;
+  font-family: "Cinzel Decorative", serif;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.barrel-rarity {
+  color: #fff;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+/* Progress bar */
+.progress-container {
+  margin: 1rem 0;
+}
+
+.progress-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f9b064, #ff8f00);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  color: #fff;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* Selected barrel details */
+.selected-barrel {
+  background: linear-gradient(
+    to bottom,
+    rgba(12, 12, 12, 0.9),
+    rgba(24, 24, 24, 0.9)
+  );
+  border: 1px solid rgba(249, 176, 100, 0.3);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-top: 2rem;
+  box-shadow: 0 0 20px rgba(249, 176, 100, 0.1);
+}
+
+.selected-barrel-title {
+  color: #f9b064;
+  font-family: "Cinzel Decorative", serif;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.barrel-detail {
+  color: #fff;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.action-button {
+  background: linear-gradient(45deg, #f9b064, #ff8f00);
+  color: #000;
+  font-family: "Cinzel Decorative", serif;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(249, 176, 100, 0.3);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .barrels-title {
+    font-size: 2.5rem;
+  }
+
+  .barrels-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .action-button {
+    width: 100%;
+  }
+}

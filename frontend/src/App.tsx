@@ -2,14 +2,16 @@ import "./App.css";
 
 // import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import useTouchScroll from "./components/utils/useTouchScroll";
 
 import Home3d from "./components/pages/Home/home-3d";
 import MiniGames from "./components/pages/MiniGames/mini-games";
-import Barrels from "./components/pages/barrels";
-import Kukulcan from "./components/pages/kukulcan";
+import Barrels from "./components/pages/Barrels/barrels";
+import Kukulcan from "./components/pages/Kukulcan/kukulcan";
 import iconSmall from "./assets/icons/iconGMsmall.png";
 
 function App() {
+  useTouchScroll();
   return (
     <Router>
       <div style={{ position: "relative", width: "100%", height: "100vh" }}>
