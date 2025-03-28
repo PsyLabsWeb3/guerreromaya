@@ -16,16 +16,16 @@ const useTouchScroll = () => {
     const handleTouchEnd = () => {
       const deltaY = touchStartY - touchEndY;
 
-      // Aumentamos la sensibilidad y agregamos aceleración
-      const sensitivity = 3.5;
-      const acceleration = Math.abs(deltaY) > 50 ? 1.5 : 1;
+      // Aumentamos significativamente la sensibilidad y la aceleración
+      const sensitivity = 8.0;
+      const acceleration = Math.abs(deltaY) > 30 ? 2.5 : 1.5;
 
-      if (Math.abs(deltaY) > 10) {
-        // Reducimos el umbral para detectar movimientos más pequeños
+      if (Math.abs(deltaY) > 5) {
+        // Umbral más bajo para mayor respuesta
         window.dispatchEvent(
           new WheelEvent("wheel", {
             deltaY: deltaY * sensitivity * acceleration,
-            deltaMode: 0, // Asegura que el desplazamiento sea en píxeles
+            deltaMode: 0,
           })
         );
       }
