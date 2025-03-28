@@ -1,16 +1,44 @@
 import Spline from "@splinetool/react-spline";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./home-3d.css"; // Import the CSS file
-import useSmoothScroll from "../../utils/useSmoothScroll";
+// import useSmoothScroll from "../../utils/useSmoothScroll";
+// small screen
+// https://prod.spline.design/AlFqFigUYectb5-Q/scene.splinecode
+// big screen
+// https://prod.spline.design/B5p070Rp8cPtBN2x/scene.splinecode
 
 function Home3D() {
   const [isLoading, setIsLoading] = useState(true);
+  const [splineScene, setSplineScene] = useState("");
+
+  useEffect(() => {
+    const handleResize = () => {
+      const smallScreenScene =
+        "https://prod.spline.design/AlFqFigUYectb5-Q/scene.splinecode";
+      const bigScreenScene =
+        "https://prod.spline.design/B5p070Rp8cPtBN2x/scene.splinecode";
+
+      setSplineScene(
+        window.innerWidth < 768 ? smallScreenScene : bigScreenScene
+      );
+    };
+
+    // Establecer la escena inicial
+    handleResize();
+
+    // Agregar listener para cambios de tamaño de ventana
+    window.addEventListener("resize", handleResize);
+
+    // Limpiar listener
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const handleSplineLoad = () => {
     setTimeout(() => {
       setIsLoading(false);
     }, 3000);
   };
-  useSmoothScroll(); // Custom hook to enable smooth scrolling
+  // useSmoothScroll(); // Custom hook to enable smooth scrolling
 
   return (
     <div>
@@ -118,17 +146,19 @@ function Home3D() {
           </div>
         </div>
       </div>
-      <Spline
-        scene="https://prod.spline.design/B5p070Rp8cPtBN2x/scene.splinecode"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-        }}
-        onLoad={handleSplineLoad}
-      />
+      {splineScene && (
+        <Spline
+          scene={splineScene}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+          }}
+          onLoad={handleSplineLoad}
+        />
+      )}
     </div>
   );
 }
