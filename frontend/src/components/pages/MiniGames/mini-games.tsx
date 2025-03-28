@@ -3,7 +3,7 @@ import MG1 from "./mg-1";
 import MG2 from "./mg-2";
 import MG3 from "./mg-3";
 import MG4 from "./mg-4";
-import Footer from "../Footer/footer";
+import Footer from "../Footer/footer.tsx";
 import bgImage from "../../../assets/images/mgbg.png";
 
 const MiniGames: React.FC = () => {

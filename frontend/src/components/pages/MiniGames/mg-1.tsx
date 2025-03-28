@@ -1,7 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { variants } from "../../animations/variants";
-import kukulcanImg from "../../../assets/images/kukulcan.png";
 import Spline from "@splinetool/react-spline";
 
 // Imagen del personaje Kukulcán
