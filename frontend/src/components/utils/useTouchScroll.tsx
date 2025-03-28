@@ -8,7 +8,7 @@ const useTouchScroll = () => {
     let isScrolling = false;
 
     const threshold = 20; // Mínima distancia para activar el scroll
-    const friction = 0.55; // Cuanto menor, más lento desacelera (0.9 es más lento, 0.98 más rápido)
+    const friction = 0.75; // Cuanto menor, más lento desacelera (0.9 es más lento, 0.98 más rápido)
 
     const handleTouchStart = (event: TouchEvent) => {
       touchStartY = event.touches[0].clientY;
