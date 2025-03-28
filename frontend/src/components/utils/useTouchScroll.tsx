@@ -2,62 +2,46 @@ import { useEffect } from "react";
 
 const useTouchScroll = () => {
   useEffect(() => {
-    let touchStartY = 0;
     let lastTouchY = 0;
-    let scrollVelocity = 0;
-    let animationFrameId: number | null = null;
-
-    const updateScroll = () => {
-      if (Math.abs(scrollVelocity) > 0.1) {
-        window.dispatchEvent(
-          new WheelEvent("wheel", {
-            deltaY: scrollVelocity,
-            deltaMode: 0,
-          })
-        );
-
-        // Reducir gradualmente la velocidad
-        scrollVelocity *= 0.95;
-        animationFrameId = requestAnimationFrame(updateScroll);
-      }
-    };
+    let lastDeltaY = 0;
 
     const handleTouchStart = (event: TouchEvent) => {
-      touchStartY = event.touches[0].clientY;
-      lastTouchY = touchStartY;
-      scrollVelocity = 0;
-
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
+      lastTouchY = event.touches[0].clientY;
+      lastDeltaY = 0;
+      event.preventDefault();
     };
 
     const handleTouchMove = (event: TouchEvent) => {
+      event.preventDefault();
       const currentY = event.touches[0].clientY;
-      const deltaY = lastTouchY - currentY;
+      const rawDeltaY = lastTouchY - currentY;
 
-      // Calculamos la velocidad del scroll
-      const sensitivity = 8.0;
-      const acceleration = Math.abs(deltaY) > 15 ? 2.0 : 1.0;
+      // Suavizado del movimiento
+      lastDeltaY = (rawDeltaY + lastDeltaY) / 2;
 
-      scrollVelocity = deltaY * sensitivity * acceleration;
+      // Aplicamos una curva de respuesta no lineal para movimientos más suaves
+      const direction = Math.sign(lastDeltaY);
+      const magnitude = Math.min(Math.abs(lastDeltaY), 25);
+      const smoothDeltaY = direction * Math.pow(magnitude, 1.5);
 
-      if (!animationFrameId) {
-        animationFrameId = requestAnimationFrame(updateScroll);
-      }
+      const sensitivity = 5.0;
+
+      window.scrollBy({
+        top: smoothDeltaY * sensitivity,
+        behavior: "auto",
+      });
 
       lastTouchY = currentY;
     };
 
-    window.addEventListener("touchstart", handleTouchStart);
-    window.addEventListener("touchmove", handleTouchMove);
+    document.addEventListener("touchstart", handleTouchStart, {
+      passive: false,
+    });
+    document.addEventListener("touchmove", handleTouchMove, { passive: false });
 
     return () => {
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchmove", handleTouchMove);
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
+      document.removeEventListener("touchstart", handleTouchStart);
+      document.removeEventListener("touchmove", handleTouchMove);
     };
   }, []);
 };
