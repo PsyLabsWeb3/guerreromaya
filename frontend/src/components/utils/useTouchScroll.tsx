@@ -17,7 +17,7 @@ const useTouchScroll = () => {
       const deltaY = touchStartY - touchEndY;
 
       if (Math.abs(deltaY) > 20) {
-        window.dispatchEvent(new WheelEvent("wheel", { deltaY: deltaY * 2 }));
+        window.dispatchEvent(new WheelEvent("wheel", { deltaY: deltaY * 20 }));
       }
     };
 
