@@ -4,11 +4,11 @@ const useTouchScroll = () => {
   useEffect(() => {
     let touchStartY = 0;
     let touchEndY = 0;
-    let lastDeltaY = 0;
+    let velocity = 0;
     let isScrolling = false;
 
-    const threshold = 30; // Mínima distancia para activar el scroll
-    const smoothFactor = 0.2; // Controla la suavidad del scroll
+    const threshold = 20; // Mínima distancia para activar el scroll
+    const friction = 0.95; // Cuanto menor, más lento desacelera (0.9 es más lento, 0.98 más rápido)
 
     const handleTouchStart = (event: TouchEvent) => {
       touchStartY = event.touches[0].clientY;
@@ -18,24 +18,13 @@ const useTouchScroll = () => {
       touchEndY = event.touches[0].clientY;
     };
 
-    const smoothScroll = (deltaY: number) => {
-      if (!isScrolling) {
-        isScrolling = true;
-
-        const animate = () => {
-          lastDeltaY *= smoothFactor;
-          if (Math.abs(lastDeltaY) > 0.5) {
-            window.dispatchEvent(
-              new WheelEvent("wheel", { deltaY: lastDeltaY })
-            );
-            requestAnimationFrame(animate);
-          } else {
-            isScrolling = false;
-          }
-        };
-
-        lastDeltaY = deltaY;
-        requestAnimationFrame(animate);
+    const animateScroll = () => {
+      if (Math.abs(velocity) > 0.5) {
+        window.dispatchEvent(new WheelEvent("wheel", { deltaY: velocity }));
+        velocity *= friction; // Reduce la velocidad progresivamente
+        requestAnimationFrame(animateScroll);
+      } else {
+        isScrolling = false;
       }
     };
 
@@ -43,7 +32,11 @@ const useTouchScroll = () => {
       const deltaY = touchStartY - touchEndY;
 
       if (Math.abs(deltaY) > threshold) {
-        smoothScroll(deltaY * 2);
+        velocity = deltaY * 2; // Multiplicamos para intensificar el efecto
+        if (!isScrolling) {
+          isScrolling = true;
+          requestAnimationFrame(animateScroll);
+        }
       }
     };
 
