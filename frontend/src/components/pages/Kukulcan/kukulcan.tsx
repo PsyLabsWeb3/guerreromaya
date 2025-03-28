@@ -1,6 +1,6 @@
 import Spline from "@splinetool/react-spline";
 
-import Footer from "../Footer/footer.tsx";
+import Footer from "../footer/footer.tsx";
 
 function Kukulcan() {
   return (
