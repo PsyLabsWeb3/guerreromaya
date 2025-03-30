@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import iconSmall from "../../../src/assets/icons/iconGMsmall.png";
 
@@ -93,10 +93,17 @@ const Navigation = () => {
           </NavLink>
           <NavLink to="/kukulcan">Kukulcan-AI</NavLink>
           <NavLink to="/docs">Docs</NavLink>
+          {isMobile && (
+            <NavLink to="/barrels" special presale>
+              Presale
+            </NavLink>
+          )}
+        </div>
+        {!isMobile && (
           <NavLink to="/barrels" special presale>
             Presale
           </NavLink>
-        </div>
+        )}
       </div>
     </nav>
   );
@@ -112,6 +119,8 @@ interface NavLinkProps {
 
 const NavLink = ({ to, children, special, presale }: NavLinkProps) => {
   const isMobile = window.innerWidth <= 768;
+  const location = useLocation();
+  const isActive = location.pathname === to;
 
   return (
     <Link
@@ -122,8 +131,10 @@ const NavLink = ({ to, children, special, presale }: NavLinkProps) => {
         margin: isMobile ? "1rem 0" : "0 1rem",
         fontFamily: "inter",
         fontSize: presale ? "1.5rem" : "1rem",
-        transition: "color 0.3s ease",
+        transition: "all 0.3s ease",
         display: "block",
+        position: "relative",
+        paddingBottom: "0.25rem",
       }}
       onMouseOver={(e) => {
         e.currentTarget.style.color = "#f9b064";
@@ -133,6 +144,19 @@ const NavLink = ({ to, children, special, presale }: NavLinkProps) => {
       }}
     >
       {children}
+      {isActive && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: "-2px",
+            left: "0",
+            width: "100%",
+            height: "2px",
+            backgroundColor: "#f9b064",
+            transition: "width 0.3s ease",
+          }}
+        />
+      )}
     </Link>
   );
 };

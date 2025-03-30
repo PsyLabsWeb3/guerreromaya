@@ -11,7 +11,13 @@ const Footer: React.FC = () => {
     <footer className="footer">
       <div className="footer-overlay">
         <div className="footer-content">
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
             <img
               style={{ width: "250px" }}
               src={GuerreroMayaLetters}
@@ -19,9 +25,15 @@ const Footer: React.FC = () => {
             />
             <p>Developed by @Psylabs</p>
           </div>
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <img
-              style={{ marginRight: "2rem", width: "70px", height: "auto" }}
+              style={{ width: "70px", height: "auto" }}
               src={Monogram}
               alt="Logo"
             />
