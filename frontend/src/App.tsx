@@ -6,8 +6,10 @@ import useTouchScroll from "./components/utils/useTouchScroll";
 import Navigation from "./components/nav/Navigation";
 import Home3d from "./components/pages/Home/home-3d";
 import MiniGames from "./components/pages/MiniGames/mini-games";
-import Barrels from "./components/pages/Barrels/barrels";
-import Kukulcan from "./components/pages/Kukulcan/kukulcan";
+import Barrels from "./components/pages/barrels";
+import Kukulcan from "./components/pages/kukulcan";
+import MzCal from "./components/pages/mzcal/mzcal";
+import iconSmall from "./assets/icons/iconGMsmall.png";
 
 function App() {
   useTouchScroll();
@@ -20,6 +22,7 @@ function App() {
           <Route path="/mini-games" element={<MiniGames />} />
           <Route path="/barrels" element={<Barrels />} />
           <Route path="/kukulcan" element={<Kukulcan />} />
+          <Route path="/mzcal" element={<MzCal />} />
           {/* Add other routes here */}
         </Routes>
       </div>
