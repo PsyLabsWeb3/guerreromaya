@@ -1,0 +1,199 @@
+/* Main section layout */
+.game-section {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Game1 component specific styles */
+.game1-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.game1-content {
+    max-width: 1200px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* Typography styles */
+.game1-title {
+    font-family: "Cinzel Decorative", serif;
+    font-size: 4rem;
+    color: #F9B064;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 15px rgba(249, 176, 100, 0.3);
+    line-height: 1.2;
+}
+
+.game1-title .subtitle {
+    font-size: 2.5rem;
+    display: block;
+    margin-top: 1rem;
+}
+
+.game1-text {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.5rem;
+    color: white;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+}
+
+/* Button styles */
+.game-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-button {
+    padding: 1rem 2.5rem;
+    font-size: 1.2rem;
+    font-family: "Cinzel Decorative", serif;
+    color: #F9B064;
+    background: transparent;
+    border: 2px solid #F9B064;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.game-button:hover {
+    background: rgba(249, 176, 100, 0.1);
+    box-shadow: 0 0 15px rgba(249, 176, 100, 0.3);
+}
+
+.game-button.secondary {
+    color: white;
+    border-color: white;
+}
+
+.game-button.secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .game1-container {
+        padding: 1rem;
+    }
+
+    .game1-title {
+        font-size: 2.5rem;
+    }
+
+    .game1-title .subtitle {
+        font-size: 1.8rem;
+    }
+
+    .game1-text {
+        font-size: 1.2rem;
+        padding: 0 1rem;
+    }
+
+    .game-buttons {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .game-button {
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+        width: 200px;
+    }
+}
+
+.background-effects {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+/* Efecto de niebla */
+.fog-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        transparent 100%
+    );
+    animation: fogMove 20s linear infinite;
+}
+
+/* Partículas doradas */
+.particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: rgba(249, 176, 100, 0.6);
+    border-radius: 50%;
+    filter: blur(1px);
+    animation: float 6s ease-in-out infinite;
+}
+
+.particle:nth-child(even) {
+    width: 2px;
+    height: 2px;
+    animation-duration: 8s;
+}
+
+@keyframes fogMove {
+    0% {
+        transform: translateX(-50%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-20px) translateX(10px);
+    }
+}
+
+/* Posicionamiento aleatorio de partículas */
+.particle:nth-child(3n) { top: 20%; left: 30%; animation-delay: -2s; }
+.particle:nth-child(3n+1) { top: 40%; left: 60%; animation-delay: -1s; }
+.particle:nth-child(3n+2) { top: 60%; left: 20%; animation-delay: -3s; }
+.particle:nth-child(5n) { top: 30%; left: 80%; animation-delay: -4s; }
+.particle:nth-child(5n+1) { top: 70%; left: 40%; animation-delay: -5s; }
+/* ... más variaciones ... */ 

@@ -8,6 +8,7 @@ import MiniGames from "./components/pages/MiniGames/mini-games";
 import Barrels from "./components/pages/barrels";
 import Kukulcan from "./components/pages/kukulcan";
 import iconSmall from "./assets/icons/iconGMsmall.png";
+import Game from './components/pages/game/game';
 
 function App() {
   return (
@@ -65,6 +66,19 @@ function App() {
                   }}
                 >
                   Mini Games
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/game"
+                  style={{
+                    color: "#fff",
+                    textDecoration: "none",
+                    marginRight: "1rem",
+                    fontFamily: "inter",
+                  }}
+                >
+                  Game
                 </Link>
               </li>
               <li>
@@ -131,6 +145,7 @@ function App() {
           <Route path="/mini-games" element={<MiniGames />} />
           <Route path="/barrels" element={<Barrels />} />
           <Route path="/kukulcan" element={<Kukulcan />} />
+          <Route path="/game" element={<Game />} />
           {/* Add other routes here */}
         </Routes>
       </div>
