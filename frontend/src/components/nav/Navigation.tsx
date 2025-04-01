@@ -49,7 +49,12 @@ const Navigation = () => {
           <img
             src={iconSmall}
             alt="Logo"
-            style={{ width: "30px", height: "30px" }}
+            style={{
+              width: "auto",
+              height: "auto",
+              maxWidth: "2.5rem",
+              maxHeight: "2.5rem",
+            }}
           />
         </Link>
 
