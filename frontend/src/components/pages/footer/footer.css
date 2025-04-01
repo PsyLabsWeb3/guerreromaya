@@ -56,6 +56,10 @@
   opacity: 0.8;
 }
 
+.social-icons-container {
+  margin-right: 2rem;
+}
+
 /* Agregamos media queries para dispositivos móviles */
 @media screen and (max-width: 768px) {
   .footer-content {
@@ -81,5 +85,9 @@
   .copyright {
     margin-top: 1rem;
     text-align: center;
+  }
+
+  .social-icons-container {
+    margin-right: 0;
   }
 }

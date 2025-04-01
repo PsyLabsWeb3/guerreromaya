@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
               alt="Logo"
             />
           </div>
-          <div style={{ marginRight: "2rem" }}>
+          <div className="social-icons-container">
             <div className="social-icons">
               <a
                 href="https://discord.gg/KGtcCJXd"
