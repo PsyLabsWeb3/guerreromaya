@@ -1,995 +1,1072 @@
 /* Import required fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:wght@300;400;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:wght@300;400;600&display=swap");
 
 /* Base reset and container styles */
 .MzCal {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 100vw;
-    overflow-x: hidden;
-    background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: transparent;
 }
 
 /* Section base configuration */
 .mzcal-section {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 4rem 2rem;
-    box-sizing: border-box;
-    overflow: hidden;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 2rem;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  position: relative;
 }
 
 /* Title styles (h2) */
 .mzcal-title {
-    color: #F9B064;
-    font-family: "Cinzel Decorative", serif;
-    text-shadow: 0 0 7px rgba(249, 176, 100, 0.3);
-    text-align: center;
-    font-size: 3.5rem;
-    margin-bottom: 2rem;
-    animation: titleGlow 3s ease-in-out infinite alternate;
+  color: #f9b064;
+  font-family: "Cinzel Decorative", serif;
+  text-shadow: 0 0 7px rgba(249, 176, 100, 0.3);
+  text-align: center;
+  font-size: 3.5rem;
+  margin-bottom: 2rem;
+  animation: titleGlow 3s ease-in-out infinite alternate;
 }
 
 /* Subtitle styles (h3) */
 .mzcal-subtitle {
-    font-family: "Cinzel Decorative", serif;
-    font-size: 2.5rem;
-    color: #F9B064;
-    text-align: center;
-    margin-bottom: 2rem;
-    text-shadow: 0 0 7px rgba(249, 176, 100, 0.3);
+  font-family: "Cinzel Decorative", serif;
+  font-size: 2.5rem;
+  color: #f9b064;
+  text-align: center;
+  margin-bottom: 2rem;
+  text-shadow: 0 0 7px rgba(249, 176, 100, 0.3);
 }
 
 /* Text content styles */
 .mzcal-text {
-    font-family: "Cormorant Garamond", serif;
-    font-size: 1.2rem;
-    line-height: 1.6;
-    color: white;
-    max-width: 800px;
-    margin: 0 auto;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: white;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 /* Text highlight styles (h3) */
 .text-highlight {
-    color: #F9B064;
-    font-size: 2rem;
-    font-family: "Cinzel Decorative", serif;
-    margin-bottom: 1rem;
-    text-align: left;
+  color: #f9b064;
+  font-size: 2rem;
+  font-family: "Cinzel Decorative", serif;
+  margin-bottom: 1rem;
+  text-align: left;
 }
 
 /* Dark sections wrapper */
 .mzcal-dark-section-wrapper {
-    background-color: #000;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    position: relative;
+  background-color: #000;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 /* Card styles */
 .step-card {
-    perspective: 1000px;
-    width: 15rem;
-    height: 12rem;
-    position: relative;
-    transform-style: preserve-3d;
-    flex: 0 0 auto;
+  perspective: 1000px;
+  width: 15rem;
+  height: 12rem;
+  position: relative;
+  transform-style: preserve-3d;
+  flex: 0 0 auto;
 }
 
 .step-card-inner {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-style: preserve-3d;
-    cursor: pointer;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  cursor: pointer;
 }
 
 .step-card:hover .step-card-inner {
-    transform: rotateY(180deg);
+  transform: rotateY(180deg);
 }
 
 .step-card-front,
 .step-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    background: linear-gradient(to bottom, rgba(12, 12, 12, 0.8), rgba(24, 24, 24, 0.8));
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 2px solid rgba(147, 104, 59, 0.27);
-    border-radius: 4px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background: linear-gradient(
+    to bottom,
+    rgba(12, 12, 12, 0.8),
+    rgba(24, 24, 24, 0.8)
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid rgba(147, 104, 59, 0.27);
+  border-radius: 4px;
 }
 
 .step-card-back {
-    transform: rotateY(180deg);
+  transform: rotateY(180deg);
 }
 
 /* Button styles */
 .mzcal-button {
-    margin-top: 3rem;
-    padding: 16px 32px;
-    font-size: 1.4rem;
-    font-family: "Cormorant Garamond", serif;
-    color: #F9B064;
-    background-color: black;
-    border: 2px solid #F9B064;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  margin-top: 3rem;
+  padding: 16px 32px;
+  font-size: 1.4rem;
+  font-family: "Cormorant Garamond", serif;
+  color: #f9b064;
+  background-color: black;
+  border: 2px solid #f9b064;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .mzcal-button:not(:disabled):hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(249, 176, 100, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(249, 176, 100, 0.2);
 }
 
 /* Animations */
 @keyframes titleGlow {
-    from {
-        text-shadow: 0 0 7px rgba(249, 176, 100, 0.3);
-    }
-    to {
-        text-shadow: 0 0 10px rgba(249, 176, 100, 0.5);
-    }
+  from {
+    text-shadow: 0 0 7px rgba(249, 176, 100, 0.3);
+  }
+  to {
+    text-shadow: 0 0 10px rgba(249, 176, 100, 0.5);
+  }
 }
 
 /* Responsive styles */
 @media (max-width: 1200px) {
-    .mzcal-title {
-        font-size: clamp(2.2rem, 4vw, 3.5rem);
-    }
-    
-    .mzcal-subtitle {
-        font-size: clamp(1.8rem, 3vw, 2.5rem);
-    }
-    
-    .text-highlight {
-        font-size: clamp(1.5rem, 2.5vw, 2rem);
-    }
+  .mzcal-title {
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+  }
+
+  .mzcal-subtitle {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+  }
+
+  .text-highlight {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+  }
 }
 
 @media (max-width: 768px) {
-    .mzcal-section {
-        padding: 2rem 1rem;
-    }
-    
-    .mzcal-text {
-        text-align: center;
-        padding: 0 1rem;
-    }
-    
-    .step-card {
-        width: 13rem;
-        height: 10rem;
-    }
+  .mzcal-section {
+    padding: 2rem 1rem;
+  }
+
+  .mzcal-text {
+    text-align: center;
+    padding: 0 1rem;
+  }
+
+  .step-card {
+    width: 13rem;
+    height: 10rem;
+  }
 }
 
 /* Table styles */
 .mzcal-table {
-    width: 100%;
-    max-width: 800px;
-    margin: 2rem auto;
-    background: linear-gradient(to bottom, rgba(12, 12, 12, 0.8), rgba(24, 24, 24, 0.8));
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 2px solid rgba(147, 104, 59, 0.27);
-    border-radius: 4px;
-    overflow: hidden;
+  width: 100%;
+  max-width: 800px;
+  margin: 2rem auto;
+  background: linear-gradient(
+    to bottom,
+    rgba(12, 12, 12, 0.8),
+    rgba(24, 24, 24, 0.8)
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid rgba(147, 104, 59, 0.27);
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .mzcal-table-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 1rem;
-    background-color: rgba(249, 176, 100, 0.1);
-    border-bottom: 2px solid rgba(147, 104, 59, 0.27);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 1rem;
+  background-color: rgba(249, 176, 100, 0.1);
+  border-bottom: 2px solid rgba(147, 104, 59, 0.27);
 }
 
 .mzcal-table-title {
-    font-family: "Cinzel Decorative", serif;
-    color: #F9B064;
-    font-size: 1.5rem;
-    margin: 0;
-    text-align: center;
+  font-family: "Cinzel Decorative", serif;
+  color: #f9b064;
+  font-size: 1.5rem;
+  margin: 0;
+  text-align: center;
 }
 
 .mzcal-table-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 1rem;
-    border-bottom: 1px solid rgba(147, 104, 59, 0.27);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(147, 104, 59, 0.27);
 }
 
 .mzcal-table-row:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .mzcal-text.bold {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .mzcal-table {
-        margin: 1rem;
-    }
-    
-    .mzcal-table-title {
-        font-size: 1.2rem;
-    }
-    
-    .mzcal-text {
-        font-size: 1rem;
-    }
+  .mzcal-table {
+    margin: 1rem;
+  }
+
+  .mzcal-table-title {
+    font-size: 1.2rem;
+  }
+
+  .mzcal-text {
+    font-size: 1rem;
+  }
 }
 
 /* Utility scroll section styles */
 .mzcal-utility-scroll {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    margin-top: 4rem;
-    position: relative;
-    max-width: 1200px;
-    margin: 4rem auto 0;
-    min-height: 600px;
-    padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  margin-top: 4rem;
+  position: relative;
+  max-width: 1200px;
+  margin: 4rem auto 0;
+  min-height: 600px;
+  padding: 2rem;
 }
 
 .mzcal-utility-list {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    position: sticky;
-    top: 20vh;
-    height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: sticky;
+  top: 20vh;
+  height: fit-content;
 }
 
 .mzcal-utility-item {
-    font-family: "Cinzel Decorative", serif;
-    color: rgba(249, 176, 100, 0.5);
-    font-size: 1.2rem;
-    padding: 1rem 2rem;
-    border-left: 2px solid transparent;
-    transition: all 0.3s ease;
-    opacity: 0.5;
-    cursor: pointer;
-    text-align: left;
+  font-family: "Cinzel Decorative", serif;
+  color: rgba(249, 176, 100, 0.5);
+  font-size: 1.2rem;
+  padding: 1rem 2rem;
+  border-left: 2px solid transparent;
+  transition: all 0.3s ease;
+  opacity: 0.5;
+  cursor: pointer;
+  text-align: left;
 }
 
 .mzcal-utility-item.active {
-    color: #F9B064;
-    border-left: 2px solid #F9B064;
-    background: linear-gradient(90deg, rgba(249, 176, 100, 0.1) 0%, transparent 100%);
-    opacity: 1;
+  color: #f9b064;
+  border-left: 2px solid #f9b064;
+  background: linear-gradient(
+    90deg,
+    rgba(249, 176, 100, 0.1) 0%,
+    transparent 100%
+  );
+  opacity: 1;
 }
 
 .mzcal-utility-content {
-    min-height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: sticky;
-    top: 20vh;
-    height: 100%;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: sticky;
+  top: 20vh;
+  height: 100%;
 }
 
 .mzcal-utility-description {
-    font-family: "Cormorant Garamond", serif;
-    color: white;
-    font-size: 1.2rem;
-    line-height: 1.6;
-    transition: opacity 0.3s ease;
-    padding: 1rem;
-    text-align: center;
-    max-width: 500px;
+  font-family: "Cormorant Garamond", serif;
+  color: white;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  transition: opacity 0.3s ease;
+  padding: 1rem;
+  text-align: center;
+  max-width: 500px;
 }
 
 /* Responsive adjustments for utility section */
 @media (max-width: 768px) {
-    .mzcal-utility-scroll {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-        min-height: auto;
-    }
+  .mzcal-utility-scroll {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    min-height: auto;
+  }
 
-    .mzcal-utility-list {
-        position: relative;
-        top: 0;
-    }
+  .mzcal-utility-list {
+    position: relative;
+    top: 0;
+  }
 
-    .mzcal-utility-content {
-        position: relative;
-        top: 0;
-    }
+  .mzcal-utility-content {
+    position: relative;
+    top: 0;
+  }
 
-    .mzcal-utility-item {
-        text-align: left;
-        border-left: none;
-        border-bottom: 2px solid transparent;
-        padding: 1rem;
-    }
+  .mzcal-utility-item {
+    text-align: left;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    padding: 1rem;
+  }
 
-    .mzcal-utility-item.active {
-        border-left: none;
-        border-bottom: 2px solid #F9B064;
-        background: linear-gradient(180deg, rgba(249, 176, 100, 0.1) 0%, transparent 100%);
-    }
+  .mzcal-utility-item.active {
+    border-left: none;
+    border-bottom: 2px solid #f9b064;
+    background: linear-gradient(
+      180deg,
+      rgba(249, 176, 100, 0.1) 0%,
+      transparent 100%
+    );
+  }
 }
 
 .mzcal6-container {
-    padding: 4rem 2rem;
-    background: #000;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  padding: 4rem 2rem;
+  background: #000;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .mzcal6-content {
-    max-width: 1200px;
-    margin: 0 auto;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .mzcal6-title.section-title {
-    font-family: "Cinzel Decorative", serif;
-    font-size: 4rem;
-    color: #F9B064;
-    margin-bottom: 2rem;
-    text-align: center;
-    text-transform: uppercase;
-    text-shadow: 0 0 7px rgba(249, 176, 100, 0.3);
-    animation: titleGlow 3s ease-in-out infinite alternate;
+  font-family: "Cinzel Decorative", serif;
+  font-size: 4rem;
+  color: #f9b064;
+  margin-bottom: 2rem;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 0 0 7px rgba(249, 176, 100, 0.3);
+  animation: titleGlow 3s ease-in-out infinite alternate;
 }
 
 .mzcal6-description {
-    font-family: "Cormorant Garamond", serif;
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto 4rem;
-    color: white;
-    font-size: 1.2rem;
-    line-height: 1.6;
+  font-family: "Cormorant Garamond", serif;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 4rem;
+  color: white;
+  font-size: 1.2rem;
+  line-height: 1.6;
 }
 
 .mzcal6-cards-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-    padding: 1rem;
-    perspective: 2000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem;
+  perspective: 2000px;
 }
 
 .mzcal6-cards-navigation {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    z-index: 10;
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  z-index: 10;
 }
 
 .card-nav-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgba(249, 176, 100, 0.3);
-    cursor: pointer;
-    transition: all 0.3s ease;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(249, 176, 100, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .card-nav-dot.active {
-    background: #F9B064;
-    transform: scale(1.2);
+  background: #f9b064;
+  transform: scale(1.2);
 }
 
 .mzcal6-cards-stack {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    perspective: 1000px;
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
 }
 
 .mzcal6-card {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: linear-gradient(to bottom, rgba(12, 12, 12, 0.95), rgba(24, 24, 24, 0.95));
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 2px solid rgba(147, 104, 59, 0.27);
-    border-radius: 4px;
-    padding: 2rem;
-    transform-origin: top center;
-    cursor: pointer;
-    will-change: transform, opacity;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(
+    to bottom,
+    rgba(12, 12, 12, 0.95),
+    rgba(24, 24, 24, 0.95)
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid rgba(147, 104, 59, 0.27);
+  border-radius: 4px;
+  padding: 2rem;
+  transform-origin: top center;
+  cursor: pointer;
+  will-change: transform, opacity;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .mzcal6-card:not(.active) {
-    pointer-events: none;
+  pointer-events: none;
 }
 
 .mzcal6-card.active {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    border-color: #F9B064;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  border-color: #f9b064;
 }
 
 .mzcal6-cards-navigation {
-    position: relative;
-    z-index: 10;
-    margin-bottom: 3rem;
+  position: relative;
+  z-index: 10;
+  margin-bottom: 3rem;
 }
 
 /* Ajuste para el efecto de hover solo en la carta activa */
 .mzcal6-card.active:hover {
-    transform: translateY(-5px);
-    transition: transform 0.3s ease;
+  transform: translateY(-5px);
+  transition: transform 0.3s ease;
 }
 
 .highlight-card {
-    position: relative;
-    margin-top: 2rem;
-    width: 100%;
-    max-width: 600px;
+  position: relative;
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 600px;
 }
 
 .card-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1.5rem;
-    display: block;
-    color: #F9B064;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  display: block;
+  color: #f9b064;
 }
 
 .card-title {
-    font-family: "Cinzel Decorative", serif;
-    color: #F9B064;
-    margin-bottom: 1rem;
-    font-size: 1.8rem;
-    text-transform: uppercase;
-    text-shadow: 0 0 7px rgba(249, 176, 100, 0.3);
+  font-family: "Cinzel Decorative", serif;
+  color: #f9b064;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  text-shadow: 0 0 7px rgba(249, 176, 100, 0.3);
 }
 
 .card-text {
-    font-family: "Cormorant Garamond", serif;
-    color: white;
-    line-height: 1.6;
-    font-size: 1.2rem;
+  font-family: "Cormorant Garamond", serif;
+  color: white;
+  line-height: 1.6;
+  font-size: 1.2rem;
 }
 
 .highlight-card p {
-    font-size: 1.3rem;
-    margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
 }
 
 .mzcal6-buttons {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-    margin-top: 2rem;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 2rem;
 }
 
 .mzcal-button {
-    font-family: "Cormorant Garamond", serif;
-    padding: 16px 32px;
-    font-size: 1.4rem;
-    color: #F9B064;
-    background-color: transparent;
-    border: 2px solid #F9B064;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
+  font-family: "Cormorant Garamond", serif;
+  padding: 16px 32px;
+  font-size: 1.4rem;
+  color: #f9b064;
+  background-color: transparent;
+  border: 2px solid #f9b064;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
 }
 
 .mzcal-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(249, 176, 100, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(249, 176, 100, 0.2);
 }
 
 .mzcal-button.primary {
-    background: #F9B064;
-    color: black;
+  background: #f9b064;
+  color: black;
 }
 
 .mzcal-button.primary:hover {
-    background: transparent;
-    color: #F9B064;
+  background: transparent;
+  color: #f9b064;
 }
 
 @media (max-width: 768px) {
-    .mzcal6-container {
-        padding: 3rem 1rem;
-    }
+  .mzcal6-container {
+    padding: 3rem 1rem;
+  }
 
-    .mzcal6-title.section-title {
-        font-size: clamp(2.2rem, 4vw, 3.5rem);
-    }
+  .mzcal6-title.section-title {
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+  }
 
-    .mzcal6-cards-container {
-        padding: 0;
-    }
+  .mzcal6-cards-container {
+    padding: 0;
+  }
 
-    .mzcal6-cards-navigation {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
+  .mzcal6-cards-navigation {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 
-    .card-nav-dot {
-        width: 8px;
-        height: 8px;
-    }
+  .card-nav-dot {
+    width: 8px;
+    height: 8px;
+  }
 
-    .mzcal6-cards-stack {
-        height: 200px;
-    }
+  .mzcal6-cards-stack {
+    height: 200px;
+  }
 
-    .mzcal6-buttons {
-        flex-direction: column;
-        gap: 1rem;
-    }
+  .mzcal6-buttons {
+    flex-direction: column;
+    gap: 1rem;
+  }
 
-    .mzcal-button {
-        width: 100%;
-    }
+  .mzcal-button {
+    width: 100%;
+  }
 
-    .card-title {
-        font-size: 1.5rem;
-    }
+  .card-title {
+    font-size: 1.5rem;
+  }
 }
 
 .visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .gm-icon {
-    width: 40px; /* Ajusta según el tamaño deseado */
-    height: auto;
-    margin-bottom: 1rem;
-    filter: drop-shadow(0 0 5px rgba(249, 176, 100, 0.3));
+  width: 40px; /* Ajusta según el tamaño deseado */
+  height: auto;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 5px rgba(249, 176, 100, 0.3));
 }
 
 .mzcal6-card {
-    /* ... existing styles ... */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  /* ... existing styles ... */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .card-title {
-    margin-top: 0.5rem; /* Ajusta el espacio entre el icono y el título */
-    /* ... resto de los estilos existentes ... */
+  margin-top: 0.5rem; /* Ajusta el espacio entre el icono y el título */
+  /* ... resto de los estilos existentes ... */
 }
 
 /* Presale Banner Styles */
 .presale-banner {
-    width: 100%;
-    max-width: 800px;
-    margin: 3rem auto;
-    padding: 2.5rem;
-    background: linear-gradient(
-        to right,
-        rgba(12, 12, 12, 0.95),
-        rgba(24, 24, 24, 0.95)
-    );
-    border: 2px solid rgba(249, 176, 100, 0.3);
-    border-radius: 4px;
-    position: relative;
-    overflow: hidden;
+  width: 100%;
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 2.5rem;
+  background: linear-gradient(
+    to right,
+    rgba(12, 12, 12, 0.95),
+    rgba(24, 24, 24, 0.95)
+  );
+  border: 2px solid rgba(249, 176, 100, 0.3);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
 }
 
 .presale-banner::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        #F9B064,
-        transparent
-    );
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #f9b064, transparent);
 }
 
 .presale-banner-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-    position: relative;
-    z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 .presale-title {
-    font-family: "Cinzel Decorative", serif;
-    color: #F9B064;
-    font-size: 1.8rem;
-    text-transform: uppercase;
-    text-shadow: 0 0 7px rgba(249, 176, 100, 0.3);
-    margin: 0;
+  font-family: "Cinzel Decorative", serif;
+  color: #f9b064;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  text-shadow: 0 0 7px rgba(249, 176, 100, 0.3);
+  margin: 0;
 }
 
 .presale-amount {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
 }
 
 .amount-number {
-    font-family: "Cinzel Decorative", serif;
-    font-size: 3.5rem;
-    color: #F9B064;
-    font-weight: 700;
-    text-shadow: 0 0 10px rgba(249, 176, 100, 0.4);
+  font-family: "Cinzel Decorative", serif;
+  font-size: 3.5rem;
+  color: #f9b064;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(249, 176, 100, 0.4);
 }
 
 .token-symbol {
-    font-family: "Cormorant Garamond", serif;
-    font-size: 2.5rem;
-    color: white;
-    font-weight: 600;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2.5rem;
+  color: white;
+  font-weight: 600;
 }
 
 .presale-price {
-    font-family: "Cormorant Garamond", serif;
-    font-size: 1.4rem;
-    color: rgba(255, 255, 255, 0.8);
-    font-style: italic;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.4rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .presale-banner {
-        padding: 2rem 1rem;
-        margin: 2rem auto;
-    }
+  .presale-banner {
+    padding: 2rem 1rem;
+    margin: 2rem auto;
+  }
 
-    .presale-title {
-        font-size: 1.5rem;
-    }
+  .presale-title {
+    font-size: 1.5rem;
+  }
 
-    .amount-number {
-        font-size: 2.5rem;
-    }
+  .amount-number {
+    font-size: 2.5rem;
+  }
 
-    .token-symbol {
-        font-size: 2rem;
-    }
+  .token-symbol {
+    font-size: 2rem;
+  }
 
-    .presale-price {
-        font-size: 1.2rem;
-    }
+  .presale-price {
+    font-size: 1.2rem;
+  }
 }
 
 .presale-allocation-strip {
-    width: 100%;
-    position: relative;
-    background: linear-gradient(90deg, 
-        rgba(0, 0, 0, 0) 0%,
-        rgba(249, 176, 100, 0.1) 50%,
-        rgba(0, 0, 0, 0) 100%
-    );
-    margin: 4rem 0;
-    padding: 2rem 0;
-    border-top: 1px solid rgba(249, 176, 100, 0.2);
-    border-bottom: 1px solid rgba(249, 176, 100, 0.2);
-    text-align: right;
+  width: 100%;
+  position: relative;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(249, 176, 100, 0.1) 50%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  margin: 4rem 0;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(249, 176, 100, 0.2);
+  border-bottom: 1px solid rgba(249, 176, 100, 0.2);
+  text-align: right;
 }
 
 .presale-allocation-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 .allocation-title {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
-.allocation-amount, .allocation-price {
-    width: 100%;
-    text-align: center;
+.allocation-amount,
+.allocation-price {
+  width: 100%;
+  text-align: center;
 }
 
 .allocation-amount .amount {
-    font-family: "Cinzel Decorative", serif;
-    color: #F9B064;
-    font-size: 2.5rem;
+  font-family: "Cinzel Decorative", serif;
+  color: #f9b064;
+  font-size: 2.5rem;
 }
 
 .allocation-amount .token {
-    color: white;
-    font-family: "Cormorant Garamond", serif;
-    font-size: 2rem;
+  color: white;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2rem;
 }
 
 @media (max-width: 768px) {
-    .presale-allocation-content {
-        align-items: center;
-        text-align: center;
-    }
-    
-    .allocation-price {
-        text-align: center;
-    }
+  .presale-allocation-content {
+    align-items: center;
+    text-align: center;
+  }
+
+  .allocation-price {
+    text-align: center;
+  }
 }
 
 .mzcal7-container {
-    position: relative;
-    min-height: 100vh;
-    padding: 6rem 2rem;
-    background: #000;
-    overflow: hidden;
+  position: relative;
+  min-height: 100vh;
+  padding: 6rem 2rem;
+  background: #000;
+  overflow: hidden;
 }
 
 .mzcal7-background-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.7)),
-        url('path-to-your-texture.png');
-    opacity: 0.15;
-    pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7)),
+    url("path-to-your-texture.png");
+  opacity: 0.15;
+  pointer-events: none;
 }
 
 .mzcal7-content {
-    position: relative;
-    max-width: 1200px;
-    margin: 0 auto;
-    z-index: 1;
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  z-index: 1;
 }
 
 .mzcal7-title {
-    font-family: "Cinzel Decorative", serif;
-    font-size: 4rem;
-    color: #F9B064;
-    text-align: center;
-    margin-bottom: 3rem;
-    text-shadow: 0 0 15px rgba(249, 176, 100, 0.3);
+  font-family: "Cinzel Decorative", serif;
+  font-size: 4rem;
+  color: #f9b064;
+  text-align: center;
+  margin-bottom: 3rem;
+  text-shadow: 0 0 15px rgba(249, 176, 100, 0.3);
 }
 
 .mzcal7-intro {
-    max-width: 800px;
-    margin: 0 auto 4rem;
-    text-align: center;
-    font-family: "Cormorant Garamond", serif;
-    color: white;
-    font-size: 1.3rem;
-    line-height: 1.8;
+  max-width: 800px;
+  margin: 0 auto 4rem;
+  text-align: center;
+  font-family: "Cormorant Garamond", serif;
+  color: white;
+  font-size: 1.3rem;
+  line-height: 1.8;
 }
 
 .mzcal7-intro .highlight {
-    color: #F9B064;
-    font-size: 1.5rem;
-    font-weight: 600;
+  color: #f9b064;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .mzcal7-subtitle {
-    font-family: "Cinzel Decorative", serif;
-    color: #F9B064;
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 3rem;
+  font-family: "Cinzel Decorative", serif;
+  color: #f9b064;
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 3rem;
 }
 
 .mzcal7-benefits-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
 }
 
 .benefit-card {
-    background: linear-gradient(145deg, rgba(20,20,20,0.9), rgba(30,30,30,0.9));
-    border: 1px solid rgba(249, 176, 100, 0.3);
-    border-radius: 8px;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    transition: all 0.3s ease;
+  background: linear-gradient(
+    145deg,
+    rgba(20, 20, 20, 0.9),
+    rgba(30, 30, 30, 0.9)
+  );
+  border: 1px solid rgba(249, 176, 100, 0.3);
+  border-radius: 8px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.3s ease;
 }
 
 .benefit-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 .benefit-title {
-    font-family: "Cinzel Decorative", serif;
-    color: #F9B064;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+  font-family: "Cinzel Decorative", serif;
+  color: #f9b064;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .benefit-text {
-    font-family: "Cormorant Garamond", serif;
-    color: white;
-    font-size: 1.1rem;
-    line-height: 1.6;
+  font-family: "Cormorant Garamond", serif;
+  color: white;
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
 
 @media (max-width: 768px) {
-    .mzcal7-container {
-        padding: 4rem 1rem;
-    }
+  .mzcal7-container {
+    padding: 4rem 1rem;
+  }
 
-    .mzcal7-title {
-        font-size: 2.5rem;
-    }
+  .mzcal7-title {
+    font-size: 2.5rem;
+  }
 
-    .mzcal7-intro {
-        font-size: 1.1rem;
-    }
+  .mzcal7-intro {
+    font-size: 1.1rem;
+  }
 
-    .mzcal7-subtitle {
-        font-size: 2rem;
-    }
+  .mzcal7-subtitle {
+    font-size: 2rem;
+  }
 
-    .mzcal7-benefits-grid {
-        grid-template-columns: 1fr;
-    }
+  .mzcal7-benefits-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .mzcal8-container {
-    padding: 6rem 2rem;
-    background: #000;
-    min-height: 100vh;
+  padding: 6rem 2rem;
+  background: #000;
+  min-height: 100vh;
 }
 
 .mzcal8-content {
-    max-width: 1000px;
-    margin: 0 auto;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .mzcal8-title {
-    font-family: "Cinzel Decorative", serif;
-    font-size: 4rem;
-    color: #F9B064;
-    text-align: center;
-    margin-bottom: 4rem;
-    text-shadow: 0 0 15px rgba(249, 176, 100, 0.3);
+  font-family: "Cinzel Decorative", serif;
+  font-size: 4rem;
+  color: #f9b064;
+  text-align: center;
+  margin-bottom: 4rem;
+  text-shadow: 0 0 15px rgba(249, 176, 100, 0.3);
 }
 
 .mzcal8-faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .faq-item {
-    background: linear-gradient(145deg, rgba(20,20,20,0.9), rgba(30,30,30,0.9));
-    border: 1px solid rgba(249, 176, 100, 0.3);
-    border-radius: 8px;
-    overflow: hidden;
+  background: linear-gradient(
+    145deg,
+    rgba(20, 20, 20, 0.9),
+    rgba(30, 30, 30, 0.9)
+  );
+  border: 1px solid rgba(249, 176, 100, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .faq-question {
-    padding: 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .faq-question:hover {
-    background: rgba(249, 176, 100, 0.1);
+  background: rgba(249, 176, 100, 0.1);
 }
 
 .faq-question.active {
-    border-bottom: 1px solid rgba(249, 176, 100, 0.3);
+  border-bottom: 1px solid rgba(249, 176, 100, 0.3);
 }
 
 .faq-question h3 {
-    font-family: "Cinzel Decorative", serif;
-    color: #F9B064;
-    font-size: 1.2rem;
-    margin: 0;
+  font-family: "Cinzel Decorative", serif;
+  color: #f9b064;
+  font-size: 1.2rem;
+  margin: 0;
 }
 
 .faq-question .arrow {
-    color: #F9B064;
-    font-size: 0.8rem;
-    transition: transform 0.3s ease;
+  color: #f9b064;
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
 }
 
 .faq-question.active .arrow {
-    transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .faq-answer {
-    padding: 1.5rem;
-    font-family: "Cormorant Garamond", serif;
-    color: white;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    background: rgba(0, 0, 0, 0.3);
+  padding: 1.5rem;
+  font-family: "Cormorant Garamond", serif;
+  color: white;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .faq-answer ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .faq-answer li {
-    margin-bottom: 0.5rem;
-    padding-left: 1.5rem;
-    position: relative;
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  position: relative;
 }
 
 .faq-answer li:before {
-    content: "•";
-    color: #F9B064;
-    position: absolute;
-    left: 0;
+  content: "•";
+  color: #f9b064;
+  position: absolute;
+  left: 0;
 }
 
 @media (max-width: 768px) {
-    .mzcal8-container {
-        padding: 4rem 1rem;
-    }
+  .mzcal8-container {
+    padding: 4rem 1rem;
+  }
 
-    .mzcal8-title {
-        font-size: 2.5rem;
-        margin-bottom: 2rem;
-    }
+  .mzcal8-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
 
-    .faq-question h3 {
-        font-size: 1rem;
-    }
-} 
+  .faq-question h3 {
+    font-size: 1rem;
+  }
+}
+
+.mzcal-container-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 2rem;
+}
+
+.mzcal-container-flex > div:first-child {
+  flex: 1;
+  max-width: 50%;
+}
+
+.spline-section {
+  flex: 1;
+  max-width: 50%;
+  height: 40rem;
+  background-color: transparent;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .mzcal-container-flex {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .mzcal-container-flex > div:first-child,
+  .spline-section {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .spline-section {
+    height: 30rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .spline-section > div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

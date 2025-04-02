@@ -1,32 +1,38 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { mzcalVariants } from '../../animations/mzcal-variants';
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { mzcalVariants } from "../../animations/mzcal-variants";
 
 const utilityData = [
   {
     title: "Game Transactions",
-    description: "Buy, sell, and upgrade ERC-1155 NFTs (warriors, artifacts, and power-ups)."
+    description:
+      "Buy, sell, and upgrade ERC-1155 NFTs (warriors, artifacts, and power-ups).",
   },
   {
     title: "Mini-Games & SocialFi Rewards",
-    description: "Earn MZCAL through daily quests, leaderboards, and AI-driven campaigns."
+    description:
+      "Earn MZCAL through daily quests, leaderboards, and AI-driven campaigns.",
   },
   {
     title: "Marketplace & Trading",
-    description: "The main currency for NFT trading, in-game economy, and RWA mezcal investments."
+    description:
+      "The main currency for NFT trading, in-game economy, and RWA mezcal investments.",
   },
   {
     title: "Staking & Liquidity",
-    description: "Earn rewards by providing liquidity and staking MZCAL in ecosystem pools."
+    description:
+      "Earn rewards by providing liquidity and staking MZCAL in ecosystem pools.",
   },
   {
     title: "Burn Mechanisms",
-    description: "Used for NFT enhancements, premium weapons, and exclusive assets, maintaining scarcity."
+    description:
+      "Used for NFT enhancements, premium weapons, and exclusive assets, maintaining scarcity.",
   },
   {
     title: "Real-World Utility",
-    description: "Tokenized mezcal barrels as fractionalized investments with on-chain liquidity options."
-  }
+    description:
+      "Tokenized mezcal barrels as fractionalized investments with on-chain liquidity options.",
+  },
 ];
 
 const MzCal3: React.FC = () => {
@@ -45,13 +51,11 @@ const MzCal3: React.FC = () => {
         // Si la sección está visible
         if (sectionTop < windowHeight && sectionTop > -sectionHeight) {
           // Calculamos la posición relativa dentro de la sección
-          const progress = Math.abs(sectionTop - windowHeight/2) / (sectionHeight/2);
+          const progress =
+            Math.abs(sectionTop - windowHeight / 2) / (sectionHeight / 2);
           const totalItems = utilityData.length - 1;
           const newIndex = Math.min(
-            Math.max(
-              Math.floor(progress * totalItems),
-              0
-            ),
+            Math.max(Math.floor(progress * totalItems), 0),
             totalItems
           );
 
@@ -62,8 +66,8 @@ const MzCal3: React.FC = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [activeIndex]);
 
   const handleItemClick = (index: number) => {
@@ -71,8 +75,14 @@ const MzCal3: React.FC = () => {
   };
 
   return (
-    <motion.section 
+    <motion.section
       className="mzcal-section"
+      style={{
+        background:
+          "url('/calendarBg2.png'), linear-gradient(-45deg,rgba(0, 13, 26, 0.82),rgb(11, 11, 11))",
+        backgroundSize: "cover, cover",
+        backgroundBlendMode: "overlay",
+      }}
       variants={mzcalVariants.section}
       initial="initial"
       animate="animate"
@@ -82,21 +92,24 @@ const MzCal3: React.FC = () => {
       <div className="mzcal-container">
         <h3 className="mzcal-subtitle">Utility</h3>
         <p className="mzcal-text">
-          MZCAL is the core currency of Guerrero Maya, enabling in-game transactions, marketplace trading, and real-world asset investments
+          MZCAL is the core currency of Guerrero Maya, enabling in-game
+          transactions, marketplace trading, and real-world asset investments
         </p>
-        
-        <motion.div 
+
+        <motion.div
           className="mzcal-utility-scroll"
           variants={mzcalVariants.utility.container}
         >
-          <motion.div 
+          <motion.div
             className="mzcal-utility-list"
             variants={mzcalVariants.utility.list}
           >
             {utilityData.map((item, index) => (
-              <motion.div 
-                key={index} 
-                className={`mzcal-utility-item ${index === activeIndex ? 'active' : ''}`}
+              <motion.div
+                key={index}
+                className={`mzcal-utility-item ${
+                  index === activeIndex ? "active" : ""
+                }`}
                 variants={mzcalVariants.utility.item}
                 whileHover="hover"
                 onClick={() => handleItemClick(index)}
@@ -105,10 +118,10 @@ const MzCal3: React.FC = () => {
               </motion.div>
             ))}
           </motion.div>
-          
+
           <div className="mzcal-utility-content">
             <AnimatePresence mode="wait">
-              <motion.div 
+              <motion.div
                 key={activeIndex}
                 className="mzcal-utility-description"
                 variants={mzcalVariants.utility.description}
@@ -126,4 +139,4 @@ const MzCal3: React.FC = () => {
   );
 };
 
-export default MzCal3; 
+export default MzCal3;

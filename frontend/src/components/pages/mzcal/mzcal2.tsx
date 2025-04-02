@@ -1,8 +1,16 @@
-import React from 'react';
+import React from "react";
 
 const MzCal2: React.FC = () => {
   return (
-    <section className="mzcal-section">
+    <section
+      style={{
+        background:
+          "url('/pillars&wallMASK.png'), linear-gradient(45deg,rgba(0, 13, 26, 0.82),rgb(11, 11, 11))",
+        backgroundSize: "cover, cover",
+        backgroundBlendMode: "overlay",
+      }}
+      className="mzcal-section"
+    >
       <div className="mzcal-container">
         <h3 className="mzcal-subtitle">Tokenomics</h3>
         <div className="mzcal-table">
@@ -40,4 +48,4 @@ const MzCal2: React.FC = () => {
   );
 };
 
-export default MzCal2; 
+export default MzCal2;
