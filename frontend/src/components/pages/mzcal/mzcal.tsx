@@ -6,7 +6,6 @@ import MzCal3 from "./mzcal3";
 import MzCal4 from "./mzcal4";
 import MzCal5 from "./mzcal5";
 import MzCal6 from "./mzcal6";
-import MzCal7 from "./mzcal7";
 import MzCal8 from "./mzcal8";
 import Footer from "../footer/footer";
 // import Section2 from "./section2";
@@ -23,7 +22,7 @@ const MzCal: React.FC = () => {
       <MzCal4 />
       <MzCal5 />
       <MzCal6 />
-      <MzCal7 />
+      {/* <MzCal7 /> */}
       <MzCal8 />
       <Footer />
       {/* <Section2 />

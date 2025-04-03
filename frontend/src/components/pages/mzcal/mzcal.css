@@ -191,6 +191,11 @@
     width: 13rem;
     height: 10rem;
   }
+
+  .mzcal-title {
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    margin: 4rem 0;
+  }
 }
 
 /* Table styles */

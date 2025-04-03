@@ -83,7 +83,7 @@ const MzCal6 = () => {
       exit="exit"
       style={{
         background:
-          "url('/mzcalPresaleRender.png'), linear-gradient(-45deg,rgba(0, 13, 26, 0.82),rgb(11, 11, 11))",
+          "url('/mzcalPresaleRender.png'), linear-gradient(-45deg,rgb(0, 13, 26),rgba(11, 11, 11, 0.55))",
         backgroundSize: "cover, cover",
         backgroundBlendMode: "overlay",
       }}

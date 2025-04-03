@@ -86,7 +86,7 @@ const MzCal8 = () => {
       exit="exit"
       style={{
         background:
-          "url('/mezcalMasetaEdit.png'), linear-gradient(180deg,rgba(0, 13, 26, 0.63),rgb(11, 11, 11))",
+          "url('/mezcalMasetaEdit.png'), linear-gradient(-45deg,rgba(0, 13, 26, 0.71),rgb(11, 11, 11))",
         backgroundSize: "cover, cover",
         backgroundBlendMode: "overlay",
       }}
