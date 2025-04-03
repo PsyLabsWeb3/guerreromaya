@@ -79,7 +79,7 @@ const MzCal3: React.FC = () => {
       className="mzcal-section"
       style={{
         background:
-          "url('/calendarBg2.png'), linear-gradient(-45deg,rgba(0, 13, 26, 0.82),rgb(11, 11, 11))",
+          "url('/soilEdit.png'), linear-gradient(-95deg,rgba(0, 13, 26, 0.82),rgb(11, 11, 11))",
         backgroundSize: "cover, cover",
         backgroundBlendMode: "overlay",
       }}

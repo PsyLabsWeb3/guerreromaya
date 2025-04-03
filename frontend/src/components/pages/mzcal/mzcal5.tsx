@@ -1,15 +1,21 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { mzcalVariants } from '../../animations/mzcal-variants';
+import React from "react";
+import { motion } from "framer-motion";
+import { mzcalVariants } from "../../animations/mzcal-variants";
 
 const MzCal5: React.FC = () => {
   return (
-    <motion.section 
+    <motion.section
       className="mzcal-section"
       variants={mzcalVariants.section}
       initial="initial"
       animate="animate"
       exit="exit"
+      style={{
+        background:
+          "url('/mezcalhallEDIT.png'), linear-gradient(180deg,rgba(0, 13, 26, 0.63),rgb(11, 11, 11))",
+        backgroundSize: "cover, cover",
+        backgroundBlendMode: "overlay",
+      }}
     >
       <div className="mzcal-container">
         <h3 className="mzcal-subtitle">Token Distribution</h3>
@@ -52,4 +58,4 @@ const MzCal5: React.FC = () => {
   );
 };
 
-export default MzCal5; 
+export default MzCal5;

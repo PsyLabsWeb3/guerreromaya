@@ -84,6 +84,12 @@ const MzCal8 = () => {
       initial="initial"
       animate="animate"
       exit="exit"
+      style={{
+        background:
+          "url('/mezcalMasetaEdit.png'), linear-gradient(180deg,rgba(0, 13, 26, 0.63),rgb(11, 11, 11))",
+        backgroundSize: "cover, cover",
+        backgroundBlendMode: "overlay",
+      }}
     >
       <motion.div className="mzcal8-content">
         <motion.h2
