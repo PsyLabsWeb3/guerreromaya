@@ -45,12 +45,27 @@ const utilityData = [
 const MzCal3: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const splineRef = useRef<HTMLDivElement>(null);
 
+  // Detectar si es dispositivo móvil
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkIfMobile();
+    window.addEventListener("resize", checkIfMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkIfMobile);
+    };
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
-      if (sectionRef.current) {
+      if (sectionRef.current && !isMobile) {
         const section = sectionRef.current;
         const sectionRect = section.getBoundingClientRect();
         const sectionTop = sectionRect.top;
@@ -76,7 +91,7 @@ const MzCal3: React.FC = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [activeIndex]);
+  }, [activeIndex, isMobile]);
 
   const handleItemClick = (index: number) => {
     setActiveIndex(index);
@@ -85,6 +100,20 @@ const MzCal3: React.FC = () => {
 
   const onSplineLoad = () => {
     setIsLoading(false);
+  };
+
+  const handlePrevSlide = () => {
+    setActiveIndex((prevIndex) =>
+      prevIndex === 0 ? utilityData.length - 1 : prevIndex - 1
+    );
+    setIsLoading(true);
+  };
+
+  const handleNextSlide = () => {
+    setActiveIndex((prevIndex) =>
+      prevIndex === utilityData.length - 1 ? 0 : prevIndex + 1
+    );
+    setIsLoading(true);
   };
 
   return (
@@ -113,24 +142,26 @@ const MzCal3: React.FC = () => {
           className="mzcal-utility-scroll"
           variants={mzcalVariants.utility.container}
         >
-          <motion.div
-            className="mzcal-utility-list"
-            variants={mzcalVariants.utility.list}
-          >
-            {utilityData.map((item, index) => (
-              <motion.div
-                key={index}
-                className={`mzcal-utility-item ${
-                  index === activeIndex ? "active" : ""
-                }`}
-                variants={mzcalVariants.utility.item}
-                whileHover="hover"
-                onClick={() => handleItemClick(index)}
-              >
-                {item.title}
-              </motion.div>
-            ))}
-          </motion.div>
+          {!isMobile && (
+            <motion.div
+              className="mzcal-utility-list"
+              variants={mzcalVariants.utility.list}
+            >
+              {utilityData.map((item, index) => (
+                <motion.div
+                  key={index}
+                  className={`mzcal-utility-item ${
+                    index === activeIndex ? "active" : ""
+                  }`}
+                  variants={mzcalVariants.utility.item}
+                  whileHover="hover"
+                  onClick={() => handleItemClick(index)}
+                >
+                  {item.title}
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
 
           <div className="mzcal-utility-content">
             <AnimatePresence mode="wait">
@@ -148,6 +179,12 @@ const MzCal3: React.FC = () => {
                   gap: "2rem",
                 }}
               >
+                {isMobile && (
+                  <div className="mzcal-mobile-title">
+                    {utilityData[activeIndex].title}
+                  </div>
+                )}
+
                 <div
                   style={{
                     display: "flex",
@@ -192,6 +229,49 @@ const MzCal3: React.FC = () => {
                   </div>
                 </div>
                 {utilityData[activeIndex].description}
+
+                {isMobile && (
+                  <div className="mzcal-mobile-navigation">
+                    <button
+                      className="mzcal-nav-button prev"
+                      onClick={handlePrevSlide}
+                      aria-label="Previous slide"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M15 18l-6-6 6-6" />
+                      </svg>
+                    </button>
+                    <button
+                      className="mzcal-nav-button next"
+                      onClick={handleNextSlide}
+                      aria-label="Next slide"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M9 18l6-6-6-6" />
+                      </svg>
+                    </button>
+                  </div>
+                )}
               </motion.div>
             </AnimatePresence>
           </div>
