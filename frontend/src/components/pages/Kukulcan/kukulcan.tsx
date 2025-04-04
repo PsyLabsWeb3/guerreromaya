@@ -1,8 +1,33 @@
 import Spline from "@splinetool/react-spline";
 import Footer from "../footer/footer.tsx";
 import "./kukulcan.css";
+import { useState, useEffect } from "react";
 
 function Kukulcan() {
+  const [splineScene, setSplineScene] = useState("");
+
+  useEffect(() => {
+    const handleResize = () => {
+      const smallScreenScene =
+        "https://prod.spline.design/7e6tc2or0RFyZ4XJ/scene.splinecode";
+      const bigScreenScene =
+        "https://prod.spline.design/yHxGE0XGUXpo3eBF/scene.splinecode";
+
+      setSplineScene(
+        window.innerWidth < 768 ? smallScreenScene : bigScreenScene
+      );
+    };
+
+    // Establecer la escena inicial
+    handleResize();
+
+    // Agregar listener para cambios de tamaño de ventana
+    window.addEventListener("resize", handleResize);
+
+    // Limpiar listener
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div className="kukulcan-container">
       <p className="kukulcan-title">
@@ -32,7 +57,7 @@ function Kukulcan() {
         </div>
         <div className="kukulcan-spline-container">
           <div className="kukulcan-spline">
-            <Spline scene="https://prod.spline.design/yHxGE0XGUXpo3eBF/scene.splinecode" />
+            {splineScene && <Spline scene={splineScene} />}
           </div>
         </div>
       </div>
