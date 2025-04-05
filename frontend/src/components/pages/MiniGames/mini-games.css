@@ -22,13 +22,63 @@
   padding: 4rem 2rem;
   box-sizing: border-box;
   overflow: hidden;
+  background-position: "bottom, center";
+}
+
+/* Estilos para el video de fondo en MG-2 */
+.mg-section.mg-2 {
+  position: relative;
+  overflow: hidden;
+}
+
+.video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.background-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translateX(-50%) translateY(-50%);
+  object-fit: cover;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.191
+  ); /* Overlay semi-transparente para mejorar la legibilidad */
+  z-index: 1;
+}
+
+/* Asegurar que el contenido esté por encima del video */
+.mg-section.mg-2 .mg-container {
+  position: relative;
+  z-index: 2;
 }
 
 /* Dark sections wrapper */
 .mg-dark-section-wrapper {
   background-color: #000;
   background-size: cover;
-  background-position: center;
+  background-position: "bottom, center";
   background-repeat: no-repeat;
   background-attachment: fixed;
   width: 100%;
@@ -459,94 +509,218 @@ body {
 
 /* Estilos específicos para cada sección */
 .mg-section.mg-1 {
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  padding: 0;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
+  padding: 2rem;
+  position: relative;
+  padding-top: 6rem; /* Aumentado para separar del menú */
 }
 
 .mg-section.mg-1 .mg-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  align-items: center;
+  gap: 2rem;
+  width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  width: 100%;
-  height: 100%;
+  align-items: center;
 }
 
-/* Ajustes para el contenido de texto */
+.mg-section.mg-1 .mg-image-container {
+  width: 100%;
+  height: 100%;
+  min-height: 650px; /* Aumentado 50px más para evitar que se corte en desktop */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -20px; /* Bajado un poco el Kukulcán en desktop */
+}
+
+/* Estilos para el contenedor de Spline */
+.mg-section.mg-1 .mg-image-container spline-viewer {
+  width: 100%;
+  height: 100%;
+  min-height: 650px; /* Aumentado 50px más para evitar que se corte en desktop */
+  display: block;
+}
+
 .mg-section.mg-1 .mg-text-content {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  padding: 0;
-  max-width: 600px;
-  margin: 0;
-  height: 100%;
-  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem;
 }
 
 .mg-section.mg-1 .mg-title-container {
-  margin-bottom: 0.5rem;
-  padding-top: 0;
+  margin-bottom: 0.5rem; /* Reducido de 1rem a 0.5rem */
+  padding-top: 1rem; /* Añadido padding superior */
 }
 
 .mg-section.mg-1 .mg-title {
-  text-align: left;
-  margin-bottom: 0.5rem;
+  font-size: 3.5rem;
+  margin-bottom: 0.5rem; /* Reducido de 1rem a 0.5rem */
 }
 
 .mg-section.mg-1 .text-highlight {
   font-size: 2rem;
-  line-height: 1.3;
-  margin-bottom: 0.5rem;
-  text-align: left;
-}
-
-.mg-section.mg-1 .mg-text-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  margin-bottom: 1rem;
+  margin-top: 0; /* Quitado el margen superior */
+  text-align: center; /* Centrado el texto */
 }
 
 .mg-section.mg-1 .mg-text {
   font-size: 1.2rem;
   line-height: 1.6;
-  text-align: left;
 }
 
-/* Ajustar el grid para mantener el espacio */
-.mg-section.mg-1 .mg-grid {
-  align-items: center; /* Centra verticalmente todo el grid */
+/* Media queries para responsive */
+@media (max-width: 1200px) {
+  .mg-section.mg-1 {
+    padding-top: 5rem; /* Ajustado para pantallas grandes */
+  }
+
+  .mg-section.mg-1 .mg-title {
+    font-size: 3rem;
+  }
+
+  .mg-section.mg-1 .text-highlight {
+    font-size: 1.8rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container spline-viewer {
+    min-height: 600px; /* Aumentado para pantallas grandes */
+  }
+
+  .mg-section.mg-1 .mg-image-container {
+    min-height: 600px; /* Aumentado para pantallas grandes */
+    margin-top: 0; /* Ajustar para pantallas grandes */
+  }
 }
 
-/* Ajustes para la imagen de Kukulcán */
-.mg-section.mg-1 .mg-image-container {
-  height: 100%;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
+@media (max-width: 992px) {
+  .mg-section.mg-1 {
+    padding-top: 4rem; /* Ajustado para tablets */
+  }
+
+  .mg-section.mg-1 .mg-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container {
+    order: 2;
+    height: 300px;
+    min-height: 300px; /* Ajustado para tablets */
+    margin-top: 0; /* Quitar el margen negativo en tablets */
+  }
+
+  .mg-section.mg-1 .mg-text-content {
+    order: 1;
+    text-align: center;
+  }
+
+  .mg-section.mg-1 .mg-title {
+    font-size: 2.8rem;
+  }
+
+  .mg-section.mg-1 .text-highlight {
+    font-size: 1.6rem;
+  }
+
+  .mg-section.mg-1 .mg-text {
+    font-size: 1.1rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container spline-viewer {
+    min-height: 300px; /* Ajustado para tablets */
+  }
 }
 
-.mg-section.mg-1 .mg-character {
-  max-height: 85vh;
-  width: auto;
-  object-fit: contain;
-  object-position: bottom center;
-  margin: 0;
-  transform: scale(0.9);
-  transform-origin: bottom center;
+@media (max-width: 768px) {
+  .mg-section.mg-1 {
+    padding: 1.5rem;
+    padding-top: 3.5rem; /* Ajustado para móviles */
+  }
+
+  .mg-section.mg-1 .mg-grid {
+    gap: 2rem;
+    position: relative;
+  }
+
+  .mg-section.mg-1 .mg-image-container {
+    height: 350px; /* Aumentado para evitar que se corte */
+    position: absolute;
+    top: 110px; /* Subido un poco más */
+    left: 0;
+    right: 0;
+    z-index: 1; /* Colocar detrás del texto */
+    opacity: 0.7; /* Reducir opacidad para que no distraiga del texto */
+  }
+
+  .mg-section.mg-1 .mg-text-content {
+    position: relative;
+    z-index: 2; /* Asegurar que el texto esté por encima */
+    margin-top: -200px; /* Subir más el texto */
+  }
+
+  .mg-section.mg-1 .mg-title {
+    font-size: 2.5rem;
+    margin-bottom: 0.2rem; /* Reducir espacio entre título y subtítulo */
+  }
+
+  .mg-section.mg-1 .text-highlight {
+    font-size: 1.4rem;
+    margin-top: 0; /* Eliminar margen superior */
+    margin-bottom: 0.8rem; /* Reducir margen inferior */
+  }
+
+  .mg-section.mg-1 .mg-text {
+    font-size: 1rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container spline-viewer {
+    min-height: 350px; /* Aumentado para evitar que se corte */
+  }
 }
 
+@media (max-width: 576px) {
+  .mg-section.mg-1 {
+    padding: 1rem;
+    padding-top: 3rem; /* Ajustado para móviles pequeños */
+  }
+
+  .mg-section.mg-1 .mg-grid {
+    gap: 1.5rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container {
+    height: 350px; /* Aumentado para evitar que se corte */
+    top: 80px; /* Subido un poco más */
+  }
+
+  .mg-section.mg-1 .mg-text-content {
+    margin-top: -200px; /* Subir más el texto */
+  }
+
+  .mg-section.mg-1 .mg-title {
+    font-size: 2rem;
+    margin-bottom: 0.2rem; /* Reducir espacio entre título y subtítulo */
+  }
+
+  .mg-section.mg-1 .text-highlight {
+    font-size: 1.2rem;
+    margin-top: 0; /* Eliminar margen superior */
+    margin-bottom: 0.8rem; /* Reducir margen inferior */
+  }
+
+  .mg-section.mg-1 .mg-text {
+    font-size: 0.9rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container spline-viewer {
+    min-height: 350px; /* Aumentado para evitar que se corte */
+  }
+}
+
+/* Estilos para el video de fondo en MG-2 */
 .mg-section.mg-2 {
   position: relative;
   background-size: cover;
@@ -1070,4 +1244,186 @@ body {
 
 .mg-image:hover img {
   transform: scale(1.02);
+}
+
+/* Estilos específicos para mg-1 */
+.mg-section.mg-1 {
+  padding: 2rem;
+  position: relative;
+}
+
+.mg-section.mg-1 .mg-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.mg-section.mg-1 .mg-image-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mg-section.mg-1 .mg-text-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.mg-section.mg-1 .mg-title {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+.mg-section.mg-1 .text-highlight {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  margin-top: 0; /* Quitado el margen superior */
+  text-align: center; /* Centrado el texto */
+}
+
+.mg-section.mg-1 .mg-text {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+/* Media queries para responsive */
+@media (max-width: 1200px) {
+  .mg-section.mg-1 {
+    padding-top: 5rem; /* Ajustado para pantallas grandes */
+  }
+
+  .mg-section.mg-1 .mg-title {
+    font-size: 3rem;
+  }
+
+  .mg-section.mg-1 .text-highlight {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .mg-section.mg-1 {
+    padding-top: 4rem; /* Ajustado para tablets */
+  }
+
+  .mg-section.mg-1 .mg-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container {
+    order: 2;
+    height: 300px;
+  }
+
+  .mg-section.mg-1 .mg-text-content {
+    order: 1;
+    text-align: center;
+  }
+
+  .mg-section.mg-1 .mg-title {
+    font-size: 2.8rem;
+  }
+
+  .mg-section.mg-1 .text-highlight {
+    font-size: 1.6rem;
+  }
+
+  .mg-section.mg-1 .mg-text {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .mg-section.mg-1 {
+    padding: 1.5rem;
+    padding-top: 3.5rem; /* Ajustado para móviles */
+  }
+
+  .mg-section.mg-1 .mg-grid {
+    gap: 2rem;
+    position: relative;
+  }
+
+  .mg-section.mg-1 .mg-image-container {
+    height: 350px; /* Aumentado para evitar que se corte */
+    position: absolute;
+    top: 110px; /* Subido un poco más */
+    left: 0;
+    right: 0;
+    z-index: 1; /* Colocar detrás del texto */
+    opacity: 0.7; /* Reducir opacidad para que no distraiga del texto */
+  }
+
+  .mg-section.mg-1 .mg-text-content {
+    position: relative;
+    z-index: 2; /* Asegurar que el texto esté por encima */
+    margin-top: -200px; /* Subir más el texto */
+  }
+
+  .mg-section.mg-1 .mg-title {
+    font-size: 2.5rem;
+    margin-bottom: 0.2rem; /* Reducir espacio entre título y subtítulo */
+  }
+
+  .mg-section.mg-1 .text-highlight {
+    font-size: 1.4rem;
+    margin-top: 0; /* Eliminar margen superior */
+    margin-bottom: 0.8rem; /* Reducir margen inferior */
+  }
+
+  .mg-section.mg-1 .mg-text {
+    font-size: 1rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container spline-viewer {
+    min-height: 350px; /* Aumentado para evitar que se corte */
+  }
+}
+
+@media (max-width: 576px) {
+  .mg-section.mg-1 {
+    padding: 1rem;
+    padding-top: 3rem; /* Ajustado para móviles pequeños */
+  }
+
+  .mg-section.mg-1 .mg-grid {
+    gap: 1.5rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container {
+    height: 350px; /* Aumentado para evitar que se corte */
+    top: 80px; /* Subido un poco más */
+  }
+
+  .mg-section.mg-1 .mg-text-content {
+    margin-top: -200px; /* Subir más el texto */
+  }
+
+  .mg-section.mg-1 .mg-title {
+    font-size: 2rem;
+    margin-bottom: 0.2rem; /* Reducir espacio entre título y subtítulo */
+  }
+
+  .mg-section.mg-1 .text-highlight {
+    font-size: 1.2rem;
+    margin-top: 0; /* Eliminar margen superior */
+    margin-bottom: 0.8rem; /* Reducir margen inferior */
+  }
+
+  .mg-section.mg-1 .mg-text {
+    font-size: 0.9rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container spline-viewer {
+    min-height: 350px; /* Aumentado para evitar que se corte */
+  }
 }
