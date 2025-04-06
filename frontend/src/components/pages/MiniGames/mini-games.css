@@ -74,15 +74,64 @@ body {
   align-items: center;
   padding: var(--section-padding);
   box-sizing: border-box;
-  overflow-x: hidden;
-  max-width: 100%;
+  overflow: hidden;
+  background-position: "bottom, center";
+}
+
+/* Estilos para el video de fondo en MG-2 */
+.mg-section.mg-2 {
+  position: relative;
+  overflow: hidden;
+}
+
+.video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.background-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translateX(-50%) translateY(-50%);
+  object-fit: cover;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.191
+  ); /* Overlay semi-transparente para mejorar la legibilidad */
+  z-index: 1;
+}
+
+/* Asegurar que el contenido esté por encima del video */
+.mg-section.mg-2 .mg-container {
+  position: relative;
+  z-index: 2;
 }
 
 /* Dark sections wrapper */
 .mg-dark-section-wrapper {
   background-color: #000;
   background-size: cover;
-  background-position: center;
+  background-position: "bottom, center";
   background-repeat: no-repeat;
   background-attachment: fixed;
   width: 100%;
@@ -348,7 +397,7 @@ body {
   text-align: center;
   transition: transform 0.6s;
   transform-style: preserve-3d;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   cursor: pointer;
 }
@@ -357,7 +406,8 @@ body {
   transform: rotateY(180deg);
 }
 
-.flip-card-front, .flip-card-back {
+.flip-card-front,
+.flip-card-back {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -509,96 +559,218 @@ body {
 
 /* Specific styles for each section */
 .mg-section.mg-1 {
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  padding: 0;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  overflow: hidden !important;
-  max-width: 100vw;
-  width: 100%;
-  box-sizing: border-box;
-  margin: 0;
+  padding: 2rem;
   position: relative;
-  z-index: 1;
+  padding-top: 6rem; /* Aumentado para separar del menú */
 }
 
 .mg-section.mg-1 .mg-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  align-items: center;
+  gap: 2rem;
+  width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  width: 100%;
-  height: 100%;
+  align-items: center;
 }
 
-/* Adjustments for text content */
+.mg-section.mg-1 .mg-image-container {
+  width: 100%;
+  height: 100%;
+  min-height: 650px; /* Aumentado 50px más para evitar que se corte en desktop */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -20px; /* Bajado un poco el Kukulcán en desktop */
+}
+
+/* Estilos para el contenedor de Spline */
+.mg-section.mg-1 .mg-image-container spline-viewer {
+  width: 100%;
+  height: 100%;
+  min-height: 650px; /* Aumentado 50px más para evitar que se corte en desktop */
+  display: block;
+}
+
 .mg-section.mg-1 .mg-text-content {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  padding: 0;
-  max-width: 600px;
-  margin: 0;
-  height: 100%;
-  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem;
 }
 
 .mg-section.mg-1 .mg-title-container {
-  margin-bottom: 0.5rem;
-  padding-top: 0;
+  margin-bottom: 0.5rem; /* Reducido de 1rem a 0.5rem */
+  padding-top: 1rem; /* Añadido padding superior */
 }
 
 .mg-section.mg-1 .mg-title {
-  text-align: left;
-  margin-bottom: 0.5rem;
+  font-size: 3.5rem;
+  margin-bottom: 0.5rem; /* Reducido de 1rem a 0.5rem */
 }
 
 .mg-section.mg-1 .text-highlight {
   font-size: 2rem;
-  line-height: 1.3;
-  margin-bottom: 0.5rem;
-  text-align: left;
-}
-
-.mg-section.mg-1 .mg-text-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  margin-bottom: 1rem;
+  margin-top: 0; /* Quitado el margen superior */
+  text-align: center; /* Centrado el texto */
 }
 
 .mg-section.mg-1 .mg-text {
   font-size: 1.2rem;
   line-height: 1.6;
-  text-align: left;
 }
 
-/* Adjustments for Kukulcan image */
-.mg-section.mg-1 .mg-image-container {
-  height: 100%;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
+/* Media queries para responsive */
+@media (max-width: 1200px) {
+  .mg-section.mg-1 {
+    padding-top: 5rem; /* Ajustado para pantallas grandes */
+  }
+
+  .mg-section.mg-1 .mg-title {
+    font-size: 3rem;
+  }
+
+  .mg-section.mg-1 .text-highlight {
+    font-size: 1.8rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container spline-viewer {
+    min-height: 600px; /* Aumentado para pantallas grandes */
+  }
+
+  .mg-section.mg-1 .mg-image-container {
+    min-height: 600px; /* Aumentado para pantallas grandes */
+    margin-top: 0; /* Ajustar para pantallas grandes */
+  }
 }
 
-.mg-section.mg-1 .mg-character {
-  max-height: 85vh;
-  width: auto;
-  object-fit: contain;
-  object-position: bottom center;
-  margin: 0;
-  transform: scale(0.9);
-  transform-origin: bottom center;
+@media (max-width: 992px) {
+  .mg-section.mg-1 {
+    padding-top: 4rem; /* Ajustado para tablets */
+  }
+
+  .mg-section.mg-1 .mg-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container {
+    order: 2;
+    height: 300px;
+    min-height: 300px; /* Ajustado para tablets */
+    margin-top: 0; /* Quitar el margen negativo en tablets */
+  }
+
+  .mg-section.mg-1 .mg-text-content {
+    order: 1;
+    text-align: center;
+  }
+
+  .mg-section.mg-1 .mg-title {
+    font-size: 2.8rem;
+  }
+
+  .mg-section.mg-1 .text-highlight {
+    font-size: 1.6rem;
+  }
+
+  .mg-section.mg-1 .mg-text {
+    font-size: 1.1rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container spline-viewer {
+    min-height: 300px; /* Ajustado para tablets */
+  }
 }
 
-/* Specific styles for mg-2 */
+@media (max-width: 768px) {
+  .mg-section.mg-1 {
+    padding: 1.5rem;
+    padding-top: 3.5rem; /* Ajustado para móviles */
+  }
+
+  .mg-section.mg-1 .mg-grid {
+    gap: 2rem;
+    position: relative;
+  }
+
+  .mg-section.mg-1 .mg-image-container {
+    height: 350px; /* Aumentado para evitar que se corte */
+    position: absolute;
+    top: 110px; /* Subido un poco más */
+    left: 0;
+    right: 0;
+    z-index: 1; /* Colocar detrás del texto */
+    opacity: 0.7; /* Reducir opacidad para que no distraiga del texto */
+  }
+
+  .mg-section.mg-1 .mg-text-content {
+    position: relative;
+    z-index: 2; /* Asegurar que el texto esté por encima */
+    margin-top: -200px; /* Subir más el texto */
+  }
+
+  .mg-section.mg-1 .mg-title {
+    font-size: 2.5rem;
+    margin-bottom: 0.2rem; /* Reducir espacio entre título y subtítulo */
+  }
+
+  .mg-section.mg-1 .text-highlight {
+    font-size: 1.4rem;
+    margin-top: 0; /* Eliminar margen superior */
+    margin-bottom: 0.8rem; /* Reducir margen inferior */
+  }
+
+  .mg-section.mg-1 .mg-text {
+    font-size: 1rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container spline-viewer {
+    min-height: 350px; /* Aumentado para evitar que se corte */
+  }
+}
+
+@media (max-width: 576px) {
+  .mg-section.mg-1 {
+    padding: 1rem;
+    padding-top: 3rem; /* Ajustado para móviles pequeños */
+  }
+
+  .mg-section.mg-1 .mg-grid {
+    gap: 1.5rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container {
+    height: 350px; /* Aumentado para evitar que se corte */
+    top: 80px; /* Subido un poco más */
+  }
+
+  .mg-section.mg-1 .mg-text-content {
+    margin-top: -200px; /* Subir más el texto */
+  }
+
+  .mg-section.mg-1 .mg-title {
+    font-size: 2rem;
+    margin-bottom: 0.2rem; /* Reducir espacio entre título y subtítulo */
+  }
+
+  .mg-section.mg-1 .text-highlight {
+    font-size: 1.2rem;
+    margin-top: 0; /* Eliminar margen superior */
+    margin-bottom: 0.8rem; /* Reducir margen inferior */
+  }
+
+  .mg-section.mg-1 .mg-text {
+    font-size: 0.9rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container spline-viewer {
+    min-height: 350px; /* Aumentado para evitar que se corte */
+  }
+}
+
+/* Estilos para el video de fondo en MG-2 */
 .mg-section.mg-2 {
   position: relative;
   background-size: cover;
@@ -724,11 +896,11 @@ body {
   .mg-grid {
     gap: 3rem;
   }
-  
+
   .mg-section {
     padding: 4rem 3rem;
   }
-  
+
   .steps-container {
     max-width: 85%;
   }
@@ -743,11 +915,11 @@ body {
   .mg-grid {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .mg-section {
     padding: 3rem 2rem;
   }
-  
+
   .mg-image img {
     max-height: 450px;
   }
@@ -758,33 +930,33 @@ body {
   .mg-section {
     padding: 5rem;
   }
-  
+
   .mg-title {
     font-size: 4rem;
   }
-  
+
   .mg-subtitle {
     font-size: 3rem;
   }
-  
+
   .text-highlight {
     font-size: 2.5rem;
   }
-  
+
   .mg-text {
     font-size: 1.5rem;
   }
-  
+
   .step-card {
     width: 18rem;
     height: 14rem;
   }
-  
+
   .mg-content-grid {
     max-width: 1600px;
     gap: 4rem;
   }
-  
+
   .mg-image img {
     max-height: 600px;
   }
@@ -792,7 +964,7 @@ body {
 
 @media (max-width: 992px) {
   /* Tablet-specific adjustments */
-  
+
   /* Card sizing for tablet view */
   .step-card {
     width: 13rem;
@@ -807,36 +979,36 @@ body {
   .step-title {
     font-size: 1.1rem;
   }
-  
+
   /* Grid and spacing adjustments */
   .mg-section.mg-1 .mg-grid {
     gap: 1rem;
     padding: 0 1rem;
   }
-  
+
   .mg-content-grid {
     gap: 2rem;
   }
-  
+
   /* Typography adjustments */
   .mg-title {
     font-size: 3rem;
   }
-  
+
   .text-highlight {
     font-size: 1.7rem;
     text-align: center;
   }
-  
+
   /* Begin transitioning to mobile layout */
   .mg-mobile-image {
     display: block;
   }
-  
+
   .mg-desktop-image {
     display: none;
   }
-  
+
   .mg-text-content {
     align-items: center;
     text-align: center;
@@ -857,7 +1029,7 @@ body {
     display: block;
     margin: 0 auto 2rem;
   }
-  
+
   .mg-desktop-image {
     display: none;
   }
@@ -874,11 +1046,11 @@ body {
     padding: 0;
     align-items: center;
   }
-  
+
   .text-highlight {
     text-align: center;
   }
-  
+
   .mg-text {
     text-align: center;
   }
@@ -893,74 +1065,74 @@ body {
     font-size: 1.2rem;
     padding: 0 1rem;
   }
-  
+
   .mg-title {
     font-size: 2.5rem;
     margin-bottom: 1rem;
   }
-  
+
   /* Spacing adjustments */
   .mg-section {
     padding: 2rem 1rem;
   }
-  
+
   /* Card size adjustments */
   .step-card {
     width: 100%;
     max-width: 15rem;
     margin-bottom: 1rem;
   }
-  
+
   /* Section-specific mobile adjustments */
   .mg-section.mg-1 {
     padding: 0;
     height: auto;
     min-height: 100vh;
   }
-  
+
   .mg-section.mg-1 .mg-grid {
     grid-template-columns: 1fr;
     padding: 1rem;
   }
-  
+
   .mg-section.mg-1 .mg-title,
   .mg-section.mg-1 .text-highlight,
   .mg-section.mg-1 .mg-text {
     text-align: center;
   }
-  
+
   .mg-section.mg-1 .mg-text-content {
     max-width: 100%;
     padding: 1rem;
   }
-  
+
   .mg-section.mg-1 .mg-image-container {
     height: 50vh;
   }
-  
+
   .mg-how-it-works {
     padding: 0 1rem;
   }
-  
+
   /* Remove duplicated rules */
   .mg-section.mg-3,
   .mg-section.mg-4 {
     padding: 2rem 1rem;
     gap: 1.5rem;
   }
-  
+
   /* Optimize spacing around content */
   .mg-content-wrapper {
     padding: 0 0.5rem;
   }
-  
+
   /* Ensure temple images have proper sizing on mobile */
   .mg-mobile-image .mg-image img {
     max-height: 250px;
     width: auto;
     margin: 0 auto;
   }
-  
+
   /* Responsive adjustments */
   .steps-container {
     flex-direction: column;
@@ -968,7 +1140,7 @@ body {
     width: 100%;
     gap: 1.5rem;
   }
-  
+
   /* Adjust button sizing */
   .mg-button {
     padding: 15px 25px;
@@ -982,67 +1154,214 @@ body {
   .mg-title {
     font-size: 2rem;
   }
-  
+
   .mg-subtitle {
     font-size: 1.8rem;
   }
-  
-  .text-highlight {
-    font-size: 1.5rem;
-  }
-  
-  .mg-text {
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-  
-  /* Section 1 specific adjustments */
+}
+
+/* Efecto hover para botones */
+.mg-button {
+  transition: all 0.3s ease;
+}
+
+.mg-button:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(249, 176, 100, 0.2);
+}
+
+/* Efecto hover para las cards */
+.step-card-inner {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Efecto hover para imágenes de templos */
+.mg-image img {
+  transition: transform 0.5s ease;
+}
+
+.mg-image:hover img {
+  transform: scale(1.02);
+}
+
+/* Estilos específicos para mg-1 */
+.mg-section.mg-1 {
+  padding: 2rem;
+  position: relative;
+}
+
+.mg-section.mg-1 .mg-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.mg-section.mg-1 .mg-image-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mg-section.mg-1 .mg-text-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.mg-section.mg-1 .mg-title {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+.mg-section.mg-1 .text-highlight {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  margin-top: 0; /* Quitado el margen superior */
+  text-align: center; /* Centrado el texto */
+}
+
+.mg-section.mg-1 .mg-text {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+/* Media queries para responsive */
+@media (max-width: 1200px) {
   .mg-section.mg-1 {
-    height: auto;
-    min-height: 100vh;
+    padding-top: 5rem; /* Ajustado para pantallas grandes */
   }
-  
+
+  .mg-section.mg-1 .mg-title {
+    font-size: 3rem;
+  }
+
+  .mg-section.mg-1 .text-highlight {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .mg-section.mg-1 {
+    padding-top: 4rem; /* Ajustado para tablets */
+  }
+
+  .mg-section.mg-1 .mg-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
   .mg-section.mg-1 .mg-image-container {
-    height: 40vh;
+    order: 2;
+    height: 300px;
   }
-  
-  /* UI component sizing */
-  .step-card {
-    width: 90%;
-    max-width: 15rem;
+
+  .mg-section.mg-1 .mg-text-content {
+    order: 1;
+    text-align: center;
   }
-  
-  .mg-button {
-    padding: 12px 20px;
-    font-size: 20px;
+
+  .mg-section.mg-1 .mg-title {
+    font-size: 2.8rem;
   }
-  
-  .steps-container {
-    gap: 1rem;
+
+  .mg-section.mg-1 .text-highlight {
+    font-size: 1.6rem;
   }
-  
-  /* Further optimize temple images on mobile */
-  .mg-mobile-image .mg-image img {
-    max-height: 200px;
+
+  .mg-section.mg-1 .mg-text {
+    font-size: 1.1rem;
   }
-  
-  /* Spacing adjustments */
-  .mg-content-grid {
-    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .mg-section.mg-1 {
+    padding: 1.5rem;
+    padding-top: 3.5rem; /* Ajustado para móviles */
   }
-  
-  .mg-section.mg-3, 
-  .mg-section.mg-4 {
-    padding: 1.5rem 0.5rem;
+
+  .mg-section.mg-1 .mg-grid {
+    gap: 2rem;
+    position: relative;
   }
-  
-  /* Ensure proper spacing between title and image */
-  .mg-title-container {
-    margin-bottom: 0.5rem;
+
+  .mg-section.mg-1 .mg-image-container {
+    height: 350px; /* Aumentado para evitar que se corte */
+    position: absolute;
+    top: 110px; /* Subido un poco más */
+    left: 0;
+    right: 0;
+    z-index: 1; /* Colocar detrás del texto */
+    opacity: 0.7; /* Reducir opacidad para que no distraiga del texto */
   }
-  
-  /* Improve mobile content spacing */
-  .mg-content-wrapper {
-    padding: 0 0.25rem;
+
+  .mg-section.mg-1 .mg-text-content {
+    position: relative;
+    z-index: 2; /* Asegurar que el texto esté por encima */
+    margin-top: -200px; /* Subir más el texto */
+  }
+
+  .mg-section.mg-1 .mg-title {
+    font-size: 2.5rem;
+    margin-bottom: 0.2rem; /* Reducir espacio entre título y subtítulo */
+  }
+
+  .mg-section.mg-1 .text-highlight {
+    font-size: 1.4rem;
+    margin-top: 0; /* Eliminar margen superior */
+    margin-bottom: 0.8rem; /* Reducir margen inferior */
+  }
+
+  .mg-section.mg-1 .mg-text {
+    font-size: 1rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container spline-viewer {
+    min-height: 350px; /* Aumentado para evitar que se corte */
+  }
+}
+
+@media (max-width: 576px) {
+  .mg-section.mg-1 {
+    padding: 1rem;
+    padding-top: 3rem; /* Ajustado para móviles pequeños */
+  }
+
+  .mg-section.mg-1 .mg-grid {
+    gap: 1.5rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container {
+    height: 350px; /* Aumentado para evitar que se corte */
+    top: 80px; /* Subido un poco más */
+  }
+
+  .mg-section.mg-1 .mg-text-content {
+    margin-top: -200px; /* Subir más el texto */
+  }
+
+  .mg-section.mg-1 .mg-title {
+    font-size: 2rem;
+    margin-bottom: 0.2rem; /* Reducir espacio entre título y subtítulo */
+  }
+
+  .mg-section.mg-1 .text-highlight {
+    font-size: 1.2rem;
+    margin-top: 0; /* Eliminar margen superior */
+    margin-bottom: 0.8rem; /* Reducir margen inferior */
+  }
+
+  .mg-section.mg-1 .mg-text {
+    font-size: 0.9rem;
+  }
+
+  .mg-section.mg-1 .mg-image-container spline-viewer {
+    min-height: 350px; /* Aumentado para evitar que se corte */
   }
 }
