@@ -3,17 +3,22 @@ import { motion } from "framer-motion";
 import { variants } from "../../animations/variants";
 import temple2Img from "../../../assets/images/temple2.png";
 import iconGM from "../../../assets/icons/iconGMsmall.png";
-
 import "./mini-games.css";
 
-/** Interface for engagement steps data structure */
+/**
+ * Community Engagement section for social interaction
+ * Integrates with Cookie Data Swarm API for analytics
+ * Features reward system for community participation
+ */
+
+/** Type definition for engagement process steps */
 interface EngagementStep {
   icon: string;
   title: string;
   text: string;
 }
 
-/** Steps data for engagement process */
+/** Social engagement process configuration */
 const stepsData: EngagementStep[] = [
   {
     icon: iconGM,
@@ -35,10 +40,15 @@ const stepsData: EngagementStep[] = [
 /**
  * MG4 Component - Community Engagement Section
  * @description Features the social engagement system and rewards process
- * @returns {JSX.Element} The rendered MG4 component
  */
 const MG4: React.FC = () => (
-  <motion.div className="mg-section mg-4" {...variants.section}>
+  <motion.div 
+    className="mg-section mg-4" 
+    style={{
+      overflowX: "hidden",
+      maxWidth: "100%"
+    }}
+    {...variants.section}>
     {/* Section title */}
     <motion.div className="mg-title-container" {...variants.textContent}>
       <motion.h2 className="mg-title" {...variants.title}>
@@ -46,10 +56,10 @@ const MG4: React.FC = () => (
       </motion.h2>
     </motion.div>
 
-    {/* Main content grid */}
-    <motion.div className="mg-content-grid" {...variants.textContent}>
-      {/* Left column - Temple image */}
-      <div className="mg-image-container">
+    {/* Content container with responsive layout */}
+    <motion.div className="mg-content-wrapper" style={{ overflowX: 'hidden', maxWidth: '100%' }} {...variants.textContent}>
+      {/* Hidden on desktop, visible on mobile - Temple Image */}
+      <div className="mg-mobile-image">
         <motion.div className="mg-image" {...variants.imageContainer}>
           <motion.img
             src={temple2Img}
@@ -59,21 +69,35 @@ const MG4: React.FC = () => (
         </motion.div>
       </div>
 
-      {/* Right column - Text content */}
-      <div className="mg-text-content">
-        <motion.h3 className="text-highlight" {...variants.subtitle}>
-          Amplify Guerrero Maya's reach and be rewarded.
-        </motion.h3>
-        <motion.p className="mg-text">
-          Post, interact, and climb the ranks to earn exclusive rewards. Your
-          activity fuels the growth of the community and gets recognized. Become
-          a champion of the cause and unlock perks only the brave can reach.
-        </motion.p>
-      </div>
+      {/* Grid layout for desktop */}
+      <motion.div className="mg-content-grid">
+        {/* Left column - Temple image (hidden on mobile) */}
+        <div className="mg-desktop-image mg-image-container">
+          <motion.div className="mg-image" {...variants.imageContainer}>
+            <motion.img
+              src={temple2Img}
+              alt="Second Temple"
+              {...variants.image}
+            />
+          </motion.div>
+        </div>
+        
+        {/* Right column - Text content */}
+        <div className="mg-text-content">
+          <motion.h3 className="text-highlight" {...variants.subtitle}>
+            Amplify Guerrero Maya's reach and be rewarded.
+          </motion.h3>
+          <motion.p className="mg-text" style={{ textAlign: "left" }}>
+            Post, interact, and climb the ranks to earn exclusive rewards. Your
+            activity fuels the growth of the community and gets recognized. Become
+            a champion of the cause and unlock perks only the brave can reach.
+          </motion.p>
+        </div>
+      </motion.div>
     </motion.div>
 
     {/* How It Works section */}
-    <div className="mg-how-it-works">
+    <div className="mg-how-it-works" style={{ overflowX: 'hidden', maxWidth: '100%' }}>
       <motion.h3 className="mg-subtitle" {...variants.subtitle}>
         How It Works
       </motion.h3>
@@ -81,43 +105,34 @@ const MG4: React.FC = () => (
       {/* Engagement steps cards */}
       <div className="steps-container">
         {stepsData.map((step, index) => (
-          <motion.div
-            key={index}
-            className="step-card"
-            {...variants.card}
-            transition={{ ...variants.card.transition, delay: index * 0.2 }}
-          >
-            <div className="step-card-inner">
-              <div className="step-card-front">
-                <div className="step-icon">
-                  <motion.img
-                    src={step.icon}
-                    alt={step.title}
-                    className="step-icon-image"
-                    {...variants.image}
-                  />
+          <div key={index} className="flip-card">
+            <div className="flip-card-inner">
+              <div className="flip-card-front">
+                <div className="card-icon">
+                  <img src={step.icon} alt={step.title} />
                 </div>
-                <motion.h3 className="step-title" {...variants.subtitle}>
-                  {step.title}
-                </motion.h3>
+                <h3 className="card-title">{step.title}</h3>
               </div>
-              <div className="step-card-back">
-                <p className="step-text">{step.text}</p>
+              <div className="flip-card-back">
+                <p className="card-description">{step.text}</p>
               </div>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
 
       {/* Call to action button */}
-      <motion.button
-        style={{ marginBottom: "10rem" }}
+      <button
         className="mg-button"
+        style={{ 
+          marginBottom: "10rem",
+          fontSize: "1.5rem",
+          fontFamily: "lato italic" 
+        }}
         disabled
-        {...variants.button}
       >
         Coming Soon
-      </motion.button>
+      </button>
     </div>
   </motion.div>
 );

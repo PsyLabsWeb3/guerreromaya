@@ -1,3 +1,17 @@
+/* CSS Variables */
+:root {
+  --primary-color: #f9b064;
+  --text-color: #fff;
+  --background-dark: #000;
+  --card-background: rgba(12, 12, 12, 0.8);
+  --border-color: rgba(147, 104, 59, 0.27);
+  --hover-shadow: rgba(249, 176, 100, 0.2);
+  --title-font: "Cinzel Decorative", serif;
+  --body-font: "Cormorant Garamond", serif;
+  --section-padding: 4rem 2rem;
+  --content-max-width: 1400px;
+}
+
 /* Import required fonts */
 @import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:wght@300;400;600&display=swap");
 
@@ -8,7 +22,46 @@
   width: 100%;
   max-width: 100vw;
   overflow-x: hidden;
+  overflow: hidden;
   background-color: transparent;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure all containers prevent horizontal scroll */
+.MiniGames > div,
+.mg-section,
+.mg-dark-section-wrapper,
+.mg-content-wrapper,
+.mg-grid,
+.mg-content-grid,
+.steps-container,
+.step-card,
+.step-card-inner,
+.step-card-front,
+.step-card-back,
+.step-text {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Reset to eliminate horizontal scroll */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 
 /* Section base configuration */
@@ -19,9 +72,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 4rem 2rem;
+  padding: var(--section-padding);
   box-sizing: border-box;
-  overflow: hidden;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 /* Dark sections wrapper */
@@ -32,12 +86,14 @@
   background-repeat: no-repeat;
   background-attachment: fixed;
   width: 100%;
+  max-width: 100vw;
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow-x: hidden;
 }
 
-/* Añadir overlay para mejorar legibilidad */
+/* Add overlay to improve readability */
 .mg-dark-section-wrapper::before {
   content: "";
   position: absolute;
@@ -49,7 +105,7 @@
   z-index: 1;
 }
 
-/* Asegurar que las secciones estén por encima del overlay */
+/* Ensure sections are above the overlay */
 .mg-section.mg-3,
 .mg-section.mg-4 {
   position: relative;
@@ -71,8 +127,8 @@
 
 /* Title styles (h2) */
 .mg-title {
-  color: #f9b064;
-  font-family: "Cinzel Decorative", serif;
+  color: var(--primary-color);
+  font-family: var(--title-font);
   text-shadow: 0 0 7px rgba(249, 176, 100, 0.3);
   text-align: center;
   font-size: 3.5rem;
@@ -93,8 +149,29 @@
 .mg-title-container {
   width: 100%;
   text-align: center;
-  margin-bottom: 1rem;
-  padding-top: 2rem; /* Añadir padding consistente */
+  margin-bottom: 2vh;
+  padding-top: 2rem;
+}
+
+/* Content wrapper for improved responsiveness */
+.mg-content-wrapper {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Mobile image - hidden on desktop, visible on mobile/tablet */
+.mg-mobile-image {
+  display: none;
+  width: 100%;
+  margin: 1.5rem auto;
+  max-width: 500px;
+}
+
+/* Desktop image - visible on desktop, hidden on mobile/tablet */
+.mg-desktop-image {
+  display: block;
 }
 
 /* Content grid layout */
@@ -103,35 +180,39 @@
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
   width: 100%;
-  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 1rem;
+  align-items: center;
+  min-height: 50vh;
+  margin-top: 0;
 }
 
 /* Text content styles */
 .mg-text-content {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  text-align: left;
+  gap: 1.5rem;
+  align-items: flex-start;
+  justify-content: center;
+  height: 100%;
 }
 
 .mg-text {
-  font-family: "Cormorant Garamond", serif;
+  font-family: var(--body-font);
   font-size: 1.2rem;
   line-height: 1.6;
-  color: white;
+  color: var(--text-color);
   max-width: 800px;
-  margin: 0 auto;
+  margin: 0;
 }
 
 /* Text highlight styles (h3) */
 .text-highlight {
-  color: #f9b064;
+  color: var(--primary-color);
   font-size: 2rem;
-  font-family: "Cinzel Decorative", serif;
-  margin-bottom: 1rem;
+  font-family: var(--title-font);
+  margin: 0;
   text-align: left;
+  line-height: 1.2;
 }
 
 .text-highlight::after {
@@ -159,21 +240,63 @@
   overflow: hidden;
   height: 100%;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   padding: 0;
   margin: 0;
 }
 
+.mg-image {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .mg-image img {
   width: 100%;
   height: auto;
-  display: block;
+  max-height: 500px;
+  object-fit: contain;
   transition: transform 0.5s ease;
 }
 
 .mg-image:hover img {
   transform: scale(1.02);
+}
+
+/* Style for mobile-specific image display */
+.mg-mobile-image {
+  text-align: center;
+  margin: 1rem auto 2rem;
+  max-width: 80%;
+}
+
+.mg-mobile-image .mg-image img {
+  max-height: 280px;
+  width: auto;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+/* Adjust temple image size */
+.mg-section.mg-3 .mg-image img,
+.mg-section.mg-4 .mg-image img {
+  width: 80%;
+  height: auto;
+  max-height: 400px;
+  object-fit: contain;
+  margin: 0 auto;
+  transition: transform 0.5s ease;
+}
+
+/* Ensure container adjusts properly */
+.mg-section.mg-3 .mg-image,
+.mg-section.mg-4 .mg-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* How It Works section */
@@ -199,7 +322,7 @@
   text-shadow: 0 0 7px rgba(249, 176, 100, 0.3);
 }
 
-/* Estilos específicos para la sección How It Works */
+/* Specific styles for How It Works section */
 .steps-container {
   display: flex;
   justify-content: center;
@@ -207,38 +330,40 @@
   margin: 2rem auto;
   max-width: 65rem;
   width: 100%;
+  flex-wrap: wrap;
 }
 
-.step-card {
-  perspective: 1000px;
+/* New Card Flip Implementation */
+.flip-card {
   width: 15rem;
   height: 12rem;
-  position: relative;
-  transform-style: preserve-3d;
-  flex: 0 0 auto;
+  perspective: 1000px;
+  margin: 0 1rem;
 }
 
-.step-card-inner {
-  position: absolute;
+.flip-card-inner {
+  position: relative;
   width: 100%;
   height: 100%;
   text-align: center;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.6s;
   transform-style: preserve-3d;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  border-radius: 5px;
   cursor: pointer;
 }
 
-.step-card:hover .step-card-inner {
+.flip-card:hover .flip-card-inner {
   transform: rotateY(180deg);
 }
 
-.step-card-front,
-.step-card-back {
+.flip-card-front, .flip-card-back {
   position: absolute;
   width: 100%;
   height: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  border-radius: 4px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -249,14 +374,62 @@
     rgba(12, 12, 12, 0.8),
     rgba(24, 24, 24, 0.8)
   );
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border: 2px solid rgba(147, 104, 59, 0.27);
-  border-radius: 4px;
 }
 
-.step-card-back {
+.flip-card-front {
+  color: #f9b064;
+}
+
+.flip-card-back {
   transform: rotateY(180deg);
+  color: white;
+}
+
+/* Card content styling */
+.card-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.card-title {
+  color: #f9b064;
+  font-size: 1.2rem;
+  margin: 0;
+  font-family: "Cinzel Decorative", serif;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.card-description {
+  font-family: "Cormorant Garamond", serif;
+  color: #fff;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+/* Card Back Content */
+.step-card-back p {
+  text-align: center;
+  color: white;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
 }
 
 .step-icon {
@@ -280,64 +453,53 @@
   margin: 0;
   font-family: "Cinzel Decorative", serif;
   text-transform: uppercase;
+  text-align: center;
 }
 
+/* General text styles for step text */
 .step-text {
   font-family: "Cormorant Garamond", serif;
   color: #fff;
   font-size: 1rem;
   line-height: 1.4;
   padding: 0 0.8rem;
+  text-align: center;
 }
 
-/* Mantener responsive */
-@media (max-width: 768px) {
-  .steps-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .mg-content-grid {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .mg-image-container {
-    order: 1;
-  }
-
-  .mg-text-content {
-    order: 2;
-  }
-
-  .mg-character {
-    max-height: 70vh;
-  }
-
-  .mg-section.mg-2 .mg-text {
-    font-size: 1.2rem;
-    padding: 0 1rem;
-  }
-}
-
-/* Button styles */
+/* Button styles - Same as .box in App.css */
 .mg-button {
-  margin-top: 3rem;
-  margin-bottom: 4rem;
-  padding: 16px 32px;
-  font-size: 1.4rem;
-  font-family: "Cormorant Garamond", serif;
-  color: #f9b064;
-  background-color: black;
-  border: 2px solid #f9b064;
-  border-radius: 8px;
+  position: relative;
+  padding: 20px 30px;
+  margin: 5px;
+  display: inline-block;
+  font-size: 30px;
+  font-family: var(--body-font);
+  color: white;
+  background: transparent;
+  border: none;
+  border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.mg-button:not(:disabled):hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(249, 176, 100, 0.2);
+.mg-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50px;
+  padding: 5px; /* control the border thickness */
+  background: linear-gradient(45deg, #c08b53, #c08b5339);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.mg-button:hover {
+  background: linear-gradient(45deg, #c08b53, #c08b5339);
+  border-radius: 50px !important;
+  transition: background 0.3s ease;
 }
 
 .mg-button:disabled {
@@ -345,119 +507,7 @@
   opacity: 0.7;
 }
 
-.mg-button:disabled:hover {
-  background-color: black;
-  color: #f9b064;
-}
-
-/* Responsive adjustments */
-@media (max-width: 1200px) {
-  .mg-title {
-    font-size: clamp(2.2rem, 4vw, 3.5rem);
-  }
-
-  .mg-subtitle {
-    font-size: clamp(1.8rem, 3vw, 2.5rem);
-  }
-
-  .text-highlight {
-    font-size: clamp(1.5rem, 2.5vw, 2rem);
-  }
-
-  .mg-box-title {
-    font-size: clamp(1.4rem, 2vw, 1.8rem);
-  }
-
-  .steps-container {
-    max-width: 90%;
-    gap: 2rem;
-  }
-
-  .step-card {
-    width: 14rem;
-    height: 11rem;
-  }
-}
-
-@media (max-width: 992px) {
-  .step-card {
-    width: 13rem;
-    height: 10rem;
-  }
-
-  .step-icon {
-    font-size: 2rem;
-  }
-
-  .step-title {
-    font-size: 1.1rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .mg-content-grid {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .mg-section.mg-3,
-  .mg-section.mg-4 {
-    padding: 1rem;
-  }
-
-  .mg-image-container {
-    justify-content: center;
-    order: 1; /* Las imágenes siempre aparecen primero en móvil */
-  }
-
-  .mg-text-content {
-    order: 2; /* Los textos siempre aparecen después en móvil */
-  }
-
-  /* Mantener Kukulcán alineado abajo incluso en móvil */
-  .mg-1 .mg-image-container {
-    margin-top: 2rem;
-    justify-content: center;
-  }
-
-  .mg-character {
-    max-height: 70vh; /* Reducir altura en móvil */
-  }
-
-  .mg-box-container {
-    flex-direction: column;
-  }
-
-  .mg-box {
-    max-width: 100%;
-  }
-
-  .mg-pattern-line-bottom {
-    height: 30px;
-  }
-}
-
-/* Asegurar tipografías */
-@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:wght@300;400;600&display=swap");
-
-/* Reset para eliminar scroll horizontal */
-html,
-body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-
-/* Estilos específicos para cada sección */
+/* Specific styles for each section */
 .mg-section.mg-1 {
   background-size: cover;
   background-position: center;
@@ -466,7 +516,13 @@ body {
   height: 100vh;
   display: flex;
   align-items: center;
-  overflow: hidden;
+  overflow: hidden !important;
+  max-width: 100vw;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .mg-section.mg-1 .mg-grid {
@@ -480,7 +536,7 @@ body {
   height: 100%;
 }
 
-/* Ajustes para el contenido de texto */
+/* Adjustments for text content */
 .mg-section.mg-1 .mg-text-content {
   display: flex;
   flex-direction: column;
@@ -521,12 +577,7 @@ body {
   text-align: left;
 }
 
-/* Ajustar el grid para mantener el espacio */
-.mg-section.mg-1 .mg-grid {
-  align-items: center; /* Centra verticalmente todo el grid */
-}
-
-/* Ajustes para la imagen de Kukulcán */
+/* Adjustments for Kukulcan image */
 .mg-section.mg-1 .mg-image-container {
   height: 100%;
   display: flex;
@@ -547,6 +598,7 @@ body {
   transform-origin: bottom center;
 }
 
+/* Specific styles for mg-2 */
 .mg-section.mg-2 {
   position: relative;
   background-size: cover;
@@ -556,346 +608,104 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.mg-section.mg-3 {
-  background-color: #000;
-}
-
-.mg-section.mg-4 {
-  background-color: #000;
-}
-
-/* Ajustes específicos para mg-1 */
-.mg-section.mg-1 {
-  padding-bottom: 0; /* Elimina el padding inferior para que Kukulcán llegue hasta el borde */
-}
-
-.mg-section.mg-1 .mg-grid {
-  align-items: flex-start; /* Alinea el contenido de texto en la parte superior */
-  height: 100%; /* Asegura que el grid ocupe todo el alto disponible */
-}
-
-/* Estilos compartidos para mg-3 y mg-4 */
-.mg-section.mg-3,
-.mg-section.mg-4 {
-  background-color: #000;
-  width: 100vw;
-  height: 100vh;
-  padding: 0;
+  max-width: 100vw;
+  width: 100%;
+  overflow: hidden !important;
+  box-sizing: border-box;
   margin: 0;
+  z-index: 2;
+}
+
+.mg-section.mg-2::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+/* Adjust main container */
+.mg-section.mg-2 .mg-container {
   position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 2rem 3rem;
+}
+
+/* Improve descriptive text */
+.mg-section.mg-2 .mg-text {
+  max-width: 800px;
+  text-align: center;
+  font-size: 1.4rem;
+  margin: 0 4rem 2rem;
+  color: white;
+  line-height: 1.8;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Adjust cards container */
+.mg-section.mg-2 .steps-container {
+  gap: 2rem;
+  margin: 2rem auto;
+  max-width: 65rem;
+  width: 100%;
+}
+
+/* Update selector to include mg-2 */
+.mg-section.mg-2 .steps-container,
+.mg-section.mg-3 .steps-container,
+.mg-section.mg-4 .steps-container {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  margin: 3rem auto;
+  max-width: 65rem;
+  width: 100%;
   overflow: hidden;
 }
 
-/* Estilos específicos para mg-3 */
-.mg-section.mg-3 {
-  background-color: #000;
+/* Ensure card styles apply across all sections */
+.mg-section.mg-2 .step-card,
+.mg-section.mg-3 .step-card,
+.mg-section.mg-4 .step-card {
+  perspective: 1000px;
+  width: 15rem;
+  height: 12rem;
+  position: relative;
+  transform-style: preserve-3d;
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+
+/* Update section styles */
+.mg-section.mg-3,
+.mg-section.mg-4 {
+  background-image: none !important;
+  background-color: transparent !important;
+  width: 100%;
+  max-width: 100vw;
   min-height: 100vh;
   height: auto;
-  width: 100vw;
-  padding: 2rem 2rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
-}
-
-/* Grid de contenido */
-.mg-content-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-/* Texto descriptivo */
-.mg-text {
-  font-family: "Cormorant Garamond", serif;
-  font-size: clamp(1.2rem, 1.6vw, 1.6rem); /* Tamaño responsivo */
-  line-height: 1.8; /* Espaciado mejorado */
-  color: white;
-  text-align: left;
-  max-width: 100%;
-  word-wrap: break-word; /* Evita desbordamiento horizontal del texto */
-}
-
-/* Subtítulos */
-.mg-subtitle {
-  font-family: "Cinzel Decorative", serif;
-  font-size: 2rem;
-  font-weight: bold;
-  color: #f9b064;
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-/* Lista de elementos */
-.mg-list {
-  list-style: none;
-  padding: 0;
-  margin-top: 15px;
-  font-family: "Cormorant Garamond", serif;
-}
-
-.mg-list li {
-  font-size: 1.4rem;
-  display: flex;
-  align-items: center;
-  gap: 8px; /* Espaciado entre el ícono y el texto */
-}
-
-/* Estilo específico para la imagen de Kukulcán */
-.mg-character {
-  width: 100%;
-  height: auto;
-  display: block;
-  max-height: 90vh; /* Limita altura para evitar que sobrepase demasiado */
-  object-fit: contain;
-  object-position: bottom; /* Coloca la imagen alineada con la parte inferior */
-  margin-top: auto; /* Empuja la imagen hacia abajo */
-}
-
-/* Añadir estilos para mg-container y mg-box-container que faltan */
-.mg-container {
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  box-sizing: border-box;
-  text-align: center;
   position: relative;
-  z-index: 1;
-}
-
-.mg-box-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  gap: 2rem;
-  margin-top: 3rem;
-  width: 100%;
-}
-
-.mg-box {
-  background-color: rgba(0, 0, 0, 0.7);
-  border: 2px solid #f9b064;
-  border-radius: 10px;
-  padding: 2rem;
-  min-width: 250px;
-  flex: 1;
-  max-width: 45%;
-}
-
-/* Box titles (h3) */
-.mg-box-title {
-  font-family: "Cinzel Decorative", serif;
-  color: #f9b064;
-  font-size: 1.8rem;
+  overflow-x: hidden;
+  overflow: hidden;
+  box-sizing: border-box;
   margin: 0;
 }
 
-.mg-pattern-line {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-/* Adaptaciones para diferentes pantallas */
-@media (max-width: 1400px) {
-  .mg-grid {
-    gap: 3rem;
-  }
-}
-
-@media (max-width: 1200px) {
-  .mg-grid {
-    gap: 2rem;
-  }
-
-  .mg-section.mg-4 .mg-grid,
-  .mg-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (max-width: 992px) {
-  .mg-box {
-    padding: 1.5rem;
-  }
-}
-
-/* Ajuste responsive para pantallas pequeñas */
-@media (max-width: 768px) {
-  .mg-grid,
-  .mg-section.mg-4 .mg-grid {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 2rem;
-  }
-
-  .mg-text {
-    text-align: center;
-  }
-
-  .mg-image-container {
-    justify-content: center;
-    order: 1; /* Las imágenes siempre aparecen primero en móvil */
-  }
-
-  .mg-text-content {
-    order: 2; /* Los textos siempre aparecen después en móvil */
-  }
-
-  /* Mantener Kukulcán alineado abajo incluso en móvil */
-  .mg-1 .mg-image-container {
-    margin-top: 2rem;
-    justify-content: center;
-  }
-
-  .mg-character {
-    max-height: 70vh; /* Reducir altura en móvil */
-  }
-
-  .mg-box-container {
-    flex-direction: column;
-  }
-
-  .mg-box {
-    max-width: 100%;
-  }
-
-  .mg-pattern-line-bottom {
-    height: 30px;
-  }
-}
-
-/* Mantener los estilos originales para el contenedor principal y la imagen */
-.mg3-container {
-  /* ... existing code ... */
-}
-
-/* Modificar los estilos existentes */
-.mg-list-container {
-  text-align: left; /* Asegura alineación izquierda */
-}
-
-.mg-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-bottom: 3rem;
-  position: relative;
-  z-index: 1;
-}
-
-.mg-title {
-  margin-bottom: 1.5rem;
-}
-
-.mg-text {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.mg-left-column,
-.mg-right-column {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-/* Mantener los estilos existentes para cards y demás elementos */
-
-/* Sección How It Works */
-.mg-how-it-works {
-  width: 100%;
-  text-align: center;
-}
-
-/* Ajustes responsive */
-@media (max-width: 768px) {
-  .mg-section.mg-3 .mg-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .steps-container {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
-/* Grid principal */
-.mg-section.mg-3 .mg-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  width: 100%;
-  max-width: 1400px;
-  margin: 2rem auto;
-}
-
-/* Columna izquierda */
-.mg-left-column {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-/* Columna derecha */
-.mg-right-column {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Ajustes de espaciado */
-.mg-title {
-  margin-bottom: 2rem;
-}
-
-.mg-list-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 2rem auto 0;
-}
-
-.steps-container {
-  margin: 2rem 0;
-}
-
-.mg-dark-section-wrapper {
-  background-color: #000;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Actualizar los estilos de las secciones */
-.mg-section.mg-3,
-.mg-section.mg-4 {
-  background-image: none !important; /* Esto fuerza a eliminar cualquier imagen de fondo */
-  background-color: transparent !important;
-  width: 100%;
-  min-height: 100vh;
-  height: auto;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  position: relative;
-}
-
-/* Mantener el efecto hover pero con los nuevos colores */
+/* Maintain hover effect with new colors */
 .step-card:hover .step-card-front,
 .step-card:hover .step-card-back {
   backdrop-filter: blur(16px);
@@ -909,165 +719,330 @@ body {
   transition: all 0.3s ease;
 }
 
-/* Actualizar el selector para incluir mg-2 */
-.mg-section.mg-2 .steps-container,
-.mg-section.mg-3 .steps-container,
-.mg-section.mg-4 .steps-container {
-  display: flex;
-  justify-content: center;
-  gap: 2.5rem;
-  margin: 3rem auto;
-  max-width: 65rem;
-  width: 100%;
+/* Responsive adjustments */
+@media (max-width: 1400px) {
+  .mg-grid {
+    gap: 3rem;
+  }
+  
+  .mg-section {
+    padding: 4rem 3rem;
+  }
+  
+  .steps-container {
+    max-width: 85%;
+  }
 }
 
-/* Eliminar los estilos antiguos de mg-box y mg-box-container ya que no se usarán más */
-.mg-box-container,
-.mg-box {
-  display: none;
+@media (max-width: 1200px) {
+  .mg-grid {
+    gap: 2rem;
+  }
+
+  .mg-section.mg-4 .mg-grid,
+  .mg-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .mg-section {
+    padding: 3rem 2rem;
+  }
+  
+  .mg-image img {
+    max-height: 450px;
+  }
 }
 
-/* Asegurar que los estilos de las cards se apliquen en todas las secciones */
-.mg-section.mg-2 .step-card,
-.mg-section.mg-3 .step-card,
-.mg-section.mg-4 .step-card {
-  perspective: 1000px;
-  width: 15rem;
-  height: 12rem;
-  position: relative;
-  transform-style: preserve-3d;
-  flex: 0 0 auto;
+/* Styles for extra large screens */
+@media (min-width: 1600px) {
+  .mg-section {
+    padding: 5rem;
+  }
+  
+  .mg-title {
+    font-size: 4rem;
+  }
+  
+  .mg-subtitle {
+    font-size: 3rem;
+  }
+  
+  .text-highlight {
+    font-size: 2.5rem;
+  }
+  
+  .mg-text {
+    font-size: 1.5rem;
+  }
+  
+  .step-card {
+    width: 18rem;
+    height: 14rem;
+  }
+  
+  .mg-content-grid {
+    max-width: 1600px;
+    gap: 4rem;
+  }
+  
+  .mg-image img {
+    max-height: 600px;
+  }
 }
 
-/* El resto de los estilos de las cards ya están definidos y se aplicarán automáticamente */
+@media (max-width: 992px) {
+  /* Tablet-specific adjustments */
+  
+  /* Card sizing for tablet view */
+  .step-card {
+    width: 13rem;
+    height: 10rem;
+  }
 
-/* Estilos específicos para mg-2 */
-.mg-section.mg-2 {
-  position: relative;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  .step-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .step-title {
+    font-size: 1.1rem;
+  }
+  
+  /* Grid and spacing adjustments */
+  .mg-section.mg-1 .mg-grid {
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .mg-content-grid {
+    gap: 2rem;
+  }
+  
+  /* Typography adjustments */
+  .mg-title {
+    font-size: 3rem;
+  }
+  
+  .text-highlight {
+    font-size: 1.7rem;
+    text-align: center;
+  }
+  
+  /* Begin transitioning to mobile layout */
+  .mg-mobile-image {
+    display: block;
+  }
+  
+  .mg-desktop-image {
+    display: none;
+  }
+  
+  .mg-text-content {
+    align-items: center;
+    text-align: center;
+  }
 }
 
-/* Ajustar el contenedor principal */
-.mg-section.mg-2 .mg-container {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  width: 100%;
-  max-width: 1400px;
-  padding: 0 2rem 3rem; /* Ajustado para quitar el padding-top ya que ahora viene del title-container */
-}
-
-/* Mejorar el texto descriptivo */
-.mg-section.mg-2 .mg-text {
-  max-width: 800px;
-  text-align: center;
-  font-size: 1.4rem;
-  margin: 0 4rem 2rem;
-  color: white;
-  line-height: 1.8;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-/* Ajustar el contenedor de cards */
-.mg-section.mg-2 .steps-container {
-  gap: 2rem;
-  margin: 2rem auto;
-  max-width: 65rem;
-  width: 100%;
-}
-
-/* Ajustes responsive */
+/* Tablet and mobile responsiveness */
 @media (max-width: 768px) {
-  .mg-section.mg-2 {
-    padding: 3rem 1rem;
+  /* Adjust step cards */
+  .steps-container {
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem auto;
   }
 
-  .mg-section.mg-2 .mg-container {
-    padding: 2rem 1rem;
+  /* Switch image display for responsive layouts */
+  .mg-mobile-image {
+    display: block;
+    margin: 0 auto 2rem;
+  }
+  
+  .mg-desktop-image {
+    display: none;
   }
 
-  .mg-section.mg-2 .mg-title {
-    font-size: clamp(2rem, 5vw, 3.5rem);
+  /* Adjust grid to single column */
+  .mg-content-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 1.5rem;
   }
 
+  /* Center-align text on mobile */
+  .mg-text-content {
+    padding: 0;
+    align-items: center;
+  }
+  
+  .text-highlight {
+    text-align: center;
+  }
+  
+  .mg-text {
+    text-align: center;
+  }
+
+  /* Character image scaling */
+  .mg-character {
+    max-height: 70vh;
+  }
+
+  /* Text size adjustments */
   .mg-section.mg-2 .mg-text {
     font-size: 1.2rem;
     padding: 0 1rem;
   }
-
-  .mg-section.mg-2 .steps-container {
-    gap: 2rem;
+  
+  .mg-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Spacing adjustments */
+  .mg-section {
+    padding: 2rem 1rem;
+  }
+  
+  /* Card size adjustments */
+  .step-card {
+    width: 100%;
+    max-width: 15rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Section-specific mobile adjustments */
+  .mg-section.mg-1 {
+    padding: 0;
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .mg-section.mg-1 .mg-grid {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+  
+  .mg-section.mg-1 .mg-title,
+  .mg-section.mg-1 .text-highlight,
+  .mg-section.mg-1 .mg-text {
+    text-align: center;
+  }
+  
+  .mg-section.mg-1 .mg-text-content {
+    max-width: 100%;
+    padding: 1rem;
+  }
+  
+  .mg-section.mg-1 .mg-image-container {
+    height: 50vh;
+  }
+  
+  .mg-how-it-works {
+    padding: 0 1rem;
+  }
+  
+  /* Remove duplicated rules */
+  .mg-section.mg-3,
+  .mg-section.mg-4 {
+    padding: 2rem 1rem;
+    gap: 1.5rem;
+  }
+  
+  /* Optimize spacing around content */
+  .mg-content-wrapper {
+    padding: 0 0.5rem;
+  }
+  
+  /* Ensure temple images have proper sizing on mobile */
+  .mg-mobile-image .mg-image img {
+    max-height: 250px;
+    width: auto;
+    margin: 0 auto;
+  }
+  
+  /* Responsive adjustments */
+  .steps-container {
     flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 1.5rem;
+  }
+  
+  /* Adjust button sizing */
+  .mg-button {
+    padding: 15px 25px;
+    font-size: 24px;
   }
 }
 
-/* Asegurar que las cards mantengan su estilo actual */
-.mg-section.mg-2 .step-card {
-  perspective: 1000px;
-  width: 15rem;
-  height: 12rem;
-  position: relative;
-  transform-style: preserve-3d;
-  flex: 0 0 auto;
-}
-
-/* Estilos específicos para mg-2 */
-.mg-section.mg-2::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.3); /* Overlay ligero */
-  z-index: 1;
-}
-
-/* Efecto de brillo para títulos */
-.mg-title {
-  animation: titleGlow 3s ease-in-out infinite alternate;
-}
-
-@keyframes titleGlow {
-  from {
-    text-shadow: 0 0 7px rgba(249, 176, 100, 0.3),
-      0 0 10px rgba(249, 176, 100, 0.3);
+/* Styles for small screens (mobile) */
+@media (max-width: 480px) {
+  /* Typography adjustments */
+  .mg-title {
+    font-size: 2rem;
   }
-  to {
-    text-shadow: 0 0 10px rgba(249, 176, 100, 0.5),
-      0 0 20px rgba(249, 176, 100, 0.4);
+  
+  .mg-subtitle {
+    font-size: 1.8rem;
   }
-}
-
-/* Efecto hover para botones */
-.mg-button {
-  transition: all 0.3s ease;
-}
-
-.mg-button:not(:disabled):hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(249, 176, 100, 0.2);
-}
-
-/* Efecto hover para las cards */
-.step-card-inner {
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Efecto hover para imágenes de templos */
-.mg-image img {
-  transition: transform 0.5s ease;
-}
-
-.mg-image:hover img {
-  transform: scale(1.02);
+  
+  .text-highlight {
+    font-size: 1.5rem;
+  }
+  
+  .mg-text {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  /* Section 1 specific adjustments */
+  .mg-section.mg-1 {
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .mg-section.mg-1 .mg-image-container {
+    height: 40vh;
+  }
+  
+  /* UI component sizing */
+  .step-card {
+    width: 90%;
+    max-width: 15rem;
+  }
+  
+  .mg-button {
+    padding: 12px 20px;
+    font-size: 20px;
+  }
+  
+  .steps-container {
+    gap: 1rem;
+  }
+  
+  /* Further optimize temple images on mobile */
+  .mg-mobile-image .mg-image img {
+    max-height: 200px;
+  }
+  
+  /* Spacing adjustments */
+  .mg-content-grid {
+    gap: 1rem;
+  }
+  
+  .mg-section.mg-3, 
+  .mg-section.mg-4 {
+    padding: 1.5rem 0.5rem;
+  }
+  
+  /* Ensure proper spacing between title and image */
+  .mg-title-container {
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Improve mobile content spacing */
+  .mg-content-wrapper {
+    padding: 0 0.25rem;
+  }
 }

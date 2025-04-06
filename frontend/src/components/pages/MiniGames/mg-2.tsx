@@ -5,14 +5,19 @@ import bg2 from "../../../assets/images/bg_2.png";
 import iconGM from "../../../assets/icons/iconGMsmall.png";
 import "./mini-games.css";
 
-/** Interface for card data structure */
+/**
+ * AI-Powered Games section showcasing game types
+ * Features interactive flip cards for game category display
+ */
+
+/** Type definition for game category cards */
 interface CardData {
   icon: string;
   title: string;
   text: string;
 }
 
-/** Card data for mini-game types */
+/** Game categories configuration */
 const cardData: CardData[] = [
   {
     icon: iconGM,
@@ -29,12 +34,15 @@ const cardData: CardData[] = [
 /**
  * MG2 Component - AI-Powered Games Section
  * @description Showcases the different types of mini-games available
- * @returns {JSX.Element} The rendered MG2 component
  */
 const MG2: React.FC = () => (
   <motion.div
     className="mg-section mg-2"
-    style={{ backgroundImage: `url(${bg2})` }}
+    style={{ 
+      backgroundImage: `url(${bg2})`,
+      overflowX: 'hidden',
+      maxWidth: '100%' 
+    }}
     {...variants.section}
   >
     {/* Main content container */}
@@ -58,31 +66,19 @@ const MG2: React.FC = () => (
       {/* Game types cards */}
       <div className="steps-container">
         {cardData.map((card, index) => (
-          <motion.div
-            key={index}
-            className="step-card"
-            {...variants.card}
-            transition={{ ...variants.card.transition, delay: index * 0.2 }}
-          >
-            <div className="step-card-inner">
-              <div className="step-card-front">
-                <div className="step-icon">
-                  <motion.img
-                    src={card.icon}
-                    alt={card.title}
-                    className="step-icon-image"
-                    {...variants.image}
-                  />
+          <div key={index} className="flip-card">
+            <div className="flip-card-inner">
+              <div className="flip-card-front">
+                <div className="card-icon">
+                  <img src={card.icon} alt={card.title} />
                 </div>
-                <motion.h3 className="step-title" {...variants.subtitle}>
-                  {card.title}
-                </motion.h3>
+                <h3 className="card-title">{card.title}</h3>
               </div>
-              <div className="step-card-back">
-                <p className="step-text">{card.text}</p>
+              <div className="flip-card-back">
+                <p className="card-description">{card.text}</p>
               </div>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
     </motion.div>

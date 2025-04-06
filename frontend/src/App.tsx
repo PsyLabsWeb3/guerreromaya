@@ -14,7 +14,7 @@ function App() {
   useTouchScroll();
   return (
     <Router>
-      <div style={{ position: "relative", width: "100%", height: "100vh" }}>
+      <div style={{ position: "relative", width: "100%", height: "100vh", overflowX: "hidden" }}>
         <Navigation />
         <Routes>
           <Route path="/" element={<Home3d />} />
