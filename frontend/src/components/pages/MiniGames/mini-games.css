@@ -35,7 +35,7 @@
 .mg-section,
 .mg-dark-section-wrapper,
 .mg-content-wrapper,
-.mg-grid,
+.mg-flex-container,
 .mg-content-grid,
 .steps-container,
 .step-card,
@@ -76,6 +76,21 @@ body {
   box-sizing: border-box;
   overflow: hidden;
   background-position: "bottom, center";
+}
+
+/* Nuevo contenedor flex responsivo */
+.mg-flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  gap: 2rem;
+  padding: 0 1rem;
+  min-height: 80vh; /* Asegurar altura mínima en pantallas grandes */
+  padding-top: 5rem; /* Cambiado a 5rem para espaciado consistente */
 }
 
 /* Estilos para el video de fondo en MG-2 */
@@ -286,7 +301,7 @@ body {
 .mg-image-container {
   width: 100%;
   border-radius: 8px;
-  overflow: hidden;
+  overflow: visible;
   height: 100%;
   display: flex;
   align-items: center;
@@ -562,33 +577,37 @@ body {
   padding: 2rem;
   position: relative;
   padding-top: 6rem; /* Aumentado para separar del menú */
+  min-height: 100vh; /* Asegurar altura mínima */
 }
 
-.mg-section.mg-1 .mg-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
+.mg-section.mg-1 .mg-flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  gap: 2rem;
+  min-height: 80vh; /* Asegurar altura mínima en pantallas grandes */
+  padding-top: 5rem; /* Cambiado a 5rem para espaciado consistente */
 }
 
 .mg-section.mg-1 .mg-image-container {
   width: 100%;
   height: 100%;
-  min-height: 650px; /* Aumentado 50px más para evitar que se corte en desktop */
+  min-height: 600px; /* Añadido para asegurar altura mínima en desktop */
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: -20px; /* Bajado un poco el Kukulcán en desktop */
+  overflow: visible; /* Cambiado de hidden a visible para evitar que se corte */
 }
 
-/* Estilos para el contenedor de Spline */
+/* Estilos específicos para el componente Spline en desktop */
 .mg-section.mg-1 .mg-image-container spline-viewer {
   width: 100%;
   height: 100%;
-  min-height: 650px; /* Aumentado 50px más para evitar que se corte en desktop */
+  min-height: 600px; /* Asegurar altura mínima para el componente Spline */
   display: block;
 }
 
@@ -648,18 +667,22 @@ body {
 @media (max-width: 992px) {
   .mg-section.mg-1 {
     padding-top: 4rem; /* Ajustado para tablets */
+    min-height: 100vh; /* Mantener altura mínima */
   }
 
-  .mg-section.mg-1 .mg-grid {
-    grid-template-columns: 1fr;
+  .mg-section.mg-1 .mg-flex-container {
+    flex-direction: column;
     gap: 3rem;
+    min-height: 90vh; /* Aumentar altura mínima en tablets */
+    justify-content: flex-start; /* Alinear contenido al inicio */
+    padding-top: 5rem; /* Cambiado a 5rem para espaciado consistente */
   }
 
   .mg-section.mg-1 .mg-image-container {
     order: 2;
     height: 300px;
     min-height: 300px; /* Ajustado para tablets */
-    margin-top: 0; /* Quitar el margen negativo en tablets */
+    overflow: visible; /* Mantener visible para evitar cortes */
   }
 
   .mg-section.mg-1 .mg-text-content {
@@ -679,8 +702,9 @@ body {
     font-size: 1.1rem;
   }
 
+  /* Ajustar el componente Spline para tablets */
   .mg-section.mg-1 .mg-image-container spline-viewer {
-    min-height: 300px; /* Ajustado para tablets */
+    min-height: 300px;
   }
 }
 
@@ -688,17 +712,21 @@ body {
   .mg-section.mg-1 {
     padding: 1.5rem;
     padding-top: 3.5rem; /* Ajustado para móviles */
+    min-height: 100vh; /* Mantener altura mínima */
   }
 
-  .mg-section.mg-1 .mg-grid {
+  .mg-section.mg-1 .mg-flex-container {
     gap: 2rem;
     position: relative;
+    min-height: 100vh; /* Asegurar altura completa en móviles */
+    justify-content: flex-start; /* Alinear contenido al inicio */
+    padding-top: 5rem; /* Cambiado a 5rem para espaciado consistente */
   }
 
   .mg-section.mg-1 .mg-image-container {
     height: 350px; /* Aumentado para evitar que se corte */
     position: absolute;
-    top: 110px; /* Subido un poco más */
+    top: 8rem; /* Cambiado a 8rem para espaciado consistente */
     left: 0;
     right: 0;
     z-index: 1; /* Colocar detrás del texto */
@@ -708,7 +736,8 @@ body {
   .mg-section.mg-1 .mg-text-content {
     position: relative;
     z-index: 2; /* Asegurar que el texto esté por encima */
-    margin-top: -200px; /* Subir más el texto */
+    margin-top: 15rem; /* Aumentado a 15rem para bajar el texto 10rem más */
+    padding-bottom: 2rem; /* Añadir espacio inferior */
   }
 
   .mg-section.mg-1 .mg-title {
@@ -735,19 +764,24 @@ body {
   .mg-section.mg-1 {
     padding: 1rem;
     padding-top: 3rem; /* Ajustado para móviles pequeños */
+    min-height: 100vh; /* Mantener altura mínima */
   }
 
-  .mg-section.mg-1 .mg-grid {
+  .mg-section.mg-1 .mg-flex-container {
     gap: 1.5rem;
+    min-height: 100vh; /* Asegurar altura completa en móviles pequeños */
+    justify-content: flex-start; /* Alinear contenido al inicio */
+    padding-top: 5rem; /* Cambiado a 5rem para espaciado consistente */
   }
 
   .mg-section.mg-1 .mg-image-container {
     height: 350px; /* Aumentado para evitar que se corte */
-    top: 80px; /* Subido un poco más */
+    top: 7rem; /* Cambiado a 7rem para espaciado consistente */
   }
 
   .mg-section.mg-1 .mg-text-content {
-    margin-top: -200px; /* Subir más el texto */
+    margin-top: 15rem; /* Aumentado a 15rem para bajar el texto 10rem más */
+    padding-bottom: 3rem; /* Añadir más espacio inferior */
   }
 
   .mg-section.mg-1 .mg-title {
@@ -981,7 +1015,7 @@ body {
   }
 
   /* Grid and spacing adjustments */
-  .mg-section.mg-1 .mg-grid {
+  .mg-section.mg-1 .mg-flex-container {
     gap: 1rem;
     padding: 0 1rem;
   }
@@ -1063,7 +1097,8 @@ body {
   /* Text size adjustments */
   .mg-section.mg-2 .mg-text {
     font-size: 1.2rem;
-    padding: 0 1rem;
+    padding: 0;
+    margin: 0 0 2rem 0;
   }
 
   .mg-title {
@@ -1090,7 +1125,7 @@ body {
     min-height: 100vh;
   }
 
-  .mg-section.mg-1 .mg-grid {
+  .mg-section.mg-1 .mg-flex-container {
     grid-template-columns: 1fr;
     padding: 1rem;
   }
@@ -1190,22 +1225,33 @@ body {
   position: relative;
 }
 
-.mg-section.mg-1 .mg-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
+.mg-section.mg-1 .mg-flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  gap: 2rem;
 }
 
 .mg-section.mg-1 .mg-image-container {
   width: 100%;
   height: 100%;
+  min-height: 600px; /* Añadido para asegurar altura mínima en desktop */
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: visible; /* Cambiado de hidden a visible para evitar que se corte */
+}
+
+/* Estilos específicos para el componente Spline en desktop */
+.mg-section.mg-1 .mg-image-container spline-viewer {
+  width: 100%;
+  height: 100%;
+  min-height: 600px; /* Asegurar altura mínima para el componente Spline */
+  display: block;
 }
 
 .mg-section.mg-1 .mg-text-content {
@@ -1252,14 +1298,16 @@ body {
     padding-top: 4rem; /* Ajustado para tablets */
   }
 
-  .mg-section.mg-1 .mg-grid {
-    grid-template-columns: 1fr;
+  .mg-section.mg-1 .mg-flex-container {
+    flex-direction: column;
     gap: 3rem;
   }
 
   .mg-section.mg-1 .mg-image-container {
     order: 2;
     height: 300px;
+    min-height: 300px; /* Ajustado para tablets */
+    overflow: visible; /* Mantener visible para evitar cortes */
   }
 
   .mg-section.mg-1 .mg-text-content {
@@ -1278,6 +1326,11 @@ body {
   .mg-section.mg-1 .mg-text {
     font-size: 1.1rem;
   }
+
+  /* Ajustar el componente Spline para tablets */
+  .mg-section.mg-1 .mg-image-container spline-viewer {
+    min-height: 300px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1286,7 +1339,7 @@ body {
     padding-top: 3.5rem; /* Ajustado para móviles */
   }
 
-  .mg-section.mg-1 .mg-grid {
+  .mg-section.mg-1 .mg-flex-container {
     gap: 2rem;
     position: relative;
   }
@@ -1333,7 +1386,7 @@ body {
     padding-top: 3rem; /* Ajustado para móviles pequeños */
   }
 
-  .mg-section.mg-1 .mg-grid {
+  .mg-section.mg-1 .mg-flex-container {
     gap: 1.5rem;
   }
 
@@ -1344,6 +1397,7 @@ body {
 
   .mg-section.mg-1 .mg-text-content {
     margin-top: -200px; /* Subir más el texto */
+    padding-bottom: 3rem; /* Añadir más espacio inferior */
   }
 
   .mg-section.mg-1 .mg-title {

@@ -12,6 +12,10 @@ import "./mini-games.css";
 const MG1: React.FC = () => {
   // Estado para almacenar la URL de la escena de Spline según el tamaño de pantalla
   const [splineScene, setSplineScene] = useState("");
+  // Estado para detectar si estamos en un dispositivo móvil
+  const [isMobile, setIsMobile] = useState(false);
+  // Estado para detectar si estamos en desktop
+  const [isDesktop, setIsDesktop] = useState(false);
 
   // Efecto para cambiar la escena según el tamaño de la pantalla
   useEffect(() => {
@@ -22,8 +26,14 @@ const MG1: React.FC = () => {
       const mobileScene =
         "https://prod.spline.design/nf5VEio78mm9zc4S/scene.splinecode"; // Reemplazar con la URL de la escena móvil
 
+      // Detectar si estamos en un dispositivo móvil o desktop
+      const mobile = window.innerWidth < 768;
+      const desktop = window.innerWidth >= 992;
+      setIsMobile(mobile);
+      setIsDesktop(desktop);
+
       // Establecer la escena según el ancho de la ventana
-      setSplineScene(window.innerWidth < 768 ? mobileScene : desktopScene);
+      setSplineScene(mobile ? mobileScene : desktopScene);
     };
 
     // Establecer la escena inicial
@@ -35,6 +45,45 @@ const MG1: React.FC = () => {
     // Limpiar listener al desmontar el componente
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  // Estilos específicos para el contenedor de Spline según el dispositivo
+  const getSplineContainerStyle = () => {
+    if (isMobile) {
+      return { marginTop: "12rem" };
+    } else if (isDesktop) {
+      return {
+        height: "700px",
+        width: "100%",
+        overflow: "visible" as const,
+        position: "relative" as const,
+      };
+    }
+    return {};
+  };
+
+  // Estilos específicos para el componente Spline según el dispositivo
+  const getSplineStyle = () => {
+    if (isDesktop) {
+      return {
+        width: "100%",
+        height: "100%",
+        position: "absolute" as const,
+        top: "0",
+        left: "0",
+      };
+    }
+    return {};
+  };
+
+  // Estilos específicos para el contenedor de texto según el dispositivo
+  const getTextContentStyle = () => {
+    if (isMobile) {
+      return { marginTop: "0", paddingTop: "0" };
+    } else if (isDesktop) {
+      return { marginTop: "-7rem", paddingTop: "0" };
+    }
+    return {};
+  };
 
   return (
     <motion.div
@@ -48,18 +97,33 @@ const MG1: React.FC = () => {
       }}
       {...variants.section}
     >
-      {/* Main grid layout container */}
-      <div className="mg-grid">
+      {/* Contenedor flex responsivo */}
+      <div className="mg-flex-container">
         {/* Left column - Kukulcan character */}
-        <motion.div className="mg-image-container" {...variants.imageContainer}>
+        <motion.div
+          className="mg-image-container"
+          {...variants.imageContainer}
+          style={getSplineContainerStyle()}
+        >
           {/* Renderizar Spline solo si hay una escena seleccionada */}
-          {splineScene && <Spline scene={splineScene} />}
+          {splineScene && (
+            <div style={getSplineStyle()}>
+              <Spline scene={splineScene} />
+            </div>
+          )}
         </motion.div>
 
         {/* Right column - Main content */}
-        <motion.div className="mg-text-content" {...variants.textContent}>
+        <motion.div
+          className="mg-text-content"
+          {...variants.textContent}
+          style={getTextContentStyle()}
+        >
           {/* Main title section */}
-          <div className="mg-title-container">
+          <div
+            className="mg-title-container"
+            style={isMobile ? { marginTop: "0", paddingTop: "0" } : {}}
+          >
             <motion.h2 className="mg-title" {...variants.title}>
               KUKULCAN'S MINI-GAMES
             </motion.h2>
