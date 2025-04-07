@@ -1,0 +1,90 @@
+.kukulcan-container {
+  background: url("/templecavebg.png"),
+    linear-gradient(-45deg, rgba(0, 13, 26, 0.82), rgb(11, 11, 11));
+  background-size: cover, cover;
+  background-blend-mode: overlay;
+  min-height: 100vh;
+  width: 100%;
+  padding: 1rem;
+}
+
+.kukulcan-title {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-family: "Cinzel Decorative", serif;
+  color: #f9b064;
+  padding-top: clamp(5rem, 10vw, 15rem);
+  margin-top: 0;
+  padding-left: clamp(1rem, 5vw, 12rem);
+  padding-right: clamp(1rem, 5vw, 12rem);
+  text-align: center;
+}
+
+.kukulcan-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.kukulcan-text-container {
+  width: 100%;
+  max-width: 800px;
+  padding: 1rem;
+}
+
+.kukulcan-description {
+  margin-top: 2rem;
+  font-family: "lato", sans-serif;
+  color: #929292;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  padding: 1rem;
+  text-justify: inter-word;
+  text-align: justify;
+}
+
+.kukulcan-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.kukulcan-link {
+  text-decoration: none;
+  color: white;
+  font-family: "lato", italic;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+}
+
+.kukulcan-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.kukulcan-spline-container {
+  width: 100%;
+  max-width: 800px;
+}
+
+.kukulcan-spline {
+  width: 100%;
+  height: clamp(300px, 50vh, 600px);
+  margin-bottom: 2rem;
+}
+
+/* Media queries para pantallas más grandes */
+@media (min-width: 768px) {
+  .kukulcan-content {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .kukulcan-text-container {
+    width: 50%;
+  }
+
+  .kukulcan-spline-container {
+    width: 50%;
+  }
+}
