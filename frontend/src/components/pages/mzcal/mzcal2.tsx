@@ -20,7 +20,7 @@ const MzCal2: React.FC = () => {
           </div>
           <div className="mzcal-table-row">
             <p className="mzcal-text bold">Token Name</p>
-            <p className="mzcal-text">MZCAL</p>
+            <p className="mzcal-text">MEZCAL</p>
           </div>
           <div className="mzcal-table-row">
             <p className="mzcal-text bold">Ticker</p>
