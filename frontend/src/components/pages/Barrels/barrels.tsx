@@ -41,13 +41,34 @@ export default function BarrelDashboard() {
               style={{
                 display: "flex",
                 justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+                height: "200px",
+                position: "relative",
+                overflow: "hidden",
               }}
               className="barrel-image"
             >
-              <Spline
-                style={{ justifySelf: "center" }}
-                scene="https://prod.spline.design/ufqRFlpBm8PAD9Np/scene.splinecode"
-              />
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  position: "relative",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Spline
+                  style={{
+                    width: "273px",
+                    height: "302px",
+                    transform: "scale(0.7)",
+                    transformOrigin: "center center",
+                  }}
+                  scene="https://prod.spline.design/ufqRFlpBm8PAD9Np/scene.splinecode"
+                />
+              </div>
             </div>
             <h3 className="barrel-id">{barrel.id}</h3>
             <p className="barrel-rarity">{barrel.rarity} Edition</p>
