@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./barrels.css";
+import Spline from "@splinetool/react-spline";
 
 const barrels = [
   {
@@ -36,6 +37,18 @@ export default function BarrelDashboard() {
             className="barrel-card"
             onClick={() => setSelectedBarrel(barrel)}
           >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+              className="barrel-image"
+            >
+              <Spline
+                style={{ justifySelf: "center" }}
+                scene="https://prod.spline.design/ufqRFlpBm8PAD9Np/scene.splinecode"
+              />
+            </div>
             <h3 className="barrel-id">{barrel.id}</h3>
             <p className="barrel-rarity">{barrel.rarity} Edition</p>
 
