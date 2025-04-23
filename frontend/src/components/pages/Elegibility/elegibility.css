@@ -1,0 +1,253 @@
+/* Global CSS Custom Properties
+   Main color scheme and typography variables for consistent styling */
+:root {
+  --primary-color: #f9b064;
+  --text-color: #fff;
+  --background-dark: #000;
+  --card-background: rgba(12, 12, 12, 0.8);
+  --border-color: rgba(147, 104, 59, 0.27);
+  --hover-shadow: rgba(249, 176, 100, 0.2);
+  --title-font: "Cinzel Decorative", serif;
+  --body-font: "Cormorant Garamond", serif;
+  --section-padding: 4rem 2rem;
+  --content-max-width: 1400px;
+}
+
+/* Main container styles
+   Handles the overall layout and scroll behavior */
+.Elegibility {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: transparent;
+}
+
+/* Section layout with background
+   Full-height section with centered content and background image */
+.elegibility-section {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--section-padding);
+  box-sizing: border-box;
+  overflow: hidden;
+  background-image: url('../../../assets/images/bg_2.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+/* Background overlay
+   Adds a dark overlay to improve content readability */
+.elegibility-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+/* Content wrapper
+   Ensures content stays above the background overlay */
+.elegibility-section > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Primary heading styles
+   Main title with glowing animation effect */
+.elegibility-title {
+  color: var(--primary-color);
+  font-family: var(--title-font);
+  text-shadow: 0 0 7px rgba(249, 176, 100, 0.3);
+  text-align: center;
+  font-size: 3.5rem;
+  margin-bottom: 2rem;
+  animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+/* Title glow animation
+   Creates a subtle pulsing effect on titles */
+@keyframes titleGlow {
+  from {
+    text-shadow: 0 0 7px rgba(249, 176, 100, 0.3);
+  }
+  to {
+    text-shadow: 0 0 10px rgba(249, 176, 100, 0.5);
+  }
+}
+
+/* Secondary heading styles
+   Subtitles with elegant typography */
+.elegibility-subtitle {
+  color: var(--text-color);
+  font-family: var(--body-font);
+  font-size: 1.5rem;
+  text-align: center;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Highlighted text styles
+   Special emphasis for important section headers */
+.text-highlight {
+  color: var(--primary-color);
+  font-size: 2rem;
+  font-family: var(--title-font);
+  margin: 0;
+  text-align: left;
+  line-height: 1.2;
+}
+
+/* Input wrapper styles
+   Container for form elements with controlled width */
+.elegibility-input-container {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 2rem;
+  position: relative;
+}
+
+/* Form input styles
+   Styled text inputs with disabled state */
+.elegibility-input {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-family: var(--body-font);
+  color: var(--text-color);
+  background: var(--card-background);
+  border: 2px solid var(--border-color);
+  border-radius: 50px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+/* Disabled input styles
+   Enhanced visual feedback for disabled state */
+.elegibility-input-disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+  background: linear-gradient(45deg, rgba(12, 12, 12, 0.8), rgba(24, 24, 24, 0.8));
+}
+
+/* Input placeholder styles with shimmer effect */
+.elegibility-input::placeholder {
+  color: rgba(249, 176, 100, 0.8);
+  animation: shimmer 3s infinite;
+}
+
+/* Shimmer animation for placeholder text */
+@keyframes shimmer {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+/* Input focus state
+   Enhanced visual feedback for user interaction */
+.elegibility-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 10px rgba(249, 176, 100, 0.2);
+}
+
+/* Large screen adjustments
+   Optimizations for screens larger than 1400px */
+@media (max-width: 1400px) {
+  .elegibility-section {
+    padding: 4rem 3rem;
+  }
+}
+
+/* Desktop adjustments
+   Optimizations for standard desktop screens */
+@media (max-width: 1200px) {
+  .elegibility-title {
+    font-size: 3rem;
+  }
+  
+  .elegibility-subtitle {
+    font-size: 1.4rem;
+  }
+}
+
+/* Tablet landscape adjustments
+   Optimizations for tablet landscape and smaller desktop screens */
+@media (max-width: 992px) {
+  .elegibility-title {
+    font-size: 2.8rem;
+  }
+  
+  .elegibility-subtitle {
+    font-size: 1.3rem;
+  }
+  
+  .text-highlight {
+    font-size: 1.7rem;
+    text-align: center;
+  }
+}
+
+/* Tablet portrait adjustments
+   Optimizations for tablet portrait view */
+@media (max-width: 768px) {
+  .elegibility-section {
+    padding: 2rem 1rem;
+  }
+  
+  .elegibility-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .elegibility-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .elegibility-input {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+  
+  .text-highlight {
+    font-size: 1.4rem;
+  }
+}
+
+/* Mobile adjustments
+   Optimizations for mobile devices */
+@media (max-width: 480px) {
+  .elegibility-title {
+    font-size: 2rem;
+  }
+  
+  .elegibility-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .text-highlight {
+    font-size: 1.2rem;
+  }
+}
+
+/* Specific styles for first section */
+.elegibility-1 {
+  background-color: transparent;
+  position: relative;
+}

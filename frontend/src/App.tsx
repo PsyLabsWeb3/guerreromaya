@@ -9,6 +9,7 @@ import MiniGames from "./components/pages/MiniGames/mini-games";
 import Barrels from "./components/pages/Barrels/barrels";
 import Kukulcan from "./components/pages/Kukulcan/kukulcan";
 import MzCal from "./components/pages/mzcal/mzcal";
+import Elegibility from './components/pages/Elegibility/elegibility';
 
 function App() {
   useTouchScroll();
@@ -22,6 +23,7 @@ function App() {
           <Route path="/barrels" element={<Barrels />} />
           <Route path="/kukulcan" element={<Kukulcan />} />
           <Route path="/mzcal" element={<MzCal />} />
+          <Route path="/elegibility" element={<Elegibility />} />
           {/* Add other routes here */}
         </Routes>
       </div>
