@@ -10,13 +10,13 @@ contract MzcalToken is ERC1155, Ownable {
     uint256 public constant PRESALE_TOKEN = 2;
     
     // Initial supply of tokens to mint to the contract
-    uint256 public constant MZCAL_INITIAL_SUPPLY = 100000;
-    uint256 public constant PRESALE_INITIAL_SUPPLY = 250000;
+    uint256 public constant MZCAL_INITIAL_SUPPLY = 1000000;
+    uint256 public constant PRESALE_INITIAL_SUPPLY = 100000;
 
     // Sales configuration
     // uint256 public presaleEndTime = 1738387200; // February 1st, 2025
     uint256 public mzcalTokenPrice = 0.001 ether;
-    uint256 public presaleTokenPrice = 0.001 ether;
+    uint256 public presaleTokenPrice = 0.00056 ether;
     bool public mzcalTokenLaunched = false;
 
     // Whitelist of wallets allowed to access presale
