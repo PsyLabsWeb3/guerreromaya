@@ -3,8 +3,10 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
-contract MzcalToken is ERC1155, Ownable {
+contract MzcalToken is ERC1155, Ownable, ReentrancyGuard {
     // Constants simbolizing token IDs
     uint256 public constant MZCAL = 1;
     uint256 public constant PRESALE_TOKEN = 2;
@@ -92,6 +94,7 @@ contract MzcalToken is ERC1155, Ownable {
 
     // Add multiple wallets to the presale whitelist
     function bulkAddToPresaleWhitelist(address[] calldata accounts) external onlyAdmin {
+        require(accounts.length <= 100, "Too many addresses in one call");
         for (uint256 i = 0; i < accounts.length; i++) {
             presaleWhitelist[accounts[i]] = true;
         }
@@ -119,7 +122,7 @@ contract MzcalToken is ERC1155, Ownable {
         require(presaleWhitelist[msg.sender], "Address is not whitelisted");
         //require(block.timestamp < presaleEndTime, "Presale has ended");
 
-        uint256 cost = amount * presaleTokenPrice;
+        uint256 cost = SafeMath.mul(amount, presaleTokenPrice);
         require(msg.value == cost, "Incorrect ETH sent");
 
         uint256 contractBalance = balanceOf(address(this), PRESALE_TOKEN);
@@ -145,7 +148,7 @@ contract MzcalToken is ERC1155, Ownable {
     }
 
     // Buy MZCAL tokens after launch
-    function buyMZCAL(uint256 amount) external payable {
+   function buyMZCAL(uint256 amount) external payable nonReentrant {
         require(mzcalTokenLaunched, "MZCAL token not launched yet");
 
         uint256 cost = mzcalTokenPrice * amount;
@@ -158,7 +161,8 @@ contract MzcalToken is ERC1155, Ownable {
 
         // Refund any excess ETH
         if (msg.value > cost) {
-            payable(msg.sender).transfer(msg.value - cost);
+            (bool success, ) = payable(msg.sender).call{value: msg.value - cost}("");
+            require(success, "Refund failed");
         }
 
         emit MZCALPurchase(msg.sender, amount, cost);
@@ -171,13 +175,16 @@ contract MzcalToken is ERC1155, Ownable {
     }
 
     // Withdraw ETH balance to the owner's address
-    function withdraw(address payable a70, address payable a30) external onlyAdmin {
+    function withdraw(address payable a70, address payable a30) external onlyAdmin nonReentrant {
         uint256 bal = address(this).balance;
         require(bal > 0, "No funds to withdraw");
 
         uint256 s70 = (bal * 70) / 100;
-        a70.transfer(s70);
-        a30.transfer(bal - s70);
+        (bool success1, ) = a70.call{value: s70}("");
+        require(success1, "Transfer to a70 failed");
+
+        (bool success2, ) = a30.call{value: bal - s70}("");
+        require(success2, "Transfer to a30 failed");
     }
 
     // Handle ETH Donations

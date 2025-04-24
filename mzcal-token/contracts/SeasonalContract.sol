@@ -4,8 +4,9 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./MzcalToken.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract SeasonalContract is ERC1155, Ownable {
+contract SeasonalContract is ERC1155, Ownable, ReentrancyGuard {
     MzcalToken public mzcalToken;
 
     mapping(uint256 => uint256) public tokenPrices; // Prices for each asset
@@ -53,7 +54,7 @@ contract SeasonalContract is ERC1155, Ownable {
         _burn(from, id, amount);
     }
 
-    function buyAsset(uint256 id, uint256 amount) external {
+    function buyAsset(uint256 id, uint256 amount) external nonReentrant{
         // Check total price and ensure price is set
         uint256 totalPrice = tokenPrices[id] * amount;
         require(totalPrice > 0, "Token price not set");
@@ -77,13 +78,16 @@ contract SeasonalContract is ERC1155, Ownable {
     }
 
     // Withdraw ETH balance to the owner's address
-    function withdraw(address payable a70, address payable a30) external onlyAdmin {
+      function withdraw(address payable a70, address payable a30) external onlyAdmin nonReentrant {
         uint256 bal = address(this).balance;
-        require(bal > 0);
+        require(bal > 0, "No funds to withdraw");
 
         uint256 s70 = (bal * 70) / 100;
-        a70.transfer(s70);
-        a30.transfer(bal - s70);
+        (bool success1, ) = a70.call{value: s70}("");
+        require(success1, "Transfer to a70 failed");
+
+        (bool success2, ) = a30.call{value: bal - s70}("");
+        require(success2, "Transfer to a30 failed");
     }
 
     // Trade functions
