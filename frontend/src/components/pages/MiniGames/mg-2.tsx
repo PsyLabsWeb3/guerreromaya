@@ -96,12 +96,12 @@ const MG2: React.FC = () => {
           {cardData.map((card, index) => (
             <motion.div
               key={index}
-              className="step-card"
+              className="flip-card"
               {...variants.card}
               transition={{ ...variants.card.transition, delay: index * 0.2 }}
             >
-              <div className="step-card-inner">
-                <div className="step-card-front">
+              <div className="flip-card-inner">
+                <div className="flip-card-front">
                   <div className="step-icon">
                     <motion.img
                       src={card.icon}
@@ -114,7 +114,7 @@ const MG2: React.FC = () => {
                     {card.title}
                   </motion.h3>
                 </div>
-                <div className="step-card-back">
+                <div className="flip-card-back">
                   <p className="step-text">{card.text}</p>
                 </div>
               </div>
