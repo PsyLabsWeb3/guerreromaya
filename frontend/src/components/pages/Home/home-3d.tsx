@@ -10,6 +10,20 @@ import "./home-3d.css"; // Import the CSS file
 function Home3D() {
   const [isLoading, setIsLoading] = useState(true);
   const [splineScene, setSplineScene] = useState("");
+  const [showAgePopup, setShowAgePopup] = useState(false);
+
+  useEffect(() => {
+    // Mostrar el pop-up solo si el usuario no ha aceptado previamente
+    const hasAccepted = localStorage.getItem("isAdult");
+    if (!hasAccepted) {
+      setShowAgePopup(true);
+    }
+  }, []);
+
+  const handleAcceptAge = () => {
+    localStorage.setItem("isAdult", "true");
+    setShowAgePopup(false);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -42,6 +56,17 @@ function Home3D() {
 
   return (
     <div>
+      {showAgePopup && (
+        <div className="age-popup">
+          <div className="popup-content">
+            <h2>Age Verification</h2>
+            <p>You must be of legal age to access this page.</p>
+            <button className="mg-button" onClick={handleAcceptAge}>
+              I am of legal age
+            </button>
+          </div>
+        </div>
+      )}
       <div className={`loading-screen ${isLoading ? "visible" : "hidden"}`}>
         <div
           style={{
