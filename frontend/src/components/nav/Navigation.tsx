@@ -99,13 +99,13 @@ const Navigation = () => {
           <NavLink to="/kukulcan">Kukulcan-AI</NavLink>
           <NavLink to="/docs">Docs</NavLink>
           {isMobile && (
-            <NavLink to="/barrels" special presale>
+            <NavLink to="/presale" special presale>
               Presale
             </NavLink>
           )}
         </div>
         {!isMobile && (
-          <NavLink to="/barrels" special presale>
+          <NavLink to="/presale" special presale>
             Presale
           </NavLink>
         )}
