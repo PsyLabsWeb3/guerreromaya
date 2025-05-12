@@ -97,7 +97,9 @@ const Navigation = () => {
             $MZCAL
           </NavLink>
           <NavLink to="/kukulcan">Kukulcan-AI</NavLink>
-          <NavLink to="/docs">Docs</NavLink>
+          <NavLink to="https://fuchsia-efficient-cockroach-128.mypinata.cloud/ipfs/bafybeicg4klmut3uqghixooztgs3e5jutgfmyjzs4ouwrqegwrevyn4xwy">
+            Litepaper
+          </NavLink>
           {isMobile && (
             <NavLink to="/presale" special presale>
               Presale
