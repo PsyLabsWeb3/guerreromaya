@@ -13,16 +13,16 @@ Guerrero Maya is a **Web3-powered gaming and economic ecosystem** that integrate
 
 ## 🚀 Roadmap  
 
-### **Q1 – 2025**  
-✅ **AI Agent Mini-Games** – Launch of **Kukulcán-powered engagement challenges**, integrating **SocialFi mechanics**.  
-✅ **$MZCAL Presale** – Early token sale, enabling community participation in the ecosystem.  
-
 ### **Q2 – 2025**  
-✅ **NFT Sale (Playable Characters)** – **ERC-1155 warriors, artifacts, and power-ups**, unlocking in-game progression.  
-✅ **Expansion of AI Economy** – Kukulcán AI **dynamically adjusts tokenomics, rewards, and marketplace interactions**.  
+✅ **AI Agent Mini-Games** – Launch of **Kukulcán-powered engagement challenges**, integrating **SocialFi mechanics**.  
 
 ### **Q3 – 2025**  
+✅ **$MZCAL Presale** – Early token sale, enabling community participation in the ecosystem.  
+✅ **NFT Sale (Playable Characters)** – **ERC-1155 warriors, artifacts, and power-ups**, unlocking in-game progression.  
+✅ **Expansion of AI Economy** – Kukulcán AI **dynamically adjusts tokenomics, rewards, and marketplace interactions**.
 ✅ **Unity 2D Game Launch** – Full deployment of the **strategy defense game**, featuring **AI-driven enemies, on-chain asset trading, and $MZCAL-based upgrades**.  
+
+### **Q4 – 2025**  
 ✅ **On-Chain Marketplace Activation** – Enabling **NFT and RWA trading**, including **tokenized mezcal barrel investments**.  
 
 ---
