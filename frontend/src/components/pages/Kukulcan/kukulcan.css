@@ -1,90 +1,224 @@
 .kukulcan-container {
-  background: url("/templecavebg.png"),
+  background:
+    url("/templecavebg.png"),
     linear-gradient(-45deg, rgba(0, 13, 26, 0.82), rgb(11, 11, 11));
   background-size: cover, cover;
   background-blend-mode: overlay;
   min-height: 100vh;
   width: 100%;
-  padding: 1rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  position: relative;
+  overflow-x: hidden;
 }
 
 .kukulcan-title {
-  font-size: clamp(2rem, 5vw, 4rem);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
   font-family: "Cinzel Decorative", serif;
   color: #f9b064;
-  padding-top: clamp(5rem, 10vw, 15rem);
   margin-top: 0;
-  padding-left: clamp(1rem, 5vw, 12rem);
-  padding-right: clamp(1rem, 5vw, 12rem);
+  padding-top: clamp(4rem, 8vw, 10rem);
+  padding-left: clamp(1rem, 5vw, 8rem);
+  padding-right: clamp(1rem, 5vw, 8rem);
   text-align: center;
+  letter-spacing: 0.04em;
+  text-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.5),
+    0 1px 0 #fff2;
+  animation: fadeInDown 1.2s cubic-bezier(0.23, 1.01, 0.32, 1) both;
 }
 
 .kukulcan-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
-  padding: 1rem;
+  gap: 2.5rem;
+  padding: 2rem 1rem 1rem 1rem;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  z-index: 2;
+  flex: 1 1 auto;
 }
 
 .kukulcan-text-container {
   width: 100%;
-  max-width: 800px;
-  padding: 1rem;
+  max-width: 600px;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  background: rgba(20, 20, 20, 0.55);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(249, 176, 100, 0.18);
+  transition: box-shadow 0.3s;
+  margin-bottom: 1rem;
+  animation: fadeInLeft 1.2s cubic-bezier(0.23, 1.01, 0.32, 1) both;
 }
 
 .kukulcan-description {
-  margin-top: 2rem;
-  font-family: "lato", sans-serif;
-  color: #929292;
-  font-size: clamp(1rem, 2vw, 1.5rem);
-  padding: 1rem;
-  text-justify: inter-word;
+  margin-top: 1.2rem;
+  font-family: "Lato", sans-serif;
+  color: #e0e0e0;
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  padding: 0.5rem 0.5rem 0.5rem 0;
   text-align: justify;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 0 #0008;
 }
 
 .kukulcan-button-container {
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 2.2rem;
 }
 
 .kukulcan-link {
   text-decoration: none;
-  color: white;
-  font-family: "lato", italic;
+  color: inherit;
+  font-family: "Lato", italic;
   font-size: clamp(1rem, 2vw, 1.5rem);
 }
 
 .kukulcan-button {
   display: flex;
+  align-items: center;
   justify-content: center;
-  margin-top: 2rem;
+  background: linear-gradient(90deg, #f9b064 0%, #f7e7c6 100%);
+  color: #1a1200;
+  font-family: "Cinzel Decorative", serif;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 700;
+  border-radius: 1.5rem;
+  padding: 0.9rem 2.5rem;
+  box-shadow: 0 4px 24px 0 rgba(249, 176, 100, 0.18);
+  border: none;
+  cursor: pointer;
+  margin-top: 0;
+  transition:
+    transform 0.18s,
+    box-shadow 0.18s,
+    background 0.18s;
+  outline: none;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+.kukulcan-button:hover,
+.kukulcan-button:focus {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 8px 32px 0 rgba(249, 176, 100, 0.28);
+  background: linear-gradient(90deg, #f7e7c6 0%, #f9b064 100%);
 }
 
 .kukulcan-spline-container {
   width: 100%;
-  max-width: 800px;
+  max-width: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 1.5rem 0 0 0;
+  animation: fadeInRight 1.2s cubic-bezier(0.23, 1.01, 0.32, 1) both;
 }
 
 .kukulcan-spline {
   width: 100%;
-  height: clamp(300px, 50vh, 600px);
+  height: clamp(320px, 48vw, 540px);
+  min-height: 260px;
+  max-height: 600px;
   margin-bottom: 2rem;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  background: rgba(20, 20, 20, 0.25);
+  border: 1.5px solid rgba(249, 176, 100, 0.1);
 }
 
-/* Media queries para pantallas más grandes */
-@media (min-width: 768px) {
+/* Media queries for larger screens */
+@media (min-width: 900px) {
   .kukulcan-content {
     flex-direction: row;
     justify-content: space-between;
+    align-items: stretch;
+    gap: 3.5rem;
+    padding: 2.5rem 2rem 2rem 2rem;
   }
-
   .kukulcan-text-container {
-    width: 50%;
+    width: 48%;
+    min-width: 340px;
+    margin-bottom: 0;
   }
-
   .kukulcan-spline-container {
-    width: 50%;
+    width: 52%;
+    min-width: 340px;
+    padding: 0 0 0 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .kukulcan-title {
+    padding-top: 4.5rem;
+    font-size: 2rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .kukulcan-content {
+    padding: 1rem 0.2rem 0.5rem 0.2rem;
+    gap: 1.2rem;
+  }
+  .kukulcan-text-container {
+    padding: 1.2rem 0.5rem 1rem 0.5rem;
+    border-radius: 1.1rem;
+  }
+  .kukulcan-spline-container {
+    padding: 0.5rem 0 0 0;
+    height: 25rem;
+  }
+  .kukulcan-spline {
+    border-radius: 1rem;
+    min-height: 180px;
+    height: 20rem;
+  }
+  .kukulcan-button {
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 1rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
   }
 }

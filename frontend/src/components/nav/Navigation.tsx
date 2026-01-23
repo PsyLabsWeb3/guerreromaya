@@ -107,7 +107,7 @@ const Navigation = () => {
           )}
         </div>
         {!isMobile && (
-          <NavLink to="/presale" special presale>
+          <NavLink to="https://gm-dapp-beta.vercel.app/mzcal" special presale>
             Presale
           </NavLink>
         )}
