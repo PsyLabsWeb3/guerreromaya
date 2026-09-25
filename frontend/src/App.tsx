@@ -1,34 +1,55 @@
-import "./App.css";
-
-// import { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import useTouchScroll from "./components/utils/useTouchScroll";
-import Navigation from "./components/nav/Navigation";
-import Home3d from "./components/pages/Home/home-3d";
-import MiniGames from "./components/pages/MiniGames/mini-games";
-import Barrels from "./components/pages/Barrels/barrels";
-import Kukulcan from "./components/pages/Kukulcan/kukulcan";
-import MzCal from "./components/pages/mzcal/mzcal";
-import Elegibility from './components/pages/Elegibility/elegibility';
-
-function App() {
-  useTouchScroll();
-  return (
-    <Router>
-      <div style={{ position: "relative", width: "100%", height: "100vh", overflowX: "hidden" }}>
-        <Navigation />
-        <Routes>
-          <Route path="/" element={<Home3d />} />
-          <Route path="/mini-games" element={<MiniGames />} />
-          <Route path="/barrels" element={<Barrels />} />
-          <Route path="/kukulcan" element={<Kukulcan />} />
-          <Route path="/mzcal" element={<MzCal />} />
-          <Route path="/elegibility" element={<Elegibility />} />
-          {/* Add other routes here */}
-        </Routes>
-      </div>
-    </Router>
-  );
+import { useEffect, useState } from 'react';
+import Scene from './components/Scene';
+import SpotlightCard from './components/reactbits/SpotlightCard';
+import ScrollReveal from './components/reactbits/ScrollReveal';
+import { dappUrl } from './config';
+import './App.css';
+const nav = [['origen', 'Origen'], ['ecosistema', 'Ecosistema'], ['mzcal', '$MZCAL'], ['nfts', 'NFTs'], ['recompensas', 'Recompensas']];
+const steps = [['01', 'Conecta', 'Abre la dApp y conecta tu wallet para explorar tu perfil.'], ['02', 'Explora', 'Consulta elegibilidad, $MZCAL y el mint de guerreros.'], ['03', 'Descubre', 'Encuentra tu inventario y los beneficios de tu colección.']];
+const questions = [
+  ['¿Qué es Guerrero Maya?', 'Un universo que reúne la identidad del mezcal Guerrero Maya con una experiencia digital de tokens, guerreros NFT y comunidad.'],
+  ['¿Qué puedo hacer en la dApp?', 'El código actual reúne consulta de elegibilidad, compra y claim de $MZCAL, mint de NFTs, inventario y una sección de recompensas. Su disponibilidad depende del estado de la aplicación y de tu wallet.'],
+  ['¿Necesito una wallet para explorar?', 'Puedes recorrer esta landing sin conectar una wallet. La conexión se realiza dentro de la dApp cuando quieras utilizar sus funciones.'],
+  ['¿Cómo funcionan las recompensas Mythic?', 'La dApp presenta beneficios para holders de guerreros Mythic. Consulta allí los requisitos y confirma la disponibilidad y condiciones de cada beneficio antes de participar.'],
+  ['¿La dApp está en producción?', 'El enlace actual corresponde a la dApp beta. Revisa la red solicitada y la información que muestra la aplicación antes de realizar cualquier operación.']
+];
+function AppLink({ children, path = '', secondary = false }: { children: React.ReactNode; path?: string; secondary?: boolean }) {
+  return <a className={`button ${secondary ? 'button-outline' : ''}`} href={dappUrl(path)} target="_blank" rel="noopener noreferrer">{children}<span aria-hidden="true">↗</span></a>;
 }
-
-export default App;
+export default function App() {
+  const [menu, setMenu] = useState(false);
+  const [age, setAge] = useState(false);
+  const [declined, setDeclined] = useState(false);
+  useEffect(() => {
+    try { setAge(localStorage.getItem('isAdult') !== 'true'); } catch { setAge(true); }
+    const routes: Record<string, string> = { '/mzcal': 'mzcal', '/elegibility': 'mzcal', '/barrels': 'origen', '/kukulcan': 'nfts', '/mini-games': 'ecosistema' };
+    const destination = routes[location.pathname.replace(/\/$/, '')];
+    if (destination) { history.replaceState(null, '', `/#${destination}`); requestAnimationFrame(() => document.getElementById(destination)?.scrollIntoView()); }
+  }, []);
+  useEffect(() => {
+    if (!menu) return;
+    const close = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenu(false); };
+    window.addEventListener('keydown', close); return () => window.removeEventListener('keydown', close);
+  }, [menu]);
+  const accept = () => { try { localStorage.setItem('isAdult', 'true'); } catch { /* Storage may be unavailable in private browsing. */ } setAge(false); };
+  return <>
+    <a className="skip-link" href="#contenido">Saltar al contenido</a>
+    <header className="header"><a href="#inicio" className="brand" aria-label="Guerrero Maya, inicio"><img src="/assets/icon.webp" alt="" /><span>GUERRERO<br />MAYA<span className="brand-caption">MEZCAL · CULTURA · WEB3</span></span></a>
+      <button className="menu-toggle" aria-expanded={menu} aria-controls="navigation" onClick={() => setMenu(!menu)}>{menu ? 'Cerrar ×' : 'Menú ☰'}</button>
+      <nav id="navigation" className={menu ? 'navigation open' : 'navigation'} aria-label="Principal">{nav.map(([id, label]) => <a key={id} href={`#${id}`} onClick={() => setMenu(false)}>{label}</a>)}<AppLink>Abrir dApp</AppLink></nav>
+    </header>
+    <main id="contenido">
+      <section id="inicio" className="hero"><div className="hero-grain" /><div className="hero-copy"><div className="eyebrow"><span className="dot" /> DE LA TIERRA A LO EXTRAORDINARIO</div><h1>El origen<br />de una nueva<br /><em>leyenda.</em></h1><p>El espíritu del mezcal. La fuerza de una comunidad.<br className="desktop" /> Bienvenido al universo Guerrero Maya.</p><div className="actions"><a href="#ecosistema" className="button">Explora el universo <span>↓</span></a><AppLink secondary>Abrir dApp</AppLink></div><span className="hero-footnote">RAÍCES REALES. NUEVAS POSIBILIDADES.</span></div><Scene kind="temple" /><div className="hero-bottom"><span>01 / EL COMIENZO</span><a href="#origen">DESLIZA PARA DESCUBRIR ↓</a><span>OAXACA · MÉXICO</span></div></section>
+      <div className="ribbon" aria-label="Mezcal, cultura y comunidad"><span>TIERRA</span><i>✦</i><span>ESPÍRITU</span><i>✦</i><span>COMUNIDAD</span><i>✦</i><span>GUERRERO MAYA</span><i>✦</i><span>NUEVOS MUNDOS</span></div>
+      <section id="origen" className="origin section"><div className="origin-art"><span className="orbit orbit-one" /><span className="orbit orbit-two" /><Scene kind="bottle" /><span className="art-caption">EL ESPÍRITU DE NUESTRA TIERRA</span></div><div className="origin-copy"><span className="eyebrow">01 — NUESTRAS RAÍCES</span><ScrollReveal baseOpacity={.4} baseRotation={0} enableBlur={false}>Todo comienza con el origen.</ScrollReveal><p>Guerrero Maya nace del encuentro entre el mezcal, el arte y una identidad que merece compartirse.</p><p>Desde Oaxaca, llevamos ese espíritu a un nuevo espacio de encuentro: una comunidad que conecta experiencias físicas y digitales.</p><div className="origin-details"><span>ORIGEN<strong>Oaxaca, México</strong></span><span>IDENTIDAD<strong>Tradición que evoluciona</strong></span></div><a className="text-link" href="#ecosistema">Conoce el siguiente capítulo <span>↗</span></a></div></section>
+      <section id="ecosistema" className="section ecosystem"><div className="section-heading"><div><span className="eyebrow">02 — UN UNIVERSO CONECTADO</span><h2>Una identidad.<br /><em>Más posibilidades.</em></h2></div><p>Descubre las puertas de entrada a Guerrero Maya. Cada una forma parte de la misma historia.</p></div><div className="ecosystem-grid">{[['01', '$MZCAL', 'El token del ecosistema', 'Consulta tu elegibilidad y explora las funciones de compra y claim desde la dApp.', '#mzcal', '◈'], ['02', 'Guerreros NFT', 'Tu lugar en la leyenda', 'Explora el mint y encuentra los guerreros de tu colección en tu inventario.', '#nfts', '✦'], ['03', 'Recompensas', 'La comunidad cobra vida', 'Conoce los beneficios presentados para holders Mythic y sus condiciones.', '#recompensas', '⌘']].map(([n, title, subtitle, body, href, icon]) => <SpotlightCard key={n} spotlightColor="rgba(249, 176, 100, 0.18)"><div className="card-top"><span>{n}</span><span>{icon}</span></div><span className="eyebrow">{subtitle}</span><h3>{title}</h3><p>{body}</p><a href={href} className="text-link">Explorar <span>↗</span></a></SpotlightCard>)}</div></section>
+      <section id="mzcal" className="token section"><div className="token-symbol" aria-hidden="true"><div className="coin"><img src="/assets/icon.webp" alt="" /></div><span>$MZCAL</span></div><div><span className="eyebrow">03 — EL TOKEN DEL ECOSISTEMA</span><h2>El espíritu<br />también es <em>digital.</em></h2><p>Tu acceso a las funciones de $MZCAL, reunidas en un solo lugar.</p><div className="token-functions">{[['01', 'Elegibilidad', 'Consulta si tu dirección está incluida en la whitelist.'], ['02', 'Compra', 'Revisa las opciones y condiciones disponibles en la dApp.'], ['03', 'Claim', 'Consulta el saldo y la disponibilidad de reclamación.']].map(([n, title, desc]) => <div key={n}><span>{n}</span><div><h3>{title}</h3><p>{desc}</p></div><span aria-hidden="true">↗</span></div>)}</div><AppLink path="/mzcal">Explorar $MZCAL</AppLink><span className="status-note"><span className="dot" /> DAPP BETA · DISPONIBILIDAD EN LA APLICACIÓN</span></div></section>
+      <section id="nfts" className="nfts section"><div className="nft-copy"><span className="eyebrow">04 — GUERREROS NFT</span><h2>No solo observes<br />la leyenda.<br /><em>Forma parte.</em></h2><p>Descubre el mint de Guerrero Maya y reúne tus guerreros en un inventario conectado a tu wallet.</p><p>Cada nuevo capítulo empieza con una elección. Explora la colección directamente en la dApp.</p><AppLink path="/mint">Explorar el mint</AppLink></div><div className="warrior-art"><div className="warrior-frame"><span className="eyebrow">EL UNIVERSO GUERRERO MAYA</span><img loading="lazy" src="/assets/kukulcan.png" alt="Ilustración de Kukulcán del universo Guerrero Maya" /><div className="warrior-caption"><strong>KUKULCÁN</strong><span>ARTE DEL UNIVERSO GM · NO ES UNA PREVIA DEL MINT</span></div></div><span className="frame-label">TRADICIÓN / IDENTIDAD / COLECCIÓN</span></div></section>
+      <section id="recompensas" className="section rewards"><div className="section-heading"><div><span className="eyebrow">05 — MÁS ALLÁ DE LA PANTALLA</span><h2>Experiencias con<br /><em>espíritu Mythic.</em></h2></div><p>La dApp presenta estos beneficios para holders Mythic. Consulta sus condiciones y disponibilidad.</p></div><div className="rewards-grid">{[['↟', 'Solmare', 'Estancias y experiencias en el entorno de Oaxaca.'], ['♧', 'Mezcal especial', 'Botellas y ediciones dedicadas a la comunidad.'], ['◈', 'Digital twins', 'Una extensión digital de la identidad de tu guerrero.'], ['✦', 'Encuentros VIP', 'Eventos, catas y encuentros de la comunidad.'], ['⌘', 'Participación', 'Conoce las propuestas de gobernanza del ecosistema.'], ['↗', 'Nuevos drops', 'Explora futuras colaboraciones y novedades.']].map(([icon, title, text]) => <SpotlightCard key={title} spotlightColor="rgba(249, 176, 100, 0.12)"><span className="reward-icon">{icon}</span><h3>{title}</h3><p>{text}</p></SpotlightCard>)}</div><div className="rewards-bottom"><span>Beneficios sujetos a requisitos y disponibilidad.</span><AppLink path="/rewards" secondary>Ver recompensas</AppLink></div></section>
+      <section className="section start"><span className="eyebrow">06 — TU PRIMER PASO</span><h2>Tu viaje comienza <em>aquí.</em></h2><div className="steps">{steps.map(([n, title, desc]) => <div key={n}><span>{n}</span><h3>{title}</h3><p>{desc}</p></div>)}</div></section>
+      <section className="section faq"><div><span className="eyebrow">ANTES DE ENTRAR</span><h2>Lo esencial.</h2><p>Un nuevo mundo.<br />Las respuestas, claras.</p></div><div>{questions.map(([question, answer]) => <details key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></section>
+      <section className="final-cta"><img src="/assets/icon.webp" alt="" /><span className="eyebrow">LA HISTORIA SIGUE CONTIGO</span><h2>Despierta tu<br /><em>espíritu guerrero.</em></h2><AppLink>Entrar al universo GM</AppLink><span className="status-note">EXPLORA LA DAPP BETA</span></section>
+    </main><footer><a href="#inicio" className="footer-brand">GUERRERO MAYA</a><span>MEZCAL · CULTURA · COMUNIDAD</span><div><a href="#origen">Origen</a><a href="#ecosistema">Ecosistema</a><a href={dappUrl()} target="_blank" rel="noopener noreferrer">dApp ↗</a></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Guerrero Maya</span><span>Oaxaca, México · Disfruta con responsabilidad.</span><button onClick={() => { setDeclined(false); setAge(true); }}>Preferencia de edad</button></div></footer>
+    {age && <dialog open className="age-dialog" aria-labelledby="age-title" ref={el => { if (el && !el.matches(':modal')) { el.close(); el.showModal(); } }} onCancel={e => e.preventDefault()}><img src="/assets/icon.webp" alt="" /><span className="eyebrow">BIENVENIDO A GUERRERO MAYA</span><h2 id="age-title">Un espíritu<br />sin prisa.</h2><p>{declined ? 'Este sitio está dirigido a personas con la edad legal para consumir alcohol.' : 'Para continuar, confirma que tienes la edad legal para consumir alcohol en tu país.'}</p>{!declined && <><button autoFocus className="button" onClick={accept}>Soy mayor de edad <span>↗</span></button><button className="age-decline" onClick={() => setDeclined(true)}>No tengo la edad legal</button></>}{declined && <button className="age-decline" onClick={() => setDeclined(false)}>Volver</button>}<span className="status-note">DISFRUTA CON RESPONSABILIDAD</span></dialog>}
+  </>;
+}
