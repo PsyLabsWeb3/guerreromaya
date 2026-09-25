@@ -5,3 +5,19 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.warrior-frame:hover,.button:hover{transform:none}.scene-poster{opacity:.7}.scroll-reveal .word{opacity:1!important;filter:none!important}.scroll-reveal{transform:none!important}}
 
 .scene-bottle>.scene-poster{width:100%;height:100%;left:0;top:0}
+
+/* Bottle collection: manual navigation keeps the story at the reader's pace. */
+.bottle-slider{position:relative;height:100%;display:flex;flex-direction:column;z-index:1}
+.bottle-stage{position:relative;flex:1;min-height:0}
+.bottle-controls{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 8px 0}
+.bottle-arrow{width:46px;height:46px;flex-shrink:0;border:1px solid #e8b77966;color:var(--gold);background:#171b13;font-size:23px;border-radius:50%;transition:background .2s}
+.bottle-arrow:hover{background:#e8b77920}
+.bottle-caption{text-align:center;color:var(--gold)}
+.bottle-caption>span{display:block;font-size:9px;letter-spacing:.2em;margin-bottom:8px;color:var(--muted)}
+.bottle-caption>strong{display:block;font-family:'Cinzel Decorative',serif;font-size:17px;font-weight:400}
+.bottle-dots{display:flex;justify-content:center;gap:2px;margin-top:8px}
+.bottle-dots button{display:grid;place-items:center;width:32px;height:32px;padding:0;border:0;background:transparent}
+.bottle-dots span{width:6px;height:6px;border:1px solid var(--gold);border-radius:50%}
+.bottle-dots [aria-current=true] span{background:var(--gold);box-shadow:0 0 9px #e8b77955}
+.bottle-message{position:absolute;left:10%;right:10%;top:45%;text-align:center;font-size:12px}
+@media(max-width:760px){.origin-art{height:450px}.bottle-caption>strong{font-size:15px}}
