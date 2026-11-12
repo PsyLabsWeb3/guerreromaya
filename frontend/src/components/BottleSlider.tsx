@@ -3,9 +3,9 @@ const World = lazy(() => import('./World'));
 const bottles = [
   { file: 'pintada_a_mano', label: 'Pintada a mano' },
   { file: 'reposado', label: 'Reposado' },
-  { file: 'reposado_v2', label: 'Reposado · V2' },
-  { file: 'resposado_v3', label: 'Reposado · V3' },
-  { file: 'botella-resposado_v3', label: 'Botella Reposado · V3' },
+  { file: 'colibri', label: 'Pintada a mano' },
+  { file: 'edicion-violeta', label: 'Pintada a mano' },
+  { file: 'lagartija-verde', label: 'Pintada a mano' },
 ];
 class BottleBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
   state = { failed: false };
@@ -44,6 +44,6 @@ export default function BottleSlider() {
       <div className="bottle-caption" aria-live="polite" aria-atomic="true"><span>{String(index + 1).padStart(2, '0')} / {String(bottles.length).padStart(2, '0')}</span><strong>{bottle.label}</strong></div>
       <button type="button" className="bottle-arrow" onClick={() => change(1)} aria-label="Botella siguiente">→</button>
     </div>
-    <div className="bottle-dots" aria-label="Seleccionar botella">{bottles.map((item, i) => <button type="button" key={item.file} onClick={() => select(i)} aria-label={`Mostrar ${item.label}`} aria-current={i === index ? 'true' : undefined}><span /></button>)}</div>
+    <div className="bottle-dots" aria-label="Seleccionar botella">{bottles.map((item, i) => <button type="button" key={item.file} onClick={() => select(i)} aria-label={`Mostrar ${item.label} (${i + 1} de ${bottles.length})`} aria-current={i === index ? 'true' : undefined}><span /></button>)}</div>
   </div>;
 }

@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo, useRef } from 'react';
+import { Suspense, useEffect, useMemo, useRef, type PointerEvent } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, Lightformer, useGLTF } from '@react-three/drei';
 import { Box3, Group, Vector3, MathUtils, Mesh, MeshStandardMaterial, MeshPhysicalMaterial, Color, FrontSide, ACESFilmicToneMapping, SRGBColorSpace } from 'three';
@@ -8,23 +8,36 @@ function Model({ name, position, size, rotation = 0, onReady }: { onReady?: () =
   useEffect(() => { onReady?.(); }, [onReady, scene]);
   const object = useMemo(() => {
     const clone = scene.clone(true);
+    const box = new Box3().setFromObject(clone);
+    const dimensions = box.getSize(new Vector3());
+    const center = box.getCenter(new Vector3());
+    const modelSize = Math.max(dimensions.x, dimensions.y, dimensions.z);
+    const scale = size / modelSize;
     if (name.startsWith('botellas/') || name === 'botella') {
       clone.traverse(child => {
         if (!(child instanceof Mesh)) return;
         const convert = (source: MeshStandardMaterial) => {
-          // Match the GLB material, not generic mesh names (Mesh.001 etc.).
-          if (source.name.toLowerCase() === 'glass') {
+          const materialName = source.name.toLowerCase();
+          if (materialName === 'glass' || materialName === 'cristal claro') {
             return new MeshPhysicalMaterial({
               name: 'studio-glass', color: '#ffffff', metalness: 0,
               transmission: 0.96, opacity: 1, transparent: false,
-              roughness: 0.025, ior: 1.5, thickness: 0.16,
+              roughness: 0.025, ior: 1.5,
+              // The scans use meters. Match the Reposado thickness of about 2% of bottle height.
+              thickness: materialName === 'cristal claro' ? modelSize * 0.02 : 0.16,
               attenuationColor: new Color('#f4d5a2'), attenuationDistance: 2.5,
               clearcoat: 0.25, clearcoatRoughness: 0.03, envMapIntensity: 1.2,
               side: FrontSide,
             });
           }
           const material = source.clone();
-          if (material.name.toLowerCase().includes('etiqueta')) {
+          const colorMap = material.map;
+          if (colorMap && colorMap.anisotropy < 8) {
+            // Keep paint and print sharp where the curved surface faces away from the camera.
+            colorMap.anisotropy = 8;
+            colorMap.needsUpdate = true;
+          }
+          if (materialName.includes('etiqueta')) {
             material.metalness = 0;
             material.roughness = 0.85;
           }
@@ -34,10 +47,6 @@ function Model({ name, position, size, rotation = 0, onReady }: { onReady?: () =
           ? child.material.map(convert) : convert(child.material);
       });
     }
-    const box = new Box3().setFromObject(clone);
-    const dimensions = box.getSize(new Vector3());
-    const center = box.getCenter(new Vector3());
-    const scale = size / Math.max(dimensions.x, dimensions.y, dimensions.z);
     clone.scale.setScalar(scale);
     clone.position.copy(center.multiplyScalar(-scale));
     return clone;
@@ -67,14 +76,49 @@ function Temple({ progress }: { progress: React.RefObject<number> }) {
     <pointLight position={[-2, 0, 1.5]} color="#ff962f" intensity={12} /><pointLight position={[2, 0, 1.5]} color="#ff962f" intensity={12} />
   </group>;
 }
-function Bottle({ progress, name, animate, onReady }: { progress: React.RefObject<number>; name: string; animate: boolean; onReady?: () => void }) {
+type BottleDrag = { pointerId: number | null; lastX: number; angle: number };
+
+function Bottle({ progress, drag, name, animate, onReady }: { progress: React.RefObject<number>; drag: React.RefObject<BottleDrag>; name: string; animate: boolean; onReady?: () => void }) {
   const ref = useRef<Group>(null);
-  useFrame((_, delta) => { if (ref.current) ref.current.rotation.y = MathUtils.damp(ref.current.rotation.y, animate ? (progress.current - 0.5) * Math.PI : 0, 5, delta); });
+  const scrollAngle = useRef(0);
+  useFrame((_, delta) => {
+    if (!ref.current) return;
+    const scrollTarget = animate ? (progress.current - 0.5) * Math.PI : 0;
+    scrollAngle.current = MathUtils.damp(scrollAngle.current, scrollTarget, 5, delta);
+    const gesture = drag.current;
+    if (gesture.pointerId === null) {
+      gesture.angle = animate ? MathUtils.damp(gesture.angle, 0, 8, delta) : 0;
+    }
+    ref.current.rotation.y = scrollAngle.current + gesture.angle;
+  });
   return <group ref={ref}><Model key={name} name={name} onReady={onReady} position={[0, 0, 0]} size={4.6} /></group>;
 }
 export default function World({ kind, bottleName = 'botella', animate = true, onReady }: { kind: 'temple' | 'bottle'; bottleName?: string; animate?: boolean; onReady?: () => void }) {
   const container = useRef<HTMLDivElement>(null);
   const progress = useRef(0);
+  const drag = useRef<BottleDrag>({ pointerId: null, lastX: 0, angle: 0 });
+
+  const startDrag = (event: PointerEvent<HTMLDivElement>) => {
+    const gesture = drag.current;
+    if (!event.isPrimary || event.button !== 0 || gesture.pointerId !== null) return;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    gesture.pointerId = event.pointerId;
+    gesture.lastX = event.clientX;
+  };
+  const moveDrag = (event: PointerEvent<HTMLDivElement>) => {
+    const gesture = drag.current;
+    if (gesture.pointerId !== event.pointerId) return;
+    gesture.angle += (event.clientX - gesture.lastX) * 0.015;
+    gesture.lastX = event.clientX;
+  };
+  const endDrag = (event: PointerEvent<HTMLDivElement>) => {
+    const gesture = drag.current;
+    if (gesture.pointerId !== event.pointerId) return;
+    gesture.pointerId = null;
+    // Use the shortest return even after one or more complete turns.
+    gesture.angle = Math.atan2(Math.sin(gesture.angle), Math.cos(gesture.angle));
+  };
+
   useEffect(() => {
     const el = container.current;
     if (!el) return;
@@ -82,7 +126,16 @@ export default function World({ kind, bottleName = 'botella', animate = true, on
     update(); window.addEventListener('scroll', update, { passive: true });
     return () => { window.removeEventListener('scroll', update); };
   }, []);
-  return <div ref={container} className="world" aria-hidden="true"><Canvas camera={{ position: [0, 1.2, kind === 'temple' ? 12.5 : 7.5], fov: 38 }} dpr={[1, 1.5]} gl={{ alpha: true, antialias: true }} onCreated={({ gl }) => { gl.toneMapping = ACESFilmicToneMapping; gl.toneMappingExposure = kind === 'bottle' ? 1.2 : 1; gl.outputColorSpace = SRGBColorSpace; gl.domElement.addEventListener('webglcontextlost', (event) => { event.preventDefault(); gl.domElement.style.display = 'none'; gl.domElement.closest('.scene')?.setAttribute('data-failed', 'true'); }); }}>
+  return <div
+    ref={container}
+    className={kind === 'bottle' ? 'world world-bottle' : 'world'}
+    aria-hidden="true"
+    onPointerDown={kind === 'bottle' ? startDrag : undefined}
+    onPointerMove={kind === 'bottle' ? moveDrag : undefined}
+    onPointerUp={kind === 'bottle' ? endDrag : undefined}
+    onPointerCancel={kind === 'bottle' ? endDrag : undefined}
+    onLostPointerCapture={kind === 'bottle' ? endDrag : undefined}
+  ><Canvas camera={{ position: [0, 1.2, kind === 'temple' ? 12.5 : 7.5], fov: 38 }} dpr={[1, kind === 'bottle' ? 2 : 1.5]} gl={{ alpha: true, antialias: true }} onCreated={({ gl }) => { gl.toneMapping = ACESFilmicToneMapping; gl.toneMappingExposure = kind === 'bottle' ? 1.2 : 1; gl.outputColorSpace = SRGBColorSpace; gl.domElement.addEventListener('webglcontextlost', (event) => { event.preventDefault(); gl.domElement.style.display = 'none'; gl.domElement.closest('.scene')?.setAttribute('data-failed', 'true'); }); }}>
     {kind === 'bottle' && <color attach="background" args={['#151711']} />}
     {kind === 'bottle' && <Environment resolution={256} frames={1}>
       <Lightformer form="rect" intensity={4} color="#fff7e8" position={[-3, 1, 3]} rotation={[0, 3 * Math.PI / 4, 0]} scale={[0.6, 7, 1]} />
@@ -91,6 +144,6 @@ export default function World({ kind, bottleName = 'botella', animate = true, on
       <Lightformer form="rect" intensity={0.35} color="#f4e4c8" position={[0, 1, -4]} rotation={[0, 0, 0]} scale={[3, 7, 1]} />
     </Environment>}
     <ambientLight intensity={kind === 'bottle' ? 0.5 : 1.7} /><directionalLight position={[3, 5, 5]} intensity={4} color="#ffe3ae" /><directionalLight position={[-4, 2, 2]} intensity={2} color="#e7e5df" />
-    <Suspense fallback={null}>{kind === 'temple' ? <Temple progress={progress} /> : <Bottle progress={progress} name={bottleName} animate={animate} onReady={onReady} />}</Suspense>
+    <Suspense fallback={null}>{kind === 'temple' ? <Temple progress={progress} /> : <Bottle progress={progress} drag={drag} name={bottleName} animate={animate} onReady={onReady} />}</Suspense>
   </Canvas></div>;
 }
