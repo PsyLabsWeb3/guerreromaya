@@ -3,6 +3,8 @@ const World = lazy(() => import('./World'));
 const bottles = [
   { file: 'pintada_a_mano', label: 'Pintada a mano' },
   { file: 'reposado', label: 'Reposado' },
+  { file: 'joven', label: 'Joven' },
+  { file: 'espadin-tepeztate', label: 'Espadín y Tepeztate' },
   { file: 'colibri', label: 'Pintada a mano' },
   { file: 'edicion-violeta', label: 'Pintada a mano' },
   { file: 'lagartija-verde', label: 'Pintada a mano' },
