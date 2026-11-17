@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo, useRef, type PointerEvent } from 'react';
+import { Suspense, useEffect, useMemo, useRef, type KeyboardEvent, type PointerEvent } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, Lightformer, useGLTF } from '@react-three/drei';
 import { Box3, Group, Vector3, MathUtils, Mesh, MeshStandardMaterial, MeshPhysicalMaterial, Color, FrontSide, ACESFilmicToneMapping, SRGBColorSpace } from 'three';
@@ -76,27 +76,40 @@ function Temple({ progress }: { progress: React.RefObject<number> }) {
     <pointLight position={[-2, 0, 1.5]} color="#ff962f" intensity={12} /><pointLight position={[2, 0, 1.5]} color="#ff962f" intensity={12} />
   </group>;
 }
-type BottleDrag = { pointerId: number | null; lastX: number; angle: number };
+type ModelDrag = { pointerId: number | null; lastX: number; angle: number };
 
-function Bottle({ progress, drag, name, animate, onReady }: { progress: React.RefObject<number>; drag: React.RefObject<BottleDrag>; name: string; animate: boolean; onReady?: () => void }) {
+function RotatingModel({ progress, drag, name, animate, onReady, token, keyboardAngle }: { progress: React.RefObject<number>; drag: React.RefObject<ModelDrag>; name: string; animate: boolean; onReady?: () => void; token: boolean; keyboardAngle: React.RefObject<number> }) {
   const ref = useRef<Group>(null);
-  const scrollAngle = useRef(0);
+  const baseAngle = useRef(0);
+  const idleTime = useRef(0);
   useFrame((_, delta) => {
     if (!ref.current) return;
-    const scrollTarget = animate ? (progress.current - 0.5) * Math.PI : 0;
-    scrollAngle.current = MathUtils.damp(scrollAngle.current, scrollTarget, 5, delta);
     const gesture = drag.current;
+    if (token && animate && gesture.pointerId === null) idleTime.current += delta;
+    const motion = token ? Math.sin(idleTime.current * 1.25) * 0.25 : (progress.current - 0.5) * Math.PI;
+    const target = keyboardAngle.current + (animate ? motion : 0);
+    baseAngle.current = animate ? MathUtils.damp(baseAngle.current, target, 5, delta) : target;
     if (gesture.pointerId === null) {
       gesture.angle = animate ? MathUtils.damp(gesture.angle, 0, 8, delta) : 0;
     }
-    ref.current.rotation.y = scrollAngle.current + gesture.angle;
+    ref.current.rotation.y = baseAngle.current + gesture.angle;
+    ref.current.position.y = token && animate ? Math.sin(idleTime.current * 1.65) * 0.12 : 0;
   });
-  return <group ref={ref}><Model key={name} name={name} onReady={onReady} position={[0, 0, 0]} size={4.6} /></group>;
+  return <group ref={ref}><Model key={name} name={name} onReady={onReady} position={[0, 0, 0]} size={token ? 3.65 : 4.6} /></group>;
 }
-export default function World({ kind, bottleName = 'botella', animate = true, onReady }: { kind: 'temple' | 'bottle'; bottleName?: string; animate?: boolean; onReady?: () => void }) {
+export default function World({ kind, bottleName = 'botella', animate = true, onReady }: { kind: 'temple' | 'bottle' | 'token'; bottleName?: string; animate?: boolean; onReady?: () => void }) {
+  const interactive = kind !== 'temple';
+  const token = kind === 'token';
   const container = useRef<HTMLDivElement>(null);
   const progress = useRef(0);
-  const drag = useRef<BottleDrag>({ pointerId: null, lastX: 0, angle: 0 });
+  const drag = useRef<ModelDrag>({ pointerId: null, lastX: 0, angle: 0 });
+  const keyboardAngle = useRef(0);
+
+  const rotateWithKeyboard = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    keyboardAngle.current += event.key === 'ArrowRight' ? Math.PI / 8 : -Math.PI / 8;
+  };
 
   const startDrag = (event: PointerEvent<HTMLDivElement>) => {
     const gesture = drag.current;
@@ -120,30 +133,35 @@ export default function World({ kind, bottleName = 'botella', animate = true, on
   };
 
   useEffect(() => {
+    if (token) return;
     const el = container.current;
     if (!el) return;
     const update = () => { const rect = el.getBoundingClientRect(); progress.current = MathUtils.clamp((innerHeight - rect.top) / (innerHeight + rect.height), 0, 1); };
     update(); window.addEventListener('scroll', update, { passive: true });
     return () => { window.removeEventListener('scroll', update); };
-  }, []);
+  }, [token]);
   return <div
     ref={container}
-    className={kind === 'bottle' ? 'world world-bottle' : 'world'}
-    aria-hidden="true"
-    onPointerDown={kind === 'bottle' ? startDrag : undefined}
-    onPointerMove={kind === 'bottle' ? moveDrag : undefined}
-    onPointerUp={kind === 'bottle' ? endDrag : undefined}
-    onPointerCancel={kind === 'bottle' ? endDrag : undefined}
-    onLostPointerCapture={kind === 'bottle' ? endDrag : undefined}
-  ><Canvas camera={{ position: [0, 1.2, kind === 'temple' ? 12.5 : 7.5], fov: 38 }} dpr={[1, kind === 'bottle' ? 2 : 1.5]} gl={{ alpha: true, antialias: true }} onCreated={({ gl }) => { gl.toneMapping = ACESFilmicToneMapping; gl.toneMappingExposure = kind === 'bottle' ? 1.2 : 1; gl.outputColorSpace = SRGBColorSpace; gl.domElement.addEventListener('webglcontextlost', (event) => { event.preventDefault(); gl.domElement.style.display = 'none'; gl.domElement.closest('.scene')?.setAttribute('data-failed', 'true'); }); }}>
+    className={interactive ? 'world world-interactive' : 'world'}
+    aria-hidden={token ? undefined : true}
+    aria-label={token ? 'Icono 3D de MZCAL. Usa las flechas izquierda y derecha para girarlo.' : undefined}
+    role={token ? 'group' : undefined}
+    tabIndex={token ? 0 : undefined}
+    onKeyDown={token ? rotateWithKeyboard : undefined}
+    onPointerDown={interactive ? startDrag : undefined}
+    onPointerMove={interactive ? moveDrag : undefined}
+    onPointerUp={interactive ? endDrag : undefined}
+    onPointerCancel={interactive ? endDrag : undefined}
+    onLostPointerCapture={interactive ? endDrag : undefined}
+  ><Canvas camera={{ position: [0, token ? 0 : 1.2, kind === 'temple' ? 12.5 : 7.5], fov: 38 }} dpr={[1, interactive ? 2 : 1.5]} gl={{ alpha: true, antialias: true }} onCreated={({ gl }) => { gl.toneMapping = ACESFilmicToneMapping; gl.toneMappingExposure = kind === 'bottle' ? 1.2 : 1; gl.outputColorSpace = SRGBColorSpace; gl.domElement.closest('.scene')?.removeAttribute('data-failed'); gl.domElement.addEventListener('webglcontextlost', (event) => { event.preventDefault(); gl.domElement.style.display = 'none'; gl.domElement.closest('.scene')?.setAttribute('data-failed', 'true'); }); }}>
     {kind === 'bottle' && <color attach="background" args={['#151711']} />}
-    {kind === 'bottle' && <Environment resolution={256} frames={1}>
+    {interactive && <Environment resolution={256} frames={1}>
       <Lightformer form="rect" intensity={4} color="#fff7e8" position={[-3, 1, 3]} rotation={[0, 3 * Math.PI / 4, 0]} scale={[0.6, 7, 1]} />
       <Lightformer form="rect" intensity={3} color="#ffffff" position={[3, 0, 2]} rotation={[0, -3 * Math.PI / 4, 0]} scale={[0.4, 6, 1]} />
       <Lightformer form="rect" intensity={2} color="#fff1d6" position={[0, 5, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[5, 5, 1]} />
       <Lightformer form="rect" intensity={0.35} color="#f4e4c8" position={[0, 1, -4]} rotation={[0, 0, 0]} scale={[3, 7, 1]} />
     </Environment>}
     <ambientLight intensity={kind === 'bottle' ? 0.5 : 1.7} /><directionalLight position={[3, 5, 5]} intensity={4} color="#ffe3ae" /><directionalLight position={[-4, 2, 2]} intensity={2} color="#e7e5df" />
-    <Suspense fallback={null}>{kind === 'temple' ? <Temple progress={progress} /> : <Bottle progress={progress} drag={drag} name={bottleName} animate={animate} onReady={onReady} />}</Suspense>
+    <Suspense fallback={null}>{kind === 'temple' ? <Temple progress={progress} /> : <RotatingModel progress={progress} drag={drag} name={token ? 'icono' : bottleName} animate={animate} onReady={onReady} token={token} keyboardAngle={keyboardAngle} />}</Suspense>
   </Canvas></div>;
 }

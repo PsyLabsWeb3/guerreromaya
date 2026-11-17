@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import Scene from "./components/Scene";
-import NftCarousel from "./components/NftCarousel";
+import NftSpiral from "./components/NftSpiral";
 import BottleSlider from "./components/BottleSlider";
+import Prism from "./components/reactbits/Prism";
 import SpotlightCard from "./components/reactbits/SpotlightCard";
 import ScrollReveal from "./components/reactbits/ScrollReveal";
 import { dappUrl } from "./config";
@@ -147,6 +148,14 @@ export default function App() {
       </header>
       <main id="contenido">
         <section id="inicio" className="hero">
+          <Prism
+            className="hero-prism"
+            aria-hidden="true"
+            colors={["#b86b28"]}
+            glow={0.85}
+            saturation={1}
+            dpr={1}
+          />
           <div className="hero-grain" />
           <div className="hero-copy">
             <div className="eyebrow">
@@ -282,11 +291,11 @@ export default function App() {
           </div>
         </section>
         <section id="mzcal" className="token section">
-          <div className="token-symbol" aria-hidden="true">
+          <div className="token-symbol">
             <div className="coin">
-              <img src="/assets/icon.webp" alt="" />
+              <Scene kind="token" />
             </div>
-            <span>$MZCAL</span>
+            <span aria-hidden="true">$MZCAL</span>
           </div>
           <div>
             <span className="eyebrow">03 — EL TOKEN DEL ECOSISTEMA</span>
@@ -353,7 +362,7 @@ export default function App() {
             </p>
             <AppLink path="/mint">Explorar el mint</AppLink>
           </div>
-          <NftCarousel />
+          <NftSpiral />
         </section>
         <section id="recompensas" className="section rewards">
           <div className="section-heading">
